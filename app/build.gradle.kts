@@ -44,7 +44,6 @@ android {
 }
 
 dependencies {
-
     val composeBom = platform(libs.androidx.compose.bom)
 
     // General compose dependencies
@@ -52,36 +51,31 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.splashscreen)
 
-    // Compose for Wear OS Dependencies
-    // NOTE: DO NOT INCLUDE a dependency on androidx.compose.material:material.
-    // androidx.wear.compose:compose-material is designed as a replacement not an addition to
-    // androidx.compose.material:material. If there are features from that you feel are missing from
-    // androidx.wear.compose:compose-material please raise a bug to let us know:
-    // https://issuetracker.google.com/issues/new?component=1077552&template=1598429&pli=1
+    // Material icons
+    implementation(libs.androidx.material.icons.core)
+    implementation(libs.androidx.material.icons.extended)
 
+    // Data store
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.androidx.datastore.preferences)
+
+    // Room database
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
+
+    // M3 & Play Services
     implementation(libs.wear.compose.material)
     implementation(libs.wear.compose.material3)
     implementation(libs.wear.compose.foundation)
     implementation(libs.wear.compose.navigation)
-
-    implementation(libs.androidx.datastore.core)
-    implementation(libs.androidx.datastore.preferences)
-
-    implementation(libs.kotlinx.serialization.json)
-
-    implementation(libs.androidx.material.icons.core)
-    implementation(libs.androidx.material.icons.extended)
-
-    implementation(libs.playservices)
-
-    implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.runtime)
-
-    ksp(libs.androidx.room.compiler)
+    implementation(libs.wear.gms.playservices)
 
     // Horologist for correct Compose layout
     implementation(libs.horologist.compose.layout)
     implementation(libs.horologist.compose.material)
+
+    // JSON
+    implementation(libs.kotlinx.serialization.json)
 
     // Preview Tooling
     implementation(libs.compose.ui.tooling.preview)
@@ -108,4 +102,6 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     debugImplementation(composeBom)
+
+    ksp(libs.androidx.room.compiler)
 }

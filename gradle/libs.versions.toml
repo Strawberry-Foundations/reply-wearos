@@ -64,7 +64,7 @@ wear-compose-material = { module = "androidx.wear.compose:compose-material", ver
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "androidx-wear-compose" }
 wear-compose-navigation = { module = "androidx.wear.compose:compose-navigation", version.ref = "androidx-wear-compose" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
-playservices = { module = "com.google.android.gms:play-services-wearable", version.ref = "playServicesWearable"}
+wear-gms-playservices = { module = "com.google.android.gms:play-services-wearable", version.ref = "playServicesWearable"}
 
 # kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "org-jetbrains-kotlin" }
 # compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
