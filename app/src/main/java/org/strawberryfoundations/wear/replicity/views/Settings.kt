@@ -352,7 +352,7 @@ fun SettingsScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Replicity for WearOS",
+                        text = "Gymscribe for WearOS",
                         style = MaterialTheme.typography.labelMedium,
                         fontSize = 16.sp,
                         lineHeight = 18.sp,

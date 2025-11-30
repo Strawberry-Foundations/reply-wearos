@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Replicity"
+rootProject.name = "Gymscribe Wear"
 include(":app")
  

@@ -27,7 +27,7 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import kotlinx.coroutines.launch
 import org.strawberryfoundations.wear.replicity.core.AppSettings
 import org.strawberryfoundations.wear.replicity.core.SettingsDataStore
-import org.strawberryfoundations.wear.replicity.theme.ReplicityTheme
+import org.strawberryfoundations.wear.replicity.theme.GymscribeTheme
 import org.strawberryfoundations.wear.replicity.views.DeviceScreen
 import org.strawberryfoundations.wear.replicity.views.SettingsScreen
 import org.strawberryfoundations.wear.replicity.views.TrainingScreen
@@ -55,7 +55,7 @@ fun MainViewWithPersistence(settingsDataStore: SettingsDataStore) {
     val settings by settingsDataStore.settingsFlow.collectAsState(initial = AppSettings())
     val scope = rememberCoroutineScope()
 
-    ReplicityTheme(dynamicColor = settings.useDynamicColors) {
+    GymscribeTheme(dynamicColor = settings.useDynamicColors) {
         MainView(
             settings = settings,
             onSettingsChange = { update ->
@@ -129,7 +129,7 @@ fun MainView(
 @WearPreviewFontScales
 @Composable
 fun TrainingScreenPreview() {
-    ReplicityTheme {
+    GymscribeTheme {
         TrainingScreen(
             settings = previewSettings
         )
@@ -140,7 +140,7 @@ fun TrainingScreenPreview() {
 @WearPreviewFontScales
 @Composable
 fun DeviceScreenPreview() {
-    ReplicityTheme {
+    GymscribeTheme {
         DeviceScreen(
             settings = previewSettings
         )
@@ -151,7 +151,7 @@ fun DeviceScreenPreview() {
 @WearPreviewFontScales
 @Composable
 fun SettingsScreenPreview() {
-    ReplicityTheme {
+    GymscribeTheme {
         SettingsScreen(
             settings = previewSettings,
             onSettingsChange = {}

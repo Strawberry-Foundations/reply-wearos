@@ -37,7 +37,7 @@ private val colorPalette = ColorScheme(
 )
 
 @Composable
-fun ReplicityTheme(
+fun GymscribeTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
