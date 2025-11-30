@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import org.strawberryfoundations.wear.replicity.core.model.Training
 
+
 @Database(entities = [Training::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun trainingDao(): TrainingDao

@@ -14,11 +14,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import org.strawberryfoundations.wear.replicity.database.AppDatabase
 import org.strawberryfoundations.wear.replicity.core.model.Training
+import org.strawberryfoundations.wear.replicity.database.AppDatabase
 import java.io.InputStream
+
 
 class SyncListenerService : WearableListenerService() {
     private val scope = CoroutineScope(Dispatchers.IO)
@@ -69,8 +69,7 @@ class SyncListenerService : WearableListenerService() {
                     val dao = db.trainingDao()
                     try {
                         dao.insertAll(list)
-                    } catch (e: Exception) {
-                        // Fallback to single inserts if insertAll fails
+                    } catch (_: Exception) {
                         list.forEach { t -> dao.insert(t) }
                     }
                 }

@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.Serializable
 
+
 @Serializable
 data class AppSettings(
     val useDynamicColors: Boolean = true,

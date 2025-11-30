@@ -5,7 +5,6 @@ import android.util.Log
 import com.google.android.gms.wearable.Asset
 import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
-import com.google.android.gms.wearable.ChannelClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,6 +12,7 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import org.strawberryfoundations.wear.replicity.core.model.Training
 import java.io.OutputStream
+
 
 object DataSyncSender {
     fun sendDbSnapshot(context: Context, trainings: List<Training>) {

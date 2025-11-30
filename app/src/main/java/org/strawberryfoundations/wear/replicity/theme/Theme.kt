@@ -7,7 +7,8 @@ import androidx.wear.compose.material3.ColorScheme
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.dynamicColorScheme
 
-private val wearColorPalette = ColorScheme(
+
+private val colorPalette = ColorScheme(
     primary = Color(0xFFB39DDB),
     onPrimary = Color.Black,
     primaryContainer = Color(0xFF826F9A),
@@ -43,9 +44,9 @@ fun ReplicityTheme(
     val colorScheme = when {
         dynamicColor -> {
             val context = LocalContext.current
-            dynamicColorScheme(context) ?: wearColorPalette
+            dynamicColorScheme(context) ?: colorPalette
         }
-        else -> wearColorPalette
+        else -> colorPalette
     }
 
     MaterialTheme(

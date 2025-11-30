@@ -7,6 +7,7 @@ import kotlinx.serialization.json.Json
 import java.io.InputStream
 import java.io.OutputStream
 
+
 @Serializable
 data class Preferences(
     val username: String = "",

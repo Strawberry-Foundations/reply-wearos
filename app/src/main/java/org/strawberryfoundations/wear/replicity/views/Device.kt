@@ -44,6 +44,7 @@ import org.strawberryfoundations.wear.replicity.R
 import org.strawberryfoundations.wear.replicity.core.AppSettings
 import org.strawberryfoundations.wear.replicity.database.TrainingViewModel
 
+
 @Composable
 fun DeviceScreen(
     settings: AppSettings,

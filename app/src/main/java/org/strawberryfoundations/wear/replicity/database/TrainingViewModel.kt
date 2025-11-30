@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.strawberryfoundations.wear.replicity.core.model.Training
 
+
 class TrainingViewModel(application: Application): AndroidViewModel(application) {
     private val dao = AppDatabase.getInstance(application).trainingDao()
 

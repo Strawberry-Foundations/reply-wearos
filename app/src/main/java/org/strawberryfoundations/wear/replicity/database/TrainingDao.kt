@@ -9,6 +9,7 @@ import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import org.strawberryfoundations.wear.replicity.core.model.Training
 
+
 @Dao
 interface TrainingDao {
     @Query("SELECT * FROM Training")
