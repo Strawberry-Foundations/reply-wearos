@@ -13,6 +13,7 @@
     <string name="group">Group</string>
     <string name="weight_kg">Weight (kg)</string>
     <string name="note">Note</string>
+    <string name="no_note">No note</string>
     <string name="save">Save</string>
     <string name="delete_training">Delete training</string>
     <string name="delete_training_confirm">Do you really want to delete the training "%1$s"?</string>
@@ -37,7 +38,7 @@
     <string name="settings_terms_of_service">Terms of Service</string>
     <string name="settings_open_source_licenses">Open Source Licenses</string>
     <string name="settings_copyright_notice">© %1$s %2$s</string>
-    <string name="settings_all_rights_reserved">All rights reserved. A FOSS project.</string>
+    <string name="settings_all_rights_reserved">All rights reserved. A project by Strawberry Foundations</string>
     <string name="settings_developed_by">Developed by %s</string>
     <string name="settings_github">GitHub Repo</string>
 
