@@ -2,6 +2,7 @@ package org.strawberryfoundations.wear.replicity.views
 
 import android.content.Context
 import android.content.pm.PackageManager
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -18,9 +19,12 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.Scale
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.material.icons.filled.Vibration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -43,6 +47,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.painterResource
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.FilledTonalButton
@@ -58,6 +63,9 @@ import androidx.wear.compose.material3.EdgeButtonSize
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import androidx.wear.compose.material.Colors
 import org.strawberryfoundations.wear.replicity.R
 import org.strawberryfoundations.wear.replicity.core.AppSettings
 import kotlin.toString
@@ -116,7 +124,9 @@ fun SettingsScreen(
                         Icon(
                             imageVector = Icons.Default.Settings,
                             contentDescription = stringResource(R.string.settings),
-                            modifier = Modifier.padding(end = 8.dp).size(20.dp),
+                            modifier = Modifier
+                                .padding(end = 8.dp)
+                                .size(20.dp),
                             tint = Color(0xFFFFFFFF)
                         )
                         Text(
@@ -130,12 +140,24 @@ fun SettingsScreen(
 
             // Appearance Section
             item {
-                Text(
-                    text = stringResource(R.string.settings_section_appearance),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ColorLens,
+                        contentDescription = stringResource(R.string.settings_section_appearance),
+                        modifier = Modifier.size(17.dp).padding(top = 2.dp),
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
+                    Text(
+                        text = stringResource(R.string.settings_section_appearance),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+                    )
+                }
             }
 
             item {
@@ -173,12 +195,24 @@ fun SettingsScreen(
 
             // Interaction Section
             item {
-                Text(
-                    text = stringResource(R.string.settings_section_interaction),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(top = 12.dp, bottom = 4.dp)
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.TouchApp,
+                        contentDescription = stringResource(R.string.settings_section_interaction),
+                        modifier = Modifier.size(17.dp).padding(top = 2.dp),
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
+                    Text(
+                        text = stringResource(R.string.settings_section_interaction),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(top = 12.dp, bottom = 4.dp)
+                    )
+                }
             }
 
             item {
@@ -217,12 +251,24 @@ fun SettingsScreen(
 
             // Weight Steps Section
             item {
-                Text(
-                    text = stringResource(R.string.settings_section_weight_steps),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(top = 12.dp, bottom = 4.dp)
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Scale,
+                        contentDescription = stringResource(R.string.settings_section_weight_steps),
+                        modifier = Modifier.size(17.dp).padding(top = 6.dp),
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
+                    Text(
+                        text = stringResource(R.string.settings_section_weight_steps),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(top = 12.dp, bottom = 6.dp)
+                    )
+                }
             }
 
             item {
@@ -280,12 +326,24 @@ fun SettingsScreen(
 
             // About Section
             item {
-                Text(
-                    text = stringResource(R.string.settings_section_about),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(top = 12.dp, bottom = 4.dp)
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = stringResource(R.string.settings_section_about),
+                        modifier = Modifier.size(19.dp).padding(top = 6.dp),
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
+                    Text(
+                        text = stringResource(R.string.settings_section_about),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(top = 12.dp, bottom = 4.dp)
+                    )
+                }
             }
 
             item {
@@ -298,37 +356,59 @@ fun SettingsScreen(
                         .padding(horizontal = 20.dp, vertical = 8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Info,
+                    Image(
+                        painter = painterResource(R.drawable.splash),
                         contentDescription = null,
-                        modifier = Modifier.size(32.dp),
-                        tint = MaterialTheme.colorScheme.primary
+                        modifier = Modifier.size(32.dp)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "Replicity for WearOS",
                         style = MaterialTheme.typography.labelMedium,
+                        fontSize = 16.sp,
+                        lineHeight = 18.sp,
                         textAlign = TextAlign.Center
                     )
+                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = "Version $appVersion",
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "© 2025 Juliandev02",
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
                     )
+                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = stringResource(R.string.settings_all_rights_reserved),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
                     )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.stbfnds),
+                            contentDescription = null,
+                            modifier = Modifier.size(16.dp).padding(end = 4.dp)
+                        )
+                        Text(
+                            text = "#stbfnds",
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             }
         }
@@ -538,30 +618,28 @@ fun CustomWeightStepDialog(
                                     imeAction = ImeAction.Done
                                 ),
                                 modifier = Modifier.weight(1f),
-                                textStyle = TextStyle(color = Color(0xFFFFFFFF), fontSize = MaterialTheme.typography.titleLarge.fontSize)
+                                textStyle = MaterialTheme.typography.labelLarge.copy(color = Color(0xFFFFFFFF)),
                             ) { innerTextField ->
-                                Box(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+                                Box(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(4.dp)) {
                                     if (text.isEmpty()) {
-                                        Text("Benutzergewicht (kg)", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                        Text(
+                                            text = stringResource(R.string.weight_kg),
+                                            style = MaterialTheme.typography.labelLarge,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
                                     }
                                     innerTextField()
                                 }
                             }
 
-                            Spacer(modifier = Modifier.size(8.dp))
-
-                            Button(
-                                onClick = {
-                                    if (!text.contains('.') && !text.contains(',')) {
-                                        text = if (text.isEmpty()) "0." else "$text."
-                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                    }
-                                },
-                                enabled = !(text.contains('.') || text.contains(',')),
-                                modifier = Modifier.size(64.dp),
-                                colors = ButtonDefaults.buttonColors()
-                            ) {
-                                Text(".", color = Color(0xFFFFFFFF), style = MaterialTheme.typography.titleMedium)
+                            if (text.isNotEmpty()) {
+                                Text(
+                                    text = "kg",
+                                    style = MaterialTheme.typography.labelLarge,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
                             }
                         }
                     }
