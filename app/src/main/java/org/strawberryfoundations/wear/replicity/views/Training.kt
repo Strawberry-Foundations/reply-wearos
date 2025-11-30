@@ -28,7 +28,6 @@ import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.FitnessCenter
-import androidx.compose.material.icons.filled.Notes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -72,9 +71,6 @@ import org.strawberryfoundations.wear.replicity.database.TrainingViewModel
 import org.strawberryfoundations.wear.replicity.theme.contrastColor
 import org.strawberryfoundations.wear.replicity.theme.darkenColor
 import org.strawberryfoundations.wear.replicity.theme.hexToColor
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.util.Locale
 
 
 @SuppressLint("UnrememberedMutableState")
@@ -382,7 +378,7 @@ fun TrainingScreen(
                                 }
 
                                 if (selectedCategoryIndex == 0) {
-                                    Row() {
+                                    Row {
                                         Text(
                                             text = emoji,
                                             style = MaterialTheme.typography.labelSmall,
@@ -401,7 +397,7 @@ fun TrainingScreen(
                                 }
 
 
-                                Row() {
+                                Row {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.Notes,
                                         contentDescription = stringResource(R.string.note),
