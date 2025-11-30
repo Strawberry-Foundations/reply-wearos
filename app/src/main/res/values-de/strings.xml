@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Replicity</string>
+
+    <string name="training">Training</string>
+    <string name="profile">Profil</string>
+    <string name="device">Gerät</string>
+    <string name="settings">Einstellungen</string>
+    <string name="all">Alle</string>
+    <string name="upper_body">Oberkörper</string>
+    <string name="legs">Beine</string>
+    <string name="other">Sonstiges</string>
+    <string name="add_training">Workout hinzufügen</string>
+    <string name="group">Gruppe</string>
+    <string name="weight_kg">Gewicht (kg)</string>
+    <string name="note">Notiz</string>
+    <string name="save">Speichern</string>
+    <string name="delete_training">Training löschen</string>
+    <string name="delete_training_confirm">Willst du das Training „%1$s“ wirklich löschen?</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="name">Name</string>
+    <string name="new_training">Neues Training</string>
+    <string name="ok">OK</string>
+    <string name="select_color">Farbe wählen</string>
+    <string name="color">Farbe</string>
+    <string name="decrease_weight_by">Gewicht um %s kg verringern</string>
+    <string name="increase_weight_by">Gewicht um %s kg erhöhen</string>
+    <string name="edit_note_title">Notiz bearbeiten</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_section_appearance">Darstellung</string>
+    <string name="settings_section_interaction">Interaktion</string>
+    <string name="settings_section_weight_steps">Gewichtsschritte</string>
+    <string name="settings_section_about">Über die App</string>
+    <string name="settings_app_version">App-Version</string>
+    <string name="settings_privacy_policy">Datenschutzrichtlinie</string>
+    <string name="settings_terms_of_service">Nutzungsbedingungen</string>
+    <string name="settings_open_source_licenses">Open-Source-Lizenzen</string>
+    <string name="settings_copyright_notice">© %1$s %2$s</string>
+    <string name="settings_all_rights_reserved">Alle Rechte vorbehalten. Ein FOSS Projekt</string>
+    <string name="settings_developed_by">Entwickelt von %s</string>
+    <string name="settings_github">GitHub Repository</string>
+
+    <string name="dynamic_colors_title">Material You</string>
+    <string name="dynamic_colors_description">Dynmaische Farben</string>
+
+    <string name="haptic_feedback_title">Haptisches Feedback</string>
+    <string name="haptic_feedback_description">Vibrationen bei Aktionen</string>
+
+    <string name="edit">Bearbeiten</string>
+    <string name="edit_weight_steps">Gewichtsschritte bearbeiten</string>
+    <string name="new_step">Neuer Schritt</string>
+    <string name="add">Hinzufügen</string>
+    <string name="done">Fertig</string>
+    <string name="delete">Löschen</string>
+
+    <!-- Profile Page -->
+    <string name="local_device">Lokales Gerät</string>
+    <string name="sync_with_smartphone">Mit Smartphone synchronisieren</string>
+    <string name="statistics">Statistiken</string>
+    <string name="last_sync">Letzte Synchronisierung</string>
+    <string name="never">Nie</string>
+
+    <string name="welcome_user">Willkommen, %1$s</string>
+    <string name="strawberry_id">Strawberry-ID: %1$s</string>
+    <string name="email_label">E-Mail: %1$s</string>
+    <string name="sign_out">Abmelden</string>
+    <string name="sign_in_with_strawberry_id">Melde dich mit deiner Strawberry ID an</string>
+    <string name="sign_in_button">Mit Strawberry ID anmelden</string>
+    <string name="waiting_for_login">Warten auf Anmeldung…</string>
+    <string name="cancel_login">Anmeldung abbrechen</string>
+    <string name="login_code_error">Fehler beim Anfordern des Login-Codes: %1$s</string>
+    <string name="login_code_invalid">Login-Code ist ungültig oder abgelaufen</string>
+    <string name="connection_error">Verbindungsfehler: Prüfe deine Internetverbindung</string>
+    <string name="login_timeout">Login-Timeout: Bitte versuche es erneut</string>
+    <string name="profile_picture">Profilbild</string>
+    <string name="strawberry_id_logo">Strawberry ID</string>
+    <string name="account_information">Kontoinformationen</string>
+    <string name="preferences">Einstellungen</string>
+    <string name="app_preferences_subtitle">App-Einstellungen anpassen</string>
+    <string name="privacy">Datenschutz</string>
+    <string name="privacy_settings_subtitle">Datenschutzeinstellungen verwalten</string>
+
+    <string name="strawberry_cloud">Strawberry Cloud</string>
+    <string name="strawberry_cloud_subtitle">Daten geräteübergreifend synchronisieren</string>
+
+    <!-- Backup & Sync -->
+
+    <!-- Backup with Training Data -->
+    <string name="invalid">Ungültig</string>
+    <string name="red">Rot</string>
+    <string name="green">Grün</string>
+    <string name="blue">Blau</string>
+</resources>
