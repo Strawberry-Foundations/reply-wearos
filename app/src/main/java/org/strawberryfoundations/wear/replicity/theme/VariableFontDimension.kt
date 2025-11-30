@@ -6,6 +6,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontVariation
 import org.strawberryfoundations.wear.replicity.R
 
+
 object DisplayLargeVFConfig {
     const val WEIGHT = 950
     const val WIDTH = 120f
