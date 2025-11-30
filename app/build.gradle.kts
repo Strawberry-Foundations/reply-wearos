@@ -12,13 +12,11 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        // Use the same applicationId as the phone app so the Data Layer can deliver to this app
         applicationId = "org.strawberryfoundations.replicity"
         minSdk = 33
         targetSdk = 35
         versionCode = 1
-        versionName = "1.0.1"
-
+        versionName = "1.1.0"
     }
 
     buildTypes {
