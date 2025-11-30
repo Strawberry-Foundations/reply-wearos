@@ -1,26 +1,21 @@
 package org.strawberryfoundations.wear.replicity.views
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.core.animateFloatAsState
-import kotlinx.coroutines.delay
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.util.Locale
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -29,9 +24,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.FitnessCenter
+import androidx.compose.material.icons.filled.Notes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -49,7 +46,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -69,13 +65,16 @@ import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
+import kotlinx.coroutines.delay
 import org.strawberryfoundations.wear.replicity.R
 import org.strawberryfoundations.wear.replicity.core.AppSettings
 import org.strawberryfoundations.wear.replicity.database.TrainingViewModel
-import org.strawberryfoundations.wear.replicity.theme.brightenColor
 import org.strawberryfoundations.wear.replicity.theme.contrastColor
 import org.strawberryfoundations.wear.replicity.theme.darkenColor
 import org.strawberryfoundations.wear.replicity.theme.hexToColor
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 
 @SuppressLint("UnrememberedMutableState")
@@ -124,13 +123,6 @@ fun TrainingScreen(
             bobIndex = -1
         }
     }
-
-    val df = DecimalFormat("#.###")
-    val symbols = DecimalFormatSymbols(Locale.getDefault())
-    df.decimalFormatSymbols = symbols
-    
-    fun parseWeight(s: String): Double = s.replace(',', '.').toDoubleOrNull() ?: 0.0
-    fun formatWeight(d: Double): String = df.format(d)
 
     // Screen Scaffold
     ScreenScaffold(
@@ -293,6 +285,7 @@ fun TrainingScreen(
                 val exercise = filteredExercises[index]
                 val isExpanded = index == expandedIndex
                 val buttonColor = hexToColor(exercise.color)
+                val fgColor = contrastColor(buttonColor)
 
                 val scale by animateFloatAsState(
                     targetValue = if (bobIndex == index) 1.02f else 1f,
@@ -333,10 +326,11 @@ fun TrainingScreen(
                         ) {
                             Text(
                                 text = exercise.name,
-                                color = contrastColor(buttonColor),
+                                color = fgColor,
                                 modifier = Modifier
                                     .weight(1f)
                                     .padding(end = 8.dp),
+                                style = MaterialTheme.typography.labelMedium.copy(lineHeight = 14.sp),
                                 maxLines = if (isExpanded) 2 else 1,
                                 overflow = if (isExpanded) TextOverflow.Clip else TextOverflow.Ellipsis
                             )
@@ -377,22 +371,54 @@ fun TrainingScreen(
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(start = 8.dp, end = 8.dp, top = 12.dp, bottom = 8.dp),
+                                    .padding(start = 4.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
                                 verticalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
-                                Text(
-                                    text = exercise.note.ifBlank { "No notes" },
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = contrastColor(buttonColor),
-                                    maxLines = 4,
-                                    overflow = TextOverflow.Ellipsis
-                                )
+                                val emoji = when (exercise.group) {
+                                    upperBodyStr -> "💪"
+                                    legsStr -> "🦵"
+                                    otherStr -> "🧩"
+                                    else -> "🏋"
+                                }
 
-                                Text(
-                                    text = "Category: ${exercise.group}",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = contrastColor(buttonColor),
-                                )
+                                if (selectedCategoryIndex == 0) {
+                                    Row() {
+                                        Text(
+                                            text = emoji,
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = fgColor,
+                                            modifier = Modifier
+                                                .size(15.dp)
+                                                .padding(end = 6.dp)
+                                        )
+
+                                        Text(
+                                            text = exercise.group,
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = fgColor,
+                                        )
+                                    }
+                                }
+
+
+                                Row() {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Filled.Notes,
+                                        contentDescription = stringResource(R.string.note),
+                                        tint = fgColor,
+                                        modifier = Modifier
+                                            .size(15.dp)
+                                            .padding(end = 6.dp)
+                                    )
+
+                                    Text(
+                                        text = exercise.note.ifBlank { stringResource(R.string.no_note) },
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = fgColor,
+                                        maxLines = 4,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
                             }
                         }
                     }
