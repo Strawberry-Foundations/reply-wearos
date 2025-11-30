@@ -3,6 +3,11 @@ package org.strawberryfoundations.wear.replicity.views
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.core.animateFloatAsState
 import kotlinx.coroutines.delay
 import java.text.DecimalFormat
@@ -67,6 +72,7 @@ import androidx.wear.compose.material3.Text
 import org.strawberryfoundations.wear.replicity.R
 import org.strawberryfoundations.wear.replicity.core.AppSettings
 import org.strawberryfoundations.wear.replicity.database.TrainingViewModel
+import org.strawberryfoundations.wear.replicity.theme.brightenColor
 import org.strawberryfoundations.wear.replicity.theme.contrastColor
 import org.strawberryfoundations.wear.replicity.theme.darkenColor
 import org.strawberryfoundations.wear.replicity.theme.hexToColor
@@ -109,11 +115,9 @@ fun TrainingScreen(
     val listState = rememberScalingLazyListState()
     val rotaryFocusRequester = remember { FocusRequester() }
 
-    // Local state for exercise list (must be in a @Composable scope)
     var expandedIndex by remember { mutableIntStateOf(-1) }
     var bobIndex by remember { mutableIntStateOf(-1) }
 
-    // Short bob effect: when `bobIndex` is set, reset after a short delay
     LaunchedEffect(bobIndex) {
         if (bobIndex != -1) {
             delay(160)
@@ -121,12 +125,12 @@ fun TrainingScreen(
         }
     }
 
-    // Formatter for weights (up to 3 decimal places, no trailing zeros)
     val df = DecimalFormat("#.###")
-    val symbols = DecimalFormatSymbols(Locale.US)
+    val symbols = DecimalFormatSymbols(Locale.getDefault())
     df.decimalFormatSymbols = symbols
-
-    val smallestStep = settings.weightSteps.minOrNull() ?: 1.0
+    
+    fun parseWeight(s: String): Double = s.replace(',', '.').toDoubleOrNull() ?: 0.0
+    fun formatWeight(d: Double): String = df.format(d)
 
     // Screen Scaffold
     ScreenScaffold(
@@ -329,6 +333,7 @@ fun TrainingScreen(
                         ) {
                             Text(
                                 text = exercise.name,
+                                color = contrastColor(buttonColor),
                                 modifier = Modifier
                                     .weight(1f)
                                     .padding(end = 8.dp),
@@ -347,66 +352,48 @@ fun TrainingScreen(
                                 Text(
                                     "${exercise.weight} kg",
                                     color = textColor,
-                                    style = MaterialTheme.typography.titleMedium.copy(
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 13.sp
-                                    ),
+                                    style = MaterialTheme.typography.labelMedium,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
                                 )
                             }
                         }
 
-                        if (isExpanded) {
-                            Spacer(modifier = Modifier.size(6.dp))
-
-                            // Weight adjust row (uses smallest configured step)
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                verticalAlignment = Alignment.CenterVertically
+                        AnimatedVisibility(
+                            visible = isExpanded,
+                            enter = expandVertically(
+                                animationSpec = spring(
+                                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                                    stiffness = Spring.StiffnessLow
+                                )
+                            ) + fadeIn(),
+                            exit = shrinkVertically(
+                                animationSpec = spring(
+                                    dampingRatio = Spring.DampingRatioNoBouncy,
+                                    stiffness = Spring.StiffnessMedium
+                                )
+                            ) + fadeOut()
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(start = 8.dp, end = 8.dp, top = 12.dp, bottom = 8.dp),
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
-                                Button(onClick = {
-                                    val current = exercise.weight.replace(',', '.').toDoubleOrNull() ?: 0.0
-                                    val newW = (current - smallestStep).coerceAtLeast(0.0)
-                                    val updated = exercise.copy(weight = df.format(newW))
-                                    viewModel.update(updated)
-                                    if (settings.useHapticFeedback) haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                }) {
-                                    Text(text = "-")
-                                }
-
-                                val displayWeight = exercise.weight.replace(',', '.').toDoubleOrNull() ?: 0.0
                                 Text(
-                                    text = "${df.format(displayWeight)} kg",
-                                    style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
+                                    text = exercise.note.ifBlank { "No notes" },
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = contrastColor(buttonColor),
+                                    maxLines = 4,
+                                    overflow = TextOverflow.Ellipsis
                                 )
 
-                                Button(onClick = {
-                                    val current = exercise.weight.replace(',', '.').toDoubleOrNull() ?: 0.0
-                                    val newW = current + smallestStep
-                                    val updated = exercise.copy(weight = df.format(newW))
-                                    viewModel.update(updated)
-                                    if (settings.useHapticFeedback) haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                }) {
-                                    Text(text = "+")
-                                }
+                                Text(
+                                    text = "Category: ${exercise.group}",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = contrastColor(buttonColor),
+                                )
                             }
-
-                            Spacer(modifier = Modifier.size(6.dp))
-
-                            Text(
-                                text = exercise.note.ifBlank { "No notes" },
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                maxLines = 4,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                            Spacer(modifier = Modifier.size(4.dp))
-                            Text(
-                                text = "Category: ${exercise.group}",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
                         }
                     }
                 }
