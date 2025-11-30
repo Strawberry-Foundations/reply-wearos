@@ -142,12 +142,13 @@ fun SettingsScreen(
             item {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.padding(top = 12.dp, bottom = 6.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.ColorLens,
                         contentDescription = stringResource(R.string.settings_section_appearance),
-                        modifier = Modifier.size(17.dp).padding(top = 2.dp),
+                        modifier = Modifier.size(16.dp),
                         tint = MaterialTheme.colorScheme.primary,
                     )
                     Text(
@@ -155,7 +156,6 @@ fun SettingsScreen(
                         style = MaterialTheme.typography.labelMedium,
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
                     )
                 }
             }
@@ -197,12 +197,13 @@ fun SettingsScreen(
             item {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.padding(top = 12.dp, bottom = 6.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.TouchApp,
                         contentDescription = stringResource(R.string.settings_section_interaction),
-                        modifier = Modifier.size(17.dp).padding(top = 2.dp),
+                        modifier = Modifier.size(18.dp).padding(bottom = 2.dp),
                         tint = MaterialTheme.colorScheme.primary,
                     )
                     Text(
@@ -210,7 +211,6 @@ fun SettingsScreen(
                         style = MaterialTheme.typography.labelMedium,
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(top = 12.dp, bottom = 4.dp)
                     )
                 }
             }
@@ -253,12 +253,13 @@ fun SettingsScreen(
             item {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.padding(top = 12.dp, bottom = 6.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Scale,
                         contentDescription = stringResource(R.string.settings_section_weight_steps),
-                        modifier = Modifier.size(17.dp).padding(top = 6.dp),
+                        modifier = Modifier.size(16.dp),
                         tint = MaterialTheme.colorScheme.primary,
                     )
                     Text(
@@ -266,7 +267,6 @@ fun SettingsScreen(
                         style = MaterialTheme.typography.labelMedium,
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(top = 12.dp, bottom = 6.dp)
                     )
                 }
             }
@@ -328,12 +328,13 @@ fun SettingsScreen(
             item {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.padding(top = 12.dp, bottom = 4.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Info,
                         contentDescription = stringResource(R.string.settings_section_about),
-                        modifier = Modifier.size(19.dp).padding(top = 6.dp),
+                        modifier = Modifier.size(17.dp),
                         tint = MaterialTheme.colorScheme.primary,
                     )
                     Text(
@@ -341,7 +342,6 @@ fun SettingsScreen(
                         style = MaterialTheme.typography.labelMedium,
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(top = 12.dp, bottom = 4.dp)
                     )
                 }
             }
