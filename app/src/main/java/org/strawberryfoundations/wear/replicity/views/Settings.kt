@@ -132,7 +132,7 @@ fun SettingsScreen(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier.padding(top = 12.dp, bottom = 6.dp)
+                    modifier = Modifier.padding(bottom = 6.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.ColorLens,
@@ -350,12 +350,19 @@ fun SettingsScreen(
                         contentDescription = null,
                         modifier = Modifier.size(32.dp)
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "Gymscribe for WearOS",
+                        text = "Gymscribe",
                         style = MaterialTheme.typography.labelMedium,
-                        fontSize = 16.sp,
+                        fontSize = 17.sp,
                         lineHeight = 18.sp,
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = "for WearOS",
+                        style = MaterialTheme.typography.labelMedium,
+                        fontSize = 11.sp,
+                        lineHeight = 13.sp,
                         textAlign = TextAlign.Center
                     )
                     Spacer(modifier = Modifier.height(4.dp))
@@ -388,11 +395,12 @@ fun SettingsScreen(
                         Image(
                             painter = painterResource(R.drawable.stbfnds),
                             contentDescription = null,
-                            modifier = Modifier.size(16.dp).padding(end = 4.dp)
+                            modifier = Modifier.size(32.dp).padding(end = 4.dp)
                         )
                         Text(
                             text = "#stbfnds",
                             style = MaterialTheme.typography.labelMedium,
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             textAlign = TextAlign.Center
