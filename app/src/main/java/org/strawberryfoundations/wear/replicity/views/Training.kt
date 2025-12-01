@@ -11,6 +11,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,7 @@ import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.FitnessCenter
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -239,7 +241,7 @@ fun TrainingScreen(
                                 if (settings.useHapticFeedback) {
                                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                 }
-                                selectedCategoryIndex = index 
+                                selectedCategoryIndex = index
                             },
                             colors = if (isSelected) {
                                 ButtonDefaults.buttonColors()
@@ -364,56 +366,96 @@ fun TrainingScreen(
                                 )
                             ) + fadeOut()
                         ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(start = 4.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
-                                verticalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
-                                val emoji = when (exercise.group) {
-                                    upperBodyStr -> "💪"
-                                    legsStr -> "🦵"
-                                    otherStr -> "🧩"
-                                    else -> "🏋"
-                                }
-
-                                if (selectedCategoryIndex == 0) {
-                                    Row {
-                                        Text(
-                                            text = emoji,
-                                            style = MaterialTheme.typography.labelSmall,
-                                            color = fgColor,
-                                            modifier = Modifier
-                                                .size(15.dp)
-                                                .padding(end = 6.dp)
-                                        )
-
-                                        Text(
-                                            text = exercise.group,
-                                            style = MaterialTheme.typography.labelSmall,
-                                            color = fgColor,
-                                        )
+                            Box(modifier = Modifier.fillMaxWidth()) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(
+                                            start = 4.dp,
+                                            end = 8.dp,
+                                            top = 8.dp,
+                                            bottom = 8.dp
+                                        ),
+                                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    val emoji = when (exercise.group) {
+                                        upperBodyStr -> "💪"
+                                        legsStr -> "🦵"
+                                        otherStr -> "🧩"
+                                        else -> "🏋"
                                     }
-                                }
+
+                                    if (selectedCategoryIndex == 0) {
+                                        Row {
+                                            Text(
+                                                text = emoji,
+                                                style = MaterialTheme.typography.labelSmall,
+                                                color = fgColor,
+                                                modifier = Modifier
+                                                    .size(15.dp)
+                                                    .padding(end = 6.dp)
+                                            )
+
+                                            Text(
+                                                text = exercise.group,
+                                                style = MaterialTheme.typography.labelSmall,
+                                                color = fgColor,
+                                            )
+                                        }
+                                    }
 
 
-                                Row {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Filled.Notes,
-                                        contentDescription = stringResource(R.string.note),
-                                        tint = fgColor,
-                                        modifier = Modifier
-                                            .size(15.dp)
-                                            .padding(end = 6.dp)
-                                    )
+                                    val expBg = darkenColor(buttonColor)
+                                    val expBtnTint = contrastColor(expBg)
 
-                                    Text(
-                                        text = exercise.note.ifBlank { stringResource(R.string.no_note) },
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = fgColor,
-                                        maxLines = 4,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.SpaceBetween
+                                    ) {
+                                        Row(
+                                            modifier = Modifier.weight(1f),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.AutoMirrored.Filled.Notes,
+                                                contentDescription = stringResource(R.string.note),
+                                                tint = fgColor,
+                                                modifier = Modifier
+                                                    .size(16.dp)
+                                                    .padding(end = 6.dp)
+                                            )
+
+                                            Text(
+                                                text = exercise.note.ifBlank { stringResource(R.string.no_note) },
+                                                style = MaterialTheme.typography.labelSmall,
+                                                color = fgColor,
+                                                maxLines = 4,
+                                                overflow = TextOverflow.Ellipsis
+                                            )
+                                        }
+
+                                        Box(
+                                            modifier = Modifier
+                                                .size(36.dp)
+                                                .background(expBg, RoundedCornerShape(12.dp))
+                                                .clickable {
+                                                    if (settings.useHapticFeedback) haptic.performHapticFeedback(
+                                                        HapticFeedbackType.LongPress
+                                                    )
+                                                    bobIndex = index
+                                                }
+                                                .padding(10.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.Edit,
+                                                contentDescription = stringResource(R.string.edit),
+                                                tint = fgColor,
+                                                modifier = Modifier.fillMaxSize()
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }

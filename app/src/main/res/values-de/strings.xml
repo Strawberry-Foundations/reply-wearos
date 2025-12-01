@@ -60,7 +60,7 @@
 
     <!-- Profile Page -->
     <string name="local_device">Lokales Gerät</string>
-    <string name="sync_with_smartphone">Mit Smartphone synchronisieren</string>
+    <string name="sync_with_smartphone">Workouts synchronisieren</string>
     <string name="statistics">Statistiken</string>
     <string name="last_sync">Letzte Synchronisierung</string>
     <string name="never">Nie</string>

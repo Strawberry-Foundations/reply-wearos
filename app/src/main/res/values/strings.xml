@@ -59,7 +59,7 @@
 
     <!-- Profile Page -->
     <string name="local_device">Local device</string>
-    <string name="sync_with_smartphone">Sync with smartphone</string>
+    <string name="sync_with_smartphone">Sync workouts</string>
     <string name="statistics">Statistics</string>
     <string name="last_sync">Last sync</string>
     <string name="never">Never</string>
