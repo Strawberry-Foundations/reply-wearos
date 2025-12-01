@@ -48,6 +48,8 @@
     <string name="haptic_feedback_title">Haptic Feedback</string>
     <string name="haptic_feedback_description">Vibrations on actions</string>
 
+    <string name="reset">Reset</string>
+
     <string name="edit">Edit</string>
     <string name="edit_weight_steps">Edit weight steps</string>
     <string name="new_step">New step</string>

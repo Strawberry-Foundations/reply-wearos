@@ -13,7 +13,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AppSettings(
     val useDynamicColors: Boolean = true,
-    val useHapticFeedback: Boolean = true,
+    val useHapticFeedback: Boolean = false,
     val weightSteps: List<Double> = listOf(2.5, 5.0, 10.0, 15.0)
 )
 

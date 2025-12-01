@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.Restore
 import androidx.compose.material.icons.filled.Scale
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.TouchApp
@@ -93,7 +94,34 @@ fun SettingsScreen(
         )
     }
 
-    ScreenScaffold(scrollState = listState) { paddingValues ->
+    ScreenScaffold(
+        scrollState = listState,
+        edgeButton = {
+            EdgeButton(
+                onClick = {
+                    if (settings.useHapticFeedback) {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    }
+
+                    onSettingsChange { AppSettings() }
+                },
+                buttonSize = EdgeButtonSize.Large,
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Restore,
+                        contentDescription = stringResource(R.string.reset)
+                    )
+                    Text(
+                        text = stringResource(R.string.reset),
+                        modifier = Modifier.padding(start = 4.dp)
+                    )
+                }
+            }
+        }
+    ) { paddingValues ->
         ScalingLazyColumn(
             state = listState,
             contentPadding = paddingValues,
