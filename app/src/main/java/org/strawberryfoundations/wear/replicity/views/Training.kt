@@ -404,9 +404,7 @@ fun TrainingScreen(
                                         }
                                     }
 
-
                                     val expBg = darkenColor(buttonColor)
-                                    val expBtnTint = contrastColor(expBg)
 
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
