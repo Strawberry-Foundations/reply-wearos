@@ -467,7 +467,8 @@ fun WeightStepDialog(
                         )
                         Text(
                             text = stringResource(R.string.new_step),
-                            modifier = Modifier.weight(1f, fill = false)
+                            modifier = Modifier.weight(1f, fill = false),
+                            style = MaterialTheme.typography.displaySmall
                         )
                     }
                 }
@@ -488,11 +489,22 @@ fun WeightStepDialog(
             ) {
                 item {
                     ListHeader {
-                        Text(
-                            text = stringResource(R.string.edit_weight_steps),
-                            style = MaterialTheme.typography.displayMedium,
-                            color = Color(0xFFFFFFFF)
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Scale,
+                                contentDescription = stringResource(R.string.new_step),
+                                modifier = Modifier.size(20.dp)
+                            )
+
+                            Text(
+                                text = stringResource(R.string.edit_weight_steps),
+                                style = MaterialTheme.typography.displayMedium,
+                                color = Color(0xFFFFFFFF)
+                            )
+                        }
                     }
                 }
                 
@@ -514,7 +526,16 @@ fun WeightStepDialog(
                             ButtonDefaults.buttonColors()
                         }
                     ) {
-                        Text("$step kg")
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        )
+                        {
+                            Text(
+                                text = "$step kg",
+                                style = MaterialTheme.typography.displaySmall,
+                            )
+                        }
                     }
                 }
             }
@@ -554,7 +575,6 @@ fun CustomWeightStepDialog(
             edgeButton = {
                 EdgeButton(
                     onClick = {
-                        // try to add when edge button pressed
                         val parsed = text.replace(',', '.').toDoubleOrNull()
                         val rounded = parsed?.let { (kotlin.math.round(it * 1000) / 1000.0) }
                         if (rounded != null && rounded > 0.0 && (rounded !in currentSteps.map { (kotlin.math.round(it * 1000) / 1000.0) })) {
@@ -575,7 +595,8 @@ fun CustomWeightStepDialog(
                         )
                         Text(
                             text = stringResource(R.string.add),
-                            modifier = Modifier.weight(1f, fill = false)
+                            modifier = Modifier.weight(1f, fill = false),
+                            style = MaterialTheme.typography.displaySmall
                         )
                     }
                 }
@@ -596,11 +617,21 @@ fun CustomWeightStepDialog(
             ) {
                 item {
                     ListHeader {
-                        Text(
-                            text = stringResource(R.string.new_step),
-                            style = MaterialTheme.typography.displayMedium,
-                            color = Color(0xFFFFFFFF)
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Scale,
+                                contentDescription = stringResource(R.string.new_step),
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Text(
+                                text = stringResource(R.string.new_step),
+                                style = MaterialTheme.typography.displayLarge,
+                                color = Color(0xFFFFFFFF)
+                            )
+                        }
                     }
                 }
 
@@ -635,7 +666,7 @@ fun CustomWeightStepDialog(
                                     imeAction = ImeAction.Done
                                 ),
                                 modifier = Modifier.weight(1f),
-                                textStyle = MaterialTheme.typography.labelLarge.copy(color = Color(0xFFFFFFFF)),
+                                textStyle = MaterialTheme.typography.displayMedium.copy(color = Color(0xFFFFFFFF)),
                             ) { innerTextField ->
                                 Box(modifier = Modifier
                                     .fillMaxWidth()
@@ -643,7 +674,7 @@ fun CustomWeightStepDialog(
                                     if (text.isEmpty()) {
                                         Text(
                                             text = stringResource(R.string.weight_kg),
-                                            style = MaterialTheme.typography.labelLarge,
+                                            style = MaterialTheme.typography.displaySmall,
                                             color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
                                     }
@@ -654,7 +685,7 @@ fun CustomWeightStepDialog(
                             if (text.isNotEmpty()) {
                                 Text(
                                     text = "kg",
-                                    style = MaterialTheme.typography.labelLarge,
+                                    style = MaterialTheme.typography.displaySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
