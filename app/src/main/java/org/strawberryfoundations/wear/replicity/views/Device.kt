@@ -147,12 +147,12 @@ fun DeviceScreen(
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = deviceName,
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.displayMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
                         text = stringResource(R.string.local_device),
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(top = 4.dp)
                     )
@@ -167,7 +167,7 @@ fun DeviceScreen(
                 ) {
                     Text(
                         text = stringResource(R.string.statistics),
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.displaySmall,
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(bottom = 4.dp)
                     )
@@ -177,12 +177,12 @@ fun DeviceScreen(
                     ) {
                         Text(
                             text = "Workouts",
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
                             text = workoutCount.toString(),
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                     }
@@ -192,12 +192,12 @@ fun DeviceScreen(
                     ) {
                         Text(
                             text = stringResource(R.string.last_sync),
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
                             text = stringResource(R.string.never),
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                     }
