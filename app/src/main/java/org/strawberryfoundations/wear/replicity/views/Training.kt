@@ -178,7 +178,7 @@ fun TrainingScreen(
                         )
                         Text(
                             text = stringResource(R.string.training),
-                            style = MaterialTheme.typography.displayMedium,
+                            style = MaterialTheme.typography.displayLarge,
                             color = Color(0xFFFFFFFF),
                         )
                     }
@@ -344,7 +344,7 @@ fun TrainingScreen(
                                 Text(
                                     "${exercise.weight} kg",
                                     color = textColor,
-                                    style = MaterialTheme.typography.labelMedium,
+                                    style = MaterialTheme.typography.numeralMedium,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
                                 )

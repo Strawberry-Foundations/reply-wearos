@@ -148,7 +148,7 @@ fun SettingsScreen(
                         )
                         Text(
                             text = stringResource(R.string.settings),
-                            style = MaterialTheme.typography.displayMedium,
+                            style = MaterialTheme.typography.displayLarge,
                             color = Color(0xFFFFFFFF)
                         )
                     }

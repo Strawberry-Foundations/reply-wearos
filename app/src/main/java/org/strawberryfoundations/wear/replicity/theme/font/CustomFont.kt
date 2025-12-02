@@ -5,7 +5,7 @@ import androidx.compose.ui.unit.sp
 import org.strawberryfoundations.wear.replicity.theme.googleSansFlex
 
 class CustomFont {
-    val clock = TextStyle(
+    val labelMedium = TextStyle(
         fontFamily = googleSansFlex.headlineSmallFontFamily,
         fontSize = 14.sp,
         lineHeight = 14.sp,

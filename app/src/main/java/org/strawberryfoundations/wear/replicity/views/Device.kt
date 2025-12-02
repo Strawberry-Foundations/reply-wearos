@@ -43,6 +43,7 @@ import androidx.wear.compose.material3.Text
 import org.strawberryfoundations.wear.replicity.R
 import org.strawberryfoundations.wear.replicity.core.AppSettings
 import org.strawberryfoundations.wear.replicity.database.TrainingViewModel
+import androidx.compose.runtime.collectAsState
 
 
 @Composable
@@ -64,7 +65,7 @@ fun DeviceScreen(
         }
     }
 
-    val workoutCount = viewModel.trainings.value.size
+    val workoutCount = viewModel.trainings.collectAsState().value.size
 
     val rotaryFocusRequester = remember { FocusRequester() }
 
@@ -123,7 +124,7 @@ fun DeviceScreen(
                         )
                         Text(
                             text = stringResource(R.string.device),
-                            style = MaterialTheme.typography.displayMedium,
+                            style = MaterialTheme.typography.displayLarge,
                             color = Color(0xFFFFFFFF)
                         )
                     }

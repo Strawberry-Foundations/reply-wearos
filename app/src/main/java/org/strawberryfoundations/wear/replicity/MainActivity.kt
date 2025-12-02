@@ -89,7 +89,7 @@ fun MainView(
     AppScaffold(
         timeText = {
             TimeText(
-                timeTextStyle = customFont.clock
+                timeTextStyle = customFont.labelMedium
             )
         }
     ) {

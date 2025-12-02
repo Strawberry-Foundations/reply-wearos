@@ -16,9 +16,9 @@ val customFont = CustomFont()
 
 val Typography = Typography(
     displayLarge = TextStyle(
-        fontFamily = robotoFlex.headlineSmallFontFamily,
-        fontSize = 26.sp,
-        lineHeight = 28.sp,
+        fontFamily = googleSansFlex.headlineSmallFontFamily,
+        fontSize = 17.sp,
+        lineHeight = 17.sp,
         letterSpacing = 0.sp,
     ),
     displayMedium = TextStyle(
@@ -61,6 +61,12 @@ val Typography = Typography(
         fontFamily = robotoFlex.displayLargeFontFamily,
         fontSize = 14.sp,
         lineHeight = 14.sp,
+        letterSpacing = 0.sp,
+    ),
+    numeralMedium = TextStyle(
+        fontFamily = googleSansCode.numeralMedium,
+        fontSize = 13.sp,
+        lineHeight = 13.sp,
         letterSpacing = 0.sp,
     ),
 )
