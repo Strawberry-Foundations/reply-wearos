@@ -44,7 +44,7 @@
     <string name="settings_github">GitHub Repository</string>
 
     <string name="dynamic_colors_title">Material You</string>
-    <string name="dynamic_colors_description">Dynmaische Farben</string>
+    <string name="dynamic_colors_description">Dynamische Farben</string>
 
     <string name="haptic_feedback_title">Haptisches Feedback</string>
     <string name="haptic_feedback_description">Vibrationen bei Aktionen</string>
