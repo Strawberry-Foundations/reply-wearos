@@ -9,29 +9,29 @@ import androidx.wear.compose.material3.dynamicColorScheme
 
 
 private val colorPalette = ColorScheme(
-    primary = Color(0xFFE57373), // sanftes Rot
+    primary = Color(0xFFE57373),
     onPrimary = Color.Black,
-    primaryContainer = Color(0xFFB75D5D), // dunkleres Rot
+    primaryContainer = Color(0xFFB75D5D),
     onPrimaryContainer = Color.White,
-    secondary = Color(0xFFFF8A65), // sanftes Orange-Rot
+    secondary = Color(0xFFFF8A65),
     onSecondary = Color.Black,
-    secondaryContainer = Color(0xFFB26A5E), // dunkleres Orange-Rot
+    secondaryContainer = Color(0xFFB26A5E),
     onSecondaryContainer = Color.White,
-    tertiary = Color(0xFFF06292), // sanftes Pink
+    tertiary = Color(0xFFF06292),
     onTertiary = Color.Black,
-    tertiaryContainer = Color(0xFFB2557A), // dunkleres Pink
+    tertiaryContainer = Color(0xFFB2557A),
     onTertiaryContainer = Color.White,
     onSurface = Color.White,
     onSurfaceVariant = Color.White,
-    background = Color.Black, // OLED-freundlich
+    background = Color.Black,
     onBackground = Color.White,
     error = Color(0xFFCF6679),
     onError = Color.Black,
     errorContainer = Color(0xFFB00020),
     onErrorContainer = Color.White,
-    outline = Color(0xFFBCAAA4), // sanftes Grau
-    outlineVariant = Color(0xFF8D6E63), // dunkleres Braun-Grau
-    surfaceContainerLow = Color(0xFF2D2323), // sehr dunkles Rot-Braun
+    outline = Color(0xFFBCAAA4),
+    outlineVariant = Color(0xFF8D6E63),
+    surfaceContainerLow = Color(0xFF2D2323),
     surfaceContainer = Color(0xFF2D2323),
     surfaceContainerHigh = Color(0xFF2D2323),
 )

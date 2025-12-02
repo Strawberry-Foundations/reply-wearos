@@ -16,18 +16,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.wear.compose.foundation.hierarchicalFocusGroup
 import androidx.wear.compose.material.HorizontalPageIndicator
 import androidx.wear.compose.material.PageIndicatorState
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material3.AppScaffold
-import androidx.wear.compose.material3.MaterialTheme
-import androidx.wear.compose.foundation.hierarchicalFocusGroup
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import kotlinx.coroutines.launch
 import org.strawberryfoundations.wear.replicity.core.AppSettings
 import org.strawberryfoundations.wear.replicity.core.SettingsDataStore
 import org.strawberryfoundations.wear.replicity.theme.GymscribeTheme
+import org.strawberryfoundations.wear.replicity.theme.customFont
 import org.strawberryfoundations.wear.replicity.views.DeviceScreen
 import org.strawberryfoundations.wear.replicity.views.SettingsScreen
 import org.strawberryfoundations.wear.replicity.views.TrainingScreen
@@ -89,7 +89,7 @@ fun MainView(
     AppScaffold(
         timeText = {
             TimeText(
-                timeTextStyle = MaterialTheme.typography.labelLarge
+                timeTextStyle = customFont.clock
             )
         }
     ) {
