@@ -170,8 +170,7 @@ fun SettingsScreen(
                     )
                     Text(
                         text = stringResource(R.string.settings_section_appearance),
-                        style = MaterialTheme.typography.labelMedium,
-                        fontSize = 14.sp,
+                        style = MaterialTheme.typography.displayMedium,
                         color = MaterialTheme.colorScheme.primary,
                     )
                 }
@@ -198,11 +197,11 @@ fun SettingsScreen(
                         Column {
                             Text(
                                 text = stringResource(R.string.dynamic_colors_title),
-                                style = MaterialTheme.typography.labelMedium
+                                style = MaterialTheme.typography.displaySmall
                             )
                             Text(
                                 text = stringResource(R.string.dynamic_colors_description),
-                                style = MaterialTheme.typography.bodySmall,
+                                style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
@@ -225,7 +224,7 @@ fun SettingsScreen(
                     )
                     Text(
                         text = stringResource(R.string.settings_section_interaction),
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.displayMedium,
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.primary,
                     )
@@ -254,11 +253,11 @@ fun SettingsScreen(
                         Column {
                             Text(
                                 text = stringResource(R.string.haptic_feedback_title),
-                                style = MaterialTheme.typography.labelMedium
+                                style = MaterialTheme.typography.displaySmall
                             )
                             Text(
                                 text = stringResource(R.string.haptic_feedback_description),
-                                style = MaterialTheme.typography.bodySmall,
+                                style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
@@ -281,7 +280,7 @@ fun SettingsScreen(
                     )
                     Text(
                         text = stringResource(R.string.settings_section_weight_steps),
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.displayMedium,
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.primary,
                     )
@@ -312,7 +311,7 @@ fun SettingsScreen(
                             ) {
                                 Text(
                                     text = "$step",
-                                    style = MaterialTheme.typography.labelMedium
+                                    style = MaterialTheme.typography.displaySmall
                                 )
                                 Icon(
                                     imageVector = Icons.Default.Close,
@@ -356,7 +355,7 @@ fun SettingsScreen(
                     )
                     Text(
                         text = stringResource(R.string.settings_section_about),
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.displayMedium,
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.primary,
                     )
@@ -381,29 +380,22 @@ fun SettingsScreen(
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = "Gymscribe",
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.displayLarge,
                         fontSize = 17.sp,
                         lineHeight = 18.sp,
                         textAlign = TextAlign.Center
                     )
-                    Text(
-                        text = "for WearOS",
-                        style = MaterialTheme.typography.labelMedium,
-                        fontSize = 11.sp,
-                        lineHeight = 13.sp,
-                        textAlign = TextAlign.Center
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(6.dp))
                     Text(
                         text = "Version $appVersion",
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.displaySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "© 2025 Juliandev02",
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.displaySmall,
                         fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
@@ -411,7 +403,7 @@ fun SettingsScreen(
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = stringResource(R.string.settings_all_rights_reserved),
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
                     )
@@ -427,7 +419,7 @@ fun SettingsScreen(
                         )
                         Text(
                             text = "#stbfnds",
-                            style = MaterialTheme.typography.labelMedium,
+                            style = MaterialTheme.typography.displayMedium,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,

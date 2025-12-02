@@ -22,9 +22,15 @@ val Typography = Typography(
         letterSpacing = 0.sp,
     ),
     displayMedium = TextStyle(
-        fontFamily = robotoFlex.headlineSmallFontFamily,
-        fontSize = 17.sp,
-        lineHeight = 17.sp,
+        fontFamily = googleSansFlex.headlineSmallFontFamily,
+        fontSize = 14.sp,
+        lineHeight = 14.sp,
+        letterSpacing = 0.sp,
+    ),
+    displaySmall = TextStyle(
+        fontFamily = googleSansFlex.headlineSmallFontFamily,
+        fontSize = 12.sp,
+        lineHeight = 12.sp,
         letterSpacing = 0.sp,
     ),
     titleMedium = TextStyle(
@@ -43,6 +49,12 @@ val Typography = Typography(
         fontFamily = robotoFlex.labelLargeFontFamily,
         fontSize = 16.sp,
         lineHeight = 24.sp,
+        letterSpacing = 0.sp,
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = googleSansFlex.labelLargeFontFamily,
+        fontSize = 12.sp,
+        lineHeight = 12.sp,
         letterSpacing = 0.sp,
     ),
     labelSmall = TextStyle(
