@@ -58,13 +58,13 @@ val Typography = Typography(
         letterSpacing = 0.sp,
     ),
     labelSmall = TextStyle(
-        fontFamily = robotoFlex.displayLargeFontFamily,
+        fontFamily = googleSansFlex.labelFontFamily,
         fontSize = 10.sp,
         lineHeight = 12.sp,
         letterSpacing = 0.sp,
     ),
     labelMedium = TextStyle(
-        fontFamily = robotoFlex.displayLargeFontFamily,
+        fontFamily = googleSansFlex.displayLargeFontFamily,
         fontSize = 12.sp,
         lineHeight = 12.sp,
         letterSpacing = 0.sp,

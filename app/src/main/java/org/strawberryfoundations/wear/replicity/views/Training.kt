@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -165,52 +166,64 @@ fun TrainingScreen(
             // Title
             item {
                 ListHeader {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.FitnessCenter,
-                            contentDescription = stringResource(R.string.training),
-                            modifier = Modifier
-                                .padding(end = 8.dp)
-                                .size(20.dp),
-                            tint = Color(0xFFFFFFFF)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.FitnessCenter,
+                                contentDescription = stringResource(R.string.training),
+                                modifier = Modifier
+                                    .padding(end = 8.dp)
+                                    .size(20.dp),
+                                tint = Color(0xFFFFFFFF)
+                            )
+                            Text(
+                                text = stringResource(R.string.training),
+                                style = MaterialTheme.typography.displayLarge,
+                                color = Color(0xFFFFFFFF),
+                            )
+                        }
+                        Spacer(modifier = Modifier.padding(4.dp))
+                        
+                        // Category name
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End
                         )
-                        Text(
-                            text = stringResource(R.string.training),
-                            style = MaterialTheme.typography.displayLarge,
-                            color = Color(0xFFFFFFFF),
-                        )
+                        {
+                            val emoji = when (selectedCategoryIndex) {
+                                1 -> "💪"
+                                2 -> "🦵"
+                                3 -> "🧩"
+                                else -> "🏋"
+                            }
+                            Text(
+                                text = "$emoji ${categories[selectedCategoryIndex]}",
+                                style = MaterialTheme.typography.displaySmall,
+                                fontSize = 13.sp,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
 
-            // Category name
-            item {
-                val emoji = when (selectedCategoryIndex) {
-                    1 -> "💪"
-                    2 -> "🦵"
-                    3 -> "🧩"
-                    else -> "🏋"
-                }
-                Text(
-                    text = "$emoji ${categories[selectedCategoryIndex]}",
-                    style = MaterialTheme.typography.labelMedium,
-                    fontSize = 13.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 12.dp),
-                    textAlign = TextAlign.Center
-                )
-            }
+
+            item { }
 
             // Category filter buttons
             item {
                 FlowRow(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 8.dp),
+                        .fillMaxWidth(0.7f)
+                        .padding(bottom = 12.dp),
                     horizontalArrangement = Arrangement.spacedBy(
                         space = 6.dp,
                         alignment = Alignment.CenterHorizontally
@@ -253,25 +266,36 @@ fun TrainingScreen(
                             } else {
                                 RoundedCornerShape(24.dp)
                             },
-                            modifier = Modifier.graphicsLayer {
-                                scaleX = scale
-                                scaleY = scale
-                            }
+                            modifier = Modifier
+                                .size(
+                                    width = if (isSelected) 72.dp else 50.dp,
+                                    height = 50.dp
+                                )
+                                .graphicsLayer {
+                                    scaleX = scale
+                                    scaleY = scale
+                                },
                         ) {
                             if (isSelected) {
                                 Row(
-                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center,
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.Check,
                                         contentDescription = "selected",
-                                        modifier = Modifier.size(16.dp)
                                     )
-                                    Text(emoji)
+                                    Text(
+                                        text = emoji,
+                                        fontSize = 14.sp
+                                    )
                                 }
                             } else {
-                                Text(text = emoji)
+                                Text(
+                                    text = emoji,
+                                    fontSize = 16.sp
+                                )
                             }
                         }
                     }
@@ -371,7 +395,7 @@ fun TrainingScreen(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(
-                                            start = 4.dp,
+                                            start = 2.dp,
                                             end = 8.dp,
                                             top = 8.dp,
                                             bottom = 8.dp
@@ -392,13 +416,15 @@ fun TrainingScreen(
                                                 style = MaterialTheme.typography.labelSmall,
                                                 color = fgColor,
                                                 modifier = Modifier
-                                                    .size(15.dp)
+                                                    .size(18.dp)
                                                     .padding(end = 6.dp)
                                             )
 
                                             Text(
                                                 text = exercise.group,
                                                 style = MaterialTheme.typography.labelSmall,
+                                                fontSize = 13.sp,
+                                                lineHeight = 14.sp,
                                                 color = fgColor,
                                             )
                                         }
@@ -413,26 +439,28 @@ fun TrainingScreen(
                                     ) {
                                         Row(
                                             modifier = Modifier.weight(1f),
-                                            verticalAlignment = Alignment.CenterVertically
                                         ) {
                                             Icon(
                                                 imageVector = Icons.AutoMirrored.Filled.Notes,
                                                 contentDescription = stringResource(R.string.note),
                                                 tint = fgColor,
                                                 modifier = Modifier
-                                                    .size(16.dp)
+                                                    .size(18.dp)
                                                     .padding(end = 6.dp)
                                             )
 
                                             Text(
                                                 text = exercise.note.ifBlank { stringResource(R.string.no_note) },
-                                                style = MaterialTheme.typography.labelSmall,
+                                                style = MaterialTheme.typography.bodyMedium,
+                                                fontSize = 13.sp,
+                                                lineHeight = 14.sp,
                                                 color = fgColor,
                                                 maxLines = 4,
                                                 overflow = TextOverflow.Ellipsis
                                             )
                                         }
 
+                                        /*
                                         Box(
                                             modifier = Modifier
                                                 .size(36.dp)
@@ -452,7 +480,7 @@ fun TrainingScreen(
                                                 tint = fgColor,
                                                 modifier = Modifier.fillMaxSize()
                                             )
-                                        }
+                                        }*/
                                     }
                                 }
                             }
