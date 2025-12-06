@@ -303,11 +303,14 @@ fun TrainingScreen(
             }
 
             // Exercise list
-            items(filteredExercises.size) { index ->
+            items(
+                count = filteredExercises.size,
+                key = { filteredExercises[it].id }
+            ) { index ->
                 val exercise = filteredExercises[index]
                 val isExpanded = index == expandedIndex
-                val buttonColor = hexToColor(exercise.color)
-                val fgColor = contrastColor(buttonColor)
+                val buttonColor = remember(exercise.color) { hexToColor(exercise.color) }
+                val fgColor = remember(buttonColor) { contrastColor(buttonColor) }
 
                 val scale by animateFloatAsState(
                     targetValue = if (bobIndex == index) 1.02f else 1f,
