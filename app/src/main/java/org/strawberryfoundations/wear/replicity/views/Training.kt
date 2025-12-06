@@ -311,6 +311,8 @@ fun TrainingScreen(
                 val isExpanded = index == expandedIndex
                 val buttonColor = remember(exercise.color) { hexToColor(exercise.color) }
                 val fgColor = remember(buttonColor) { contrastColor(buttonColor) }
+                val secondaryBgColor = remember(buttonColor) { darkenColor(buttonColor) }
+                val secondaryTextColor = remember(secondaryBgColor) { contrastColor(secondaryBgColor) }
 
                 val scale by animateFloatAsState(
                     targetValue = if (bobIndex == index) 1.02f else 1f,
@@ -360,17 +362,14 @@ fun TrainingScreen(
                                 overflow = if (isExpanded) TextOverflow.Clip else TextOverflow.Ellipsis
                             )
 
-                            val bgColor = darkenColor(buttonColor)
-                            val textColor = contrastColor(bgColor)
-
                             Box(
                                 modifier = Modifier
-                                    .background(color = bgColor, shape = CircleShape)
+                                    .background(color = secondaryBgColor, shape = CircleShape)
                                     .padding(horizontal = 12.dp, vertical = 4.dp)
                             ) {
                                 Text(
                                     "${exercise.weight} kg",
-                                    color = textColor,
+                                    color = secondaryTextColor,
                                     style = MaterialTheme.typography.numeralMedium,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
@@ -433,7 +432,7 @@ fun TrainingScreen(
                                         }
                                     }
 
-                                    val expBg = darkenColor(buttonColor)
+                                    val expBg = secondaryBgColor
 
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
