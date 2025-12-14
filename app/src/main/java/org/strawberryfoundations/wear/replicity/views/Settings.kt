@@ -1,7 +1,5 @@
 package org.strawberryfoundations.wear.replicity.views
 
-import android.content.Context
-import android.content.pm.PackageManager
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
