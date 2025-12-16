@@ -8,26 +8,26 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.hierarchicalFocusGroup
-import androidx.wear.compose.material.HorizontalPageIndicator
+import androidx.wear.compose.foundation.pager.HorizontalPager
+import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material.PageIndicatorState
-import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material3.AppScaffold
+import androidx.wear.compose.material3.HorizontalPageIndicator
+import androidx.wear.compose.material3.TimeText
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import kotlinx.coroutines.launch
 import org.strawberryfoundations.wear.replicity.core.AppSettings
 import org.strawberryfoundations.wear.replicity.core.SettingsDataStore
 import org.strawberryfoundations.wear.replicity.theme.GymscribeTheme
-import org.strawberryfoundations.wear.replicity.theme.customFont
 import org.strawberryfoundations.wear.replicity.views.DeviceScreen
 import org.strawberryfoundations.wear.replicity.views.SettingsScreen
 import org.strawberryfoundations.wear.replicity.views.TrainingScreen
@@ -88,9 +88,7 @@ fun MainView(
 
     AppScaffold(
         timeText = {
-            TimeText(
-                timeTextStyle = customFont.labelMedium
-            )
+            TimeText()
         }
     ) {
         HorizontalPager(
@@ -120,7 +118,8 @@ fun MainView(
         }
 
         HorizontalPageIndicator(
-            pageIndicatorState = pageIndicatorState
+            pagerState = pagerState,
+            modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
 }

@@ -3,6 +3,7 @@ package org.strawberryfoundations.wear.replicity.theme
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.foundation.CurvedTextStyle
 import androidx.wear.compose.material3.Typography
 import org.strawberryfoundations.wear.replicity.theme.font.CustomFont
 import org.strawberryfoundations.wear.replicity.theme.font.GoogleSansCode
@@ -81,6 +82,12 @@ val Typography = Typography(
         lineHeight = 13.sp,
         letterSpacing = 0.sp,
     ),
+    arcMedium = CurvedTextStyle(
+        fontFamily = googleSansFlex.headlineSmallFontFamily,
+        fontSize = 14.sp,
+        lineHeight = 14.sp,
+        letterSpacing = 0.sp,
+    )
 )
 
 
