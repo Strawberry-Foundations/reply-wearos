@@ -10,12 +10,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
-import org.strawberryfoundations.wear.replicity.core.model.Training
+import org.strawberryfoundations.wear.replicity.core.model.Exercise
 import java.io.OutputStream
 
 
 object DataSyncSender {
-    fun sendDbSnapshot(context: Context, trainings: List<Training>) {
+    fun sendDbSnapshot(context: Context, trainings: List<Exercise>) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 // Log connected nodes for debugging
@@ -36,7 +36,7 @@ object DataSyncSender {
                         }
                     }
 
-                val json = Json.encodeToString(ListSerializer(Training.serializer()), trainings)
+                val json = Json.encodeToString(ListSerializer(Exercise.serializer()), trainings)
                 val bytes = json.toByteArray(Charsets.UTF_8)
                 val asset = Asset.createFromBytes(bytes)
 

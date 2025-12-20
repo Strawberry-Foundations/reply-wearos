@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Gymscribe</string>
-
     <string name="training">Training</string>
+    <string name="workout">Workout</string>
     <string name="profile">Profil</string>
     <string name="device">Gerät</string>
     <string name="settings">Einstellungen</string>
     <string name="all">Alle</string>
     <string name="upper_body">Oberkörper</string>
     <string name="legs">Beine</string>
+    <string name="cardio">Cardio</string>
     <string name="other">Sonstiges</string>
     <string name="add_training">Workout hinzufügen</string>
     <string name="group">Gruppe</string>

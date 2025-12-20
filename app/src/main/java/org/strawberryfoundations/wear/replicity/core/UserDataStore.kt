@@ -5,14 +5,15 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import org.strawberryfoundations.wear.replicity.core.model.UserPreferences
 
 
-val Context.userPreferencesDataStore: DataStore<Preferences> by dataStore(
+val Context.userPreferencesDataStore: DataStore<UserPreferences> by dataStore(
     fileName = "user_prefs.json",
     serializer = UserPreferencesSerializer
 )
 
-suspend fun saveUserData(context: Context, user: Preferences) {
+suspend fun saveUserData(context: Context, user: UserPreferences) {
     println("[::debug]: saveUserData() called with: $user")
     try {
         context.userPreferencesDataStore.updateData { user }
@@ -25,4 +26,4 @@ suspend fun saveUserData(context: Context, user: Preferences) {
     }
 }
 
-fun getUserDataFlow(context: Context): Flow<Preferences> = context.userPreferencesDataStore.data
+fun getUserDataFlow(context: Context): Flow<UserPreferences> = context.userPreferencesDataStore.data

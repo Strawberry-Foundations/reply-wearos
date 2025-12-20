@@ -42,14 +42,14 @@ import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import org.strawberryfoundations.wear.replicity.R
 import org.strawberryfoundations.wear.replicity.core.AppSettings
-import org.strawberryfoundations.wear.replicity.database.TrainingViewModel
+import org.strawberryfoundations.wear.replicity.database.ExerciseViewModel
 import androidx.compose.runtime.collectAsState
 
 
 @Composable
 fun DeviceScreen(
     settings: AppSettings,
-    viewModel: TrainingViewModel = viewModel(),
+    viewModel: ExerciseViewModel = viewModel(),
 ) {
     val listState = rememberScalingLazyListState()
     remember { FocusRequester() }

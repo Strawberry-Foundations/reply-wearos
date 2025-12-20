@@ -15,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import org.strawberryfoundations.wear.replicity.core.model.Training
+import org.strawberryfoundations.wear.replicity.core.model.Exercise
 import org.strawberryfoundations.wear.replicity.database.AppDatabase
 import java.io.InputStream
 
@@ -63,7 +63,7 @@ class SyncListenerService : WearableListenerService() {
     private suspend fun processJsonAndStore(json: String) {
         withContext(Dispatchers.IO) {
             try {
-                val list: List<Training> = Json.decodeFromString(json)
+                val list: List<Exercise> = Json.decodeFromString(json)
                 val db = AppDatabase.getInstance(applicationContext)
                 db.withTransaction {
                     val dao = db.trainingDao()

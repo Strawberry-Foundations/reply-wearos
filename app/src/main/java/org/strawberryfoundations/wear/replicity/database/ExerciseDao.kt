@@ -7,23 +7,23 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import org.strawberryfoundations.wear.replicity.core.model.Training
+import org.strawberryfoundations.wear.replicity.core.model.Exercise
 
 
 @Dao
-interface TrainingDao {
-    @Query("SELECT * FROM Training")
-    fun getAll(): Flow<List<Training>>
+interface ExerciseDao {
+    @Query("SELECT * FROM trainings")
+    fun getAll(): Flow<List<Exercise>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(training: Training)
+    suspend fun insert(training: Exercise)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(trainings: List<Training>)
+    suspend fun insertAll(trainings: List<Exercise>)
 
     @Update
-    suspend fun update(training: Training)
+    suspend fun update(training: Exercise)
 
     @Delete
-    suspend fun delete(training: Training)
+    suspend fun delete(training: Exercise)
 }

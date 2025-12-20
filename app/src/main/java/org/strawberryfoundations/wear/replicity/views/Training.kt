@@ -68,7 +68,10 @@ import androidx.wear.compose.material3.Text
 import kotlinx.coroutines.delay
 import org.strawberryfoundations.wear.replicity.R
 import org.strawberryfoundations.wear.replicity.core.AppSettings
-import org.strawberryfoundations.wear.replicity.database.TrainingViewModel
+import org.strawberryfoundations.wear.replicity.core.model.ExerciseGroup
+import org.strawberryfoundations.wear.replicity.core.model.getExerciseGroupEmoji
+import org.strawberryfoundations.wear.replicity.core.model.getExerciseGroupStringResource
+import org.strawberryfoundations.wear.replicity.database.ExerciseViewModel
 import org.strawberryfoundations.wear.replicity.theme.contrastColor
 import org.strawberryfoundations.wear.replicity.theme.darkenColor
 import org.strawberryfoundations.wear.replicity.theme.hexToColor
@@ -77,34 +80,23 @@ import org.strawberryfoundations.wear.replicity.theme.hexToColor
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun TrainingScreen(
-    viewModel: TrainingViewModel = viewModel(),
+    viewModel: ExerciseViewModel = viewModel(),
     settings: AppSettings
 ) {
     // Basic variable initialization
     val haptic = LocalHapticFeedback.current
-
-    val allStr = stringResource(R.string.all)
-    val upperBodyStr = stringResource(R.string.upper_body)
-    val legsStr = stringResource(R.string.legs)
-    val otherStr = stringResource(R.string.other)
-
-    val categories = listOf(
-        allStr,
-        upperBodyStr,
-        legsStr,
-        otherStr
-    )
-
-    var selectedCategoryIndex by remember { mutableIntStateOf(0) }
-
     val exercises by viewModel.trainings.collectAsState()
+    val exerciseGroups = remember { listOf(null) + ExerciseGroup.entries }
+    var selectedGroupIndex by remember { mutableIntStateOf(0) }
 
-    val filteredExercises by derivedStateOf {
-        when (selectedCategoryIndex) {
-            1 -> exercises.filter { it.group == upperBodyStr }
-            2 -> exercises.filter { it.group == legsStr }
-            3 -> exercises.filter { it.group == otherStr }
-            else -> exercises
+    val filteredExercises by remember(exercises, selectedGroupIndex) {
+        derivedStateOf {
+            val selectedGroup = exerciseGroups[selectedGroupIndex]
+            if (selectedGroup == null) {
+                exercises.toList()
+            } else {
+                exercises.filter { it.group == selectedGroup }
+            }
         }
     }
 
@@ -173,14 +165,14 @@ fun TrainingScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.FitnessCenter,
-                                contentDescription = stringResource(R.string.training),
+                                contentDescription = stringResource(R.string.workout),
                                 modifier = Modifier
                                     .padding(end = 8.dp)
                                     .size(20.dp),
                                 tint = Color(0xFFFFFFFF)
                             )
                             Text(
-                                text = stringResource(R.string.training),
+                                text = stringResource(R.string.workout),
                                 style = MaterialTheme.typography.displayLarge,
                                 color = Color(0xFFFFFFFF),
                             )
@@ -193,14 +185,15 @@ fun TrainingScreen(
                             horizontalArrangement = Arrangement.End
                         )
                         {
-                            val emoji = when (selectedCategoryIndex) {
-                                1 -> "💪"
-                                2 -> "🦵"
-                                3 -> "🧩"
-                                else -> "🏋"
+                            val selectedGroup = exerciseGroups[selectedGroupIndex]
+                            val categoryText = if (selectedGroup == null) {
+                                "🏋 ${stringResource(R.string.all)}"
+                            } else {
+                                "${getExerciseGroupEmoji(selectedGroup)} ${stringResource(getExerciseGroupStringResource(selectedGroup))}"
                             }
+                            
                             Text(
-                                text = "$emoji ${categories[selectedCategoryIndex]}",
+                                text = categoryText,
                                 style = MaterialTheme.typography.displaySmall,
                                 fontSize = 13.sp,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -228,15 +221,9 @@ fun TrainingScreen(
                     ),
                     verticalArrangement = Arrangement.spacedBy(space = 6.dp)
                 ) {
-                    categories.forEachIndexed { index, name ->
-                        val isSelected = selectedCategoryIndex == index
-                        val emoji = when (name) {
-                            allStr -> "🏋"
-                            upperBodyStr -> "💪"
-                            legsStr -> "🦵"
-                            otherStr -> "🧩"
-                            else -> "🧩"
-                        }
+                    exerciseGroups.forEachIndexed { index, group ->
+                        val isSelected = selectedGroupIndex == index
+                        val emoji = if (group == null) "🏋" else getExerciseGroupEmoji(group)
 
                         val scale by animateFloatAsState(
                             targetValue = if (isSelected) 1.1f else 1f,
@@ -252,7 +239,7 @@ fun TrainingScreen(
                                 if (settings.useHapticFeedback) {
                                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                 }
-                                selectedCategoryIndex = index
+                                selectedGroupIndex = index
                             },
                             colors = if (isSelected) {
                                 ButtonDefaults.buttonColors()
@@ -307,10 +294,10 @@ fun TrainingScreen(
             ) { index ->
                 val exercise = filteredExercises[index]
                 val isExpanded = index == expandedIndex
-                val buttonColor = remember(exercise.color) { hexToColor(exercise.color) }
-                val fgColor = remember(buttonColor) { contrastColor(buttonColor) }
-                val secondaryBgColor = remember(buttonColor) { darkenColor(buttonColor) }
-                val secondaryTextColor = remember(secondaryBgColor) { contrastColor(secondaryBgColor) }
+                val buttonColor = remember(exercise.id, exercise.color) { hexToColor(exercise.color) }
+                val fgColor = remember(exercise.id, buttonColor) { contrastColor(buttonColor) }
+                val secondaryBgColor = remember(exercise.id, buttonColor) { darkenColor(buttonColor) }
+                val secondaryTextColor = remember(exercise.id, secondaryBgColor) { contrastColor(secondaryBgColor) }
 
                 val scale by animateFloatAsState(
                     targetValue = if (bobIndex == index) 1.02f else 1f,
@@ -321,6 +308,7 @@ fun TrainingScreen(
                     label = "exerciseScale"
                 )
 
+                // Exercise card
                 Button(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -375,6 +363,7 @@ fun TrainingScreen(
                             }
                         }
 
+                        // Expanded card
                         AnimatedVisibility(
                             visible = isExpanded,
                             enter = expandVertically(
@@ -402,14 +391,9 @@ fun TrainingScreen(
                                         ),
                                     verticalArrangement = Arrangement.spacedBy(8.dp)
                                 ) {
-                                    val emoji = when (exercise.group) {
-                                        upperBodyStr -> "💪"
-                                        legsStr -> "🦵"
-                                        otherStr -> "🧩"
-                                        else -> "🏋"
-                                    }
+                                    val emoji = getExerciseGroupEmoji(exercise.group)
 
-                                    if (selectedCategoryIndex == 0) {
+                                    if (selectedGroupIndex == 0) {
                                         Row {
                                             Text(
                                                 text = emoji,
@@ -421,7 +405,7 @@ fun TrainingScreen(
                                             )
 
                                             Text(
-                                                text = exercise.group,
+                                                text = stringResource(getExerciseGroupStringResource(exercise.group)),
                                                 style = MaterialTheme.typography.labelSmall,
                                                 fontSize = 13.sp,
                                                 lineHeight = 14.sp,
@@ -429,8 +413,6 @@ fun TrainingScreen(
                                             )
                                         }
                                     }
-
-                                    val expBg = secondaryBgColor
 
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
