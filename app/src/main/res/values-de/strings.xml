@@ -64,6 +64,8 @@
     <!-- Settings Section: About -->
     <string name="about_all_rights_reserved">Alle Rechte vorbehalten. Ein Projekt von Strawberry Foundations</string>
 
+    <string name="reset_settings">Einstellungen zurücksetzen</string>
+
 
     <!-- Profile Page -->
     <string name="local_device">Lokales Gerät</string>

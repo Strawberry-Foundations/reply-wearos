@@ -140,6 +140,7 @@ fun TrainingScreen(
                     )
                     Text(
                         text = addTrainingText,
+                        style = MaterialTheme.typography.displaySmall,
                         modifier = Modifier.padding(start = 4.dp)
                     )
                 }

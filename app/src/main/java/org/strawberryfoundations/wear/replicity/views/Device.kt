@@ -12,10 +12,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Devices
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.filled.Watch
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,10 +40,11 @@ import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
+import org.strawberryfoundations.materialsymbolicons.MaterialSymbolIcons
+import org.strawberryfoundations.materialsymbolicons.filled.DevicesWearables
 import org.strawberryfoundations.wear.replicity.R
 import org.strawberryfoundations.wear.replicity.core.AppSettings
 import org.strawberryfoundations.wear.replicity.database.ExerciseViewModel
-import androidx.compose.runtime.collectAsState
 
 
 @Composable
@@ -78,21 +79,18 @@ fun DeviceScreen(
                 },
                 buttonSize = EdgeButtonSize.Large,
             ) {
-                Row(
+                Column(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = stringResource(R.string.sync_with_smartphone),
-                        modifier = Modifier.weight(1f, fill = false)
+                        modifier = Modifier.padding(bottom = 4.dp),
+                        style = MaterialTheme.typography.displaySmall,
                     )
                     Icon(
                         imageVector = Icons.Default.Sync,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(18.dp)
-                            .padding(start = 4.dp)
+                        contentDescription = stringResource(R.string.sync_with_smartphone),
                     )
                 }
             }
@@ -111,11 +109,12 @@ fun DeviceScreen(
                 ),
             autoCentering = null
         ) {
+            // Title
             item {
                 ListHeader {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            imageVector = Icons.Default.Devices,
+                            imageVector = MaterialSymbolIcons.Filled.DevicesWearables,
                             contentDescription = stringResource(R.string.device),
                             modifier = Modifier
                                 .padding(end = 8.dp)
@@ -149,12 +148,6 @@ fun DeviceScreen(
                         text = deviceName,
                         style = MaterialTheme.typography.displayMedium,
                         color = MaterialTheme.colorScheme.onSurface
-                    )
-                    Text(
-                        text = stringResource(R.string.local_device),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(top = 4.dp)
                     )
                 }
             }

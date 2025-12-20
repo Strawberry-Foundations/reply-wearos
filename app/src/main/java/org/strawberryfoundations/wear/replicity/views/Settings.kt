@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -63,6 +64,9 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
+import org.strawberryfoundations.materialsymbolicons.MaterialSymbolIcons
+import org.strawberryfoundations.materialsymbolicons.default.ResetSettings
+import org.strawberryfoundations.materialsymbolicons.filled.Weight
 import org.strawberryfoundations.wear.replicity.R
 import org.strawberryfoundations.wear.replicity.core.AppSettings
 import org.strawberryfoundations.wear.replicity.core.getAppVersion
@@ -105,16 +109,18 @@ fun SettingsScreen(
                 },
                 buttonSize = EdgeButtonSize.Large,
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Restore,
-                        contentDescription = stringResource(R.string.reset)
-                    )
                     Text(
-                        text = stringResource(R.string.reset),
-                        modifier = Modifier.padding(start = 4.dp)
+                        text = stringResource(R.string.reset_settings),
+                        modifier = Modifier.padding(bottom = 4.dp),
+                        style = MaterialTheme.typography.displaySmall,
+                    )
+                    Icon(
+                        imageVector = MaterialSymbolIcons.Default.ResetSettings,
+                        contentDescription = stringResource(R.string.reset)
                     )
                 }
             }
@@ -271,7 +277,7 @@ fun SettingsScreen(
                     modifier = Modifier.padding(top = 12.dp, bottom = 6.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Scale,
+                        imageVector = MaterialSymbolIcons.Filled.Weight,
                         contentDescription = stringResource(R.string.settings_section_weight_steps),
                         modifier = Modifier.size(16.dp),
                         tint = MaterialTheme.colorScheme.primary,
@@ -327,13 +333,19 @@ fun SettingsScreen(
                             }
                             showWeightStepInput = true
                         },
-                        colors = ButtonDefaults.buttonColors()
+                        colors = ButtonDefaults.buttonColors(),
+                        modifier = Modifier.width(52.dp).height(52.dp),
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = stringResource(R.string.add),
-                            modifier = Modifier.size(18.dp)
-                        )
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = stringResource(R.string.add),
+                                modifier = Modifier.size(26.dp),
+                            )
+                        }
                     }
                 }
             }
