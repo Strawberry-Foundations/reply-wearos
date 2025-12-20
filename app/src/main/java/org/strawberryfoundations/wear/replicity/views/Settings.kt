@@ -400,7 +400,7 @@ fun SettingsScreen(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = stringResource(R.string.settings_all_rights_reserved),
+                        text = stringResource(R.string.about_all_rights_reserved),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
@@ -671,7 +671,7 @@ fun CustomWeightStepDialog(
                                     .padding(4.dp)) {
                                     if (text.isEmpty()) {
                                         Text(
-                                            text = stringResource(R.string.weight_kg),
+                                            text = stringResource(R.string.weight),
                                             style = MaterialTheme.typography.displaySmall,
                                             color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
