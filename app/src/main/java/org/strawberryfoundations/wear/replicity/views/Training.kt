@@ -86,6 +86,11 @@ fun TrainingScreen(
     // Basic variable initialization
     val haptic = LocalHapticFeedback.current
     val exercises by viewModel.trainings.collectAsState()
+    val addTrainingText = stringResource(R.string.add_training)
+    val workoutText = stringResource(R.string.workout)
+    val noteText = stringResource(R.string.note)
+    val noNoteText = stringResource(R.string.no_note)
+    val allText = stringResource(R.string.all)
     val exerciseGroups = remember { listOf(null) + ExerciseGroup.entries }
     var selectedGroupIndex by remember { mutableIntStateOf(0) }
 
@@ -130,10 +135,10 @@ fun TrainingScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = stringResource(R.string.add_training)
+                        contentDescription = addTrainingText
                     )
                     Text(
-                        text = stringResource(R.string.add_training),
+                        text = addTrainingText,
                         modifier = Modifier.padding(start = 4.dp)
                     )
                 }
@@ -165,14 +170,14 @@ fun TrainingScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.FitnessCenter,
-                                contentDescription = stringResource(R.string.workout),
+                                contentDescription = workoutText,
                                 modifier = Modifier
                                     .padding(end = 8.dp)
                                     .size(20.dp),
                                 tint = Color(0xFFFFFFFF)
                             )
                             Text(
-                                text = stringResource(R.string.workout),
+                                text = workoutText,
                                 style = MaterialTheme.typography.displayLarge,
                                 color = Color(0xFFFFFFFF),
                             )
@@ -187,7 +192,7 @@ fun TrainingScreen(
                         {
                             val selectedGroup = exerciseGroups[selectedGroupIndex]
                             val categoryText = if (selectedGroup == null) {
-                                "🏋 ${stringResource(R.string.all)}"
+                                "🏋 $allText"
                             } else {
                                 "${getExerciseGroupEmoji(selectedGroup)} ${getExerciseGroupStringResource(selectedGroup)}"
                             }
@@ -424,7 +429,7 @@ fun TrainingScreen(
                                         ) {
                                             Icon(
                                                 imageVector = Icons.AutoMirrored.Filled.Notes,
-                                                contentDescription = stringResource(R.string.note),
+                                                contentDescription = noteText,
                                                 tint = fgColor,
                                                 modifier = Modifier
                                                     .size(18.dp)
@@ -432,7 +437,7 @@ fun TrainingScreen(
                                             )
 
                                             Text(
-                                                text = exercise.note.ifBlank { stringResource(R.string.no_note) },
+                                                text = exercise.note.ifBlank { noNoteText },
                                                 style = MaterialTheme.typography.bodyMedium,
                                                 fontSize = 13.sp,
                                                 lineHeight = 14.sp,

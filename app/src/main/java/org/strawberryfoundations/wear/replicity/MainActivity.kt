@@ -81,7 +81,7 @@ fun MainView(
         HorizontalPager(
             state = pagerState,
             key = { it },
-            beyondViewportPageCount = 0
+            beyondViewportPageCount = 1
         ) { page ->
             Box(
                 modifier = Modifier
