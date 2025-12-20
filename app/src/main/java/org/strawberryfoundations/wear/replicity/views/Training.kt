@@ -189,7 +189,7 @@ fun TrainingScreen(
                             val categoryText = if (selectedGroup == null) {
                                 "🏋 ${stringResource(R.string.all)}"
                             } else {
-                                "${getExerciseGroupEmoji(selectedGroup)} ${stringResource(getExerciseGroupStringResource(selectedGroup))}"
+                                "${getExerciseGroupEmoji(selectedGroup)} ${getExerciseGroupStringResource(selectedGroup)}"
                             }
                             
                             Text(
@@ -405,7 +405,7 @@ fun TrainingScreen(
                                             )
 
                                             Text(
-                                                text = stringResource(getExerciseGroupStringResource(exercise.group)),
+                                                text = getExerciseGroupStringResource(exercise.group),
                                                 style = MaterialTheme.typography.labelSmall,
                                                 fontSize = 13.sp,
                                                 lineHeight = 14.sp,

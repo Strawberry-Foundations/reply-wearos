@@ -1,6 +1,7 @@
 package org.strawberryfoundations.wear.replicity.core.model
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
@@ -25,11 +26,11 @@ fun getExerciseGroupEmoji(group: ExerciseGroup): String = when (group) {
 }
 
 @Composable
-fun getExerciseGroupStringResource(group: ExerciseGroup): Int = when (group) {
-    ExerciseGroup.UPPER_BODY -> R.string.upper_body
-    ExerciseGroup.LEGS -> R.string.legs
-    ExerciseGroup.CARDIO -> R.string.cardio
-    ExerciseGroup.OTHER -> R.string.other
+fun getExerciseGroupStringResource(group: ExerciseGroup): String = when (group) {
+    ExerciseGroup.UPPER_BODY -> stringResource(R.string.upper_body)
+    ExerciseGroup.LEGS -> stringResource(R.string.legs)
+    ExerciseGroup.CARDIO -> stringResource(R.string.cardio)
+    ExerciseGroup.OTHER -> stringResource(R.string.other)
 }
 
 @Serializable
