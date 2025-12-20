@@ -86,6 +86,7 @@ fun TrainingScreen(
     // Basic variable initialization
     val haptic = LocalHapticFeedback.current
     val exercises by viewModel.trainings.collectAsState()
+    val exercisesUi by viewModel.trainingsUi.collectAsState(initial = emptyList())
     val addTrainingText = stringResource(R.string.add_training)
     val workoutText = stringResource(R.string.workout)
     val noteText = stringResource(R.string.note)
@@ -299,10 +300,13 @@ fun TrainingScreen(
             ) { index ->
                 val exercise = filteredExercises[index]
                 val isExpanded = index == expandedIndex
-                val buttonColor = remember(exercise.id, exercise.color) { hexToColor(exercise.color) }
-                val fgColor = remember(exercise.id, buttonColor) { contrastColor(buttonColor) }
-                val secondaryBgColor = remember(exercise.id, buttonColor) { darkenColor(buttonColor) }
-                val secondaryTextColor = remember(exercise.id, secondaryBgColor) { contrastColor(secondaryBgColor) }
+                val uiById = remember(exercisesUi) { exercisesUi.associateBy { it.exercise.id } }
+                val ui = uiById[exercise.id]
+
+                val buttonColor = ui?.buttonColor ?: remember(exercise.id, exercise.color) { hexToColor(exercise.color) }
+                val fgColor = ui?.fgColor ?: remember(exercise.id, buttonColor) { contrastColor(buttonColor) }
+                val secondaryBgColor = ui?.secondaryBgColor ?: remember(exercise.id, buttonColor) { darkenColor(buttonColor) }
+                val secondaryTextColor = ui?.secondaryTextColor ?: remember(exercise.id, secondaryBgColor) { contrastColor(secondaryBgColor) }
 
                 val scale by animateFloatAsState(
                     targetValue = if (bobIndex == index) 1.02f else 1f,
