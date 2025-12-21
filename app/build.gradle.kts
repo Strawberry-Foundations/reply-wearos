@@ -9,12 +9,14 @@ plugins {
 
 android {
     namespace = "org.strawberryfoundations.wear.replicity"
-    compileSdk = 36
+    compileSdk {
+        version = release(36)
+    }
 
     defaultConfig {
         applicationId = "org.strawberryfoundations.replicity"
         minSdk = 33
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "2.0.0-alpha2"
     }
@@ -33,15 +35,17 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+    useLibrary("wear-sdk")
     buildFeatures {
         compose = true
     }
     lint {
         baseline = file("lint-baseline.xml")
     }
+}
+
+kotlin {
+    jvmToolchain(11)
 }
 
 dependencies {

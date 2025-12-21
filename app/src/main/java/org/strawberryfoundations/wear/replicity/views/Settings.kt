@@ -21,7 +21,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Palette
-import androidx.compose.material.icons.filled.Restore
 import androidx.compose.material.icons.filled.Scale
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.TouchApp
@@ -64,9 +63,9 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
-import org.strawberryfoundations.materialsymbolicons.MaterialSymbolIcons
-import org.strawberryfoundations.materialsymbolicons.default.ResetSettings
-import org.strawberryfoundations.materialsymbolicons.filled.Weight
+import org.strawberryfoundations.material.symbols.MaterialSymbols
+import org.strawberryfoundations.material.symbols.default.ResetSettings
+import org.strawberryfoundations.material.symbols.filled.Weight
 import org.strawberryfoundations.wear.replicity.R
 import org.strawberryfoundations.wear.replicity.core.AppSettings
 import org.strawberryfoundations.wear.replicity.core.getAppVersion
@@ -119,7 +118,7 @@ fun SettingsScreen(
                         style = MaterialTheme.typography.displaySmall,
                     )
                     Icon(
-                        imageVector = MaterialSymbolIcons.Default.ResetSettings,
+                        imageVector = MaterialSymbols.Default.ResetSettings,
                         contentDescription = stringResource(R.string.reset)
                     )
                 }
@@ -277,7 +276,7 @@ fun SettingsScreen(
                     modifier = Modifier.padding(top = 12.dp, bottom = 6.dp)
                 ) {
                     Icon(
-                        imageVector = MaterialSymbolIcons.Filled.Weight,
+                        imageVector = MaterialSymbols.Filled.Weight,
                         contentDescription = stringResource(R.string.settings_section_weight_steps),
                         modifier = Modifier.size(16.dp),
                         tint = MaterialTheme.colorScheme.primary,

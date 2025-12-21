@@ -40,8 +40,8 @@ import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
-import org.strawberryfoundations.materialsymbolicons.MaterialSymbolIcons
-import org.strawberryfoundations.materialsymbolicons.filled.DevicesWearables
+import org.strawberryfoundations.material.symbols.MaterialSymbols
+import org.strawberryfoundations.material.symbols.filled.DevicesWearables
 import org.strawberryfoundations.wear.replicity.R
 import org.strawberryfoundations.wear.replicity.core.AppSettings
 import org.strawberryfoundations.wear.replicity.database.ExerciseViewModel
@@ -114,7 +114,7 @@ fun DeviceScreen(
                 ListHeader {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            imageVector = MaterialSymbolIcons.Filled.DevicesWearables,
+                            imageVector = MaterialSymbols.Filled.DevicesWearables,
                             contentDescription = stringResource(R.string.device),
                             modifier = Modifier
                                 .padding(end = 8.dp)
