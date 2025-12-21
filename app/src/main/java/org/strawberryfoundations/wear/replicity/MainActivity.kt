@@ -64,7 +64,6 @@ fun MainViewWithPersistence(appSettings: SettingsDataStore) {
             }
         )
     }
-
 }
 
 // Composable: MainView
