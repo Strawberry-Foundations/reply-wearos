@@ -17,15 +17,6 @@ class GoogleSansFlex {
         const val COUNTER_WIDTH = 500
     }
 
-    object TitleMediumVFConfig {
-        const val WEIGHT = 600
-        const val WIDTH = 110f
-        const val SLANT = 0f
-        const val ASCENDER_HEIGHT = 800f
-        const val COUNTER_WIDTH = 475
-    }
-
-
     object HeadlineSmallVFConfig {
         const val WEIGHT = 1000
         const val WIDTH = 120f
@@ -43,12 +34,6 @@ class GoogleSansFlex {
                     FontVariation.weight(DisplayLargeVFConfig.WEIGHT),
                     FontVariation.width(DisplayLargeVFConfig.WIDTH),
                     FontVariation.slant(DisplayLargeVFConfig.SLANT),
-                    ascenderHeight(
-                        DisplayLargeVFConfig.ASCENDER_HEIGHT
-                    ),
-                    counterWidth(
-                        DisplayLargeVFConfig.COUNTER_WIDTH
-                    )
                 )
             )
         )
@@ -59,14 +44,27 @@ class GoogleSansFlex {
             Font(
                 R.font.google_sans_flex,
                 variationSettings = FontVariation.Settings(
-                    FontVariation.weight(TitleMediumVFConfig.WEIGHT),
-                    FontVariation.width(TitleMediumVFConfig.WIDTH),
-                    FontVariation.slant(TitleMediumVFConfig.SLANT),
-                    ascenderHeight(
-                        TitleMediumVFConfig.ASCENDER_HEIGHT
-                    ),
-                    counterWidth(
-                        TitleMediumVFConfig.COUNTER_WIDTH
+                    settings = arrayOf(
+                        FontVariation.weight(1000),
+                        FontVariation.width(100f),
+                        FontVariation.grade(0),
+                        FontVariation.Setting("ROND", 100f)
+                    )
+                )
+            )
+        )
+
+    @OptIn(ExperimentalTextApi::class)
+    val displayFontFamily =
+        FontFamily(
+            Font(
+                R.font.google_sans_flex,
+                variationSettings = FontVariation.Settings(
+                    settings = arrayOf(
+                        FontVariation.weight(1000),
+                        FontVariation.width(110f),
+                        FontVariation.grade(0),
+                        FontVariation.Setting("ROND", 100f)
                     )
                 )
             )
@@ -82,8 +80,6 @@ class GoogleSansFlex {
                     FontVariation.weight(HeadlineSmallVFConfig.WEIGHT),
                     FontVariation.width(HeadlineSmallVFConfig.WIDTH),
                     FontVariation.slant(HeadlineSmallVFConfig.SLANT),
-                    ascenderHeight(HeadlineSmallVFConfig.ASCENDER_HEIGHT),
-                    counterWidth(HeadlineSmallVFConfig.COUNTER_WIDTH),
                     FontVariation.Setting("ROND", 100f)
                 )
             )
@@ -96,9 +92,7 @@ class GoogleSansFlex {
             variationSettings = FontVariation.Settings(
                 FontVariation.weight(600),
                 FontVariation.width(100f),
-                FontVariation.slant(0f),
-                ascenderHeight(800f),
-                counterWidth(500)
+                FontVariation.Setting("ROND", 100f)
             )
         )
     )
@@ -108,11 +102,12 @@ class GoogleSansFlex {
             Font(
                 R.font.google_sans_flex,
                 variationSettings = FontVariation.Settings(
-                    FontVariation.weight(800),
-                    FontVariation.width(108f),
-                    FontVariation.slant(0f),
-                    ascenderHeight(800f),
-                    counterWidth(515)
+                    settings = arrayOf(
+                        FontVariation.weight(800),
+                        FontVariation.width(100f),
+                        FontVariation.grade(0),
+                        FontVariation.Setting("ROND", 100f)
+                    )
                 )
             )
         )

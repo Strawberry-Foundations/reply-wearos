@@ -354,7 +354,7 @@ fun TrainingScreen(
                                 modifier = Modifier
                                     .weight(1f)
                                     .padding(end = 8.dp),
-                                style = MaterialTheme.typography.labelMedium.copy(lineHeight = 14.sp),
+                                style = MaterialTheme.typography.labelMedium,
                                 maxLines = if (isExpanded) 2 else 1,
                                 overflow = if (isExpanded) TextOverflow.Clip else TextOverflow.Ellipsis
                             )
