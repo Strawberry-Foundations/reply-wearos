@@ -3,6 +3,7 @@ package org.strawberryfoundations.wear.replicity.core
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -14,13 +15,15 @@ import kotlinx.serialization.Serializable
 data class AppSettings(
     val useDynamicColors: Boolean = true,
     val useHapticFeedback: Boolean = false,
-    val weightSteps: List<Double> = listOf(2.5, 5.0, 10.0, 15.0)
+    val weightSteps: List<Double> = listOf(2.5, 5.0, 10.0, 15.0),
+    val lastSync: Long = 0
 )
 
 object SettingsKeys {
     val DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
     val HAPTIC_FEEDBACK = booleanPreferencesKey("haptic_feedback")
     val WEIGHT_STEPS = stringPreferencesKey("weight_steps")
+    val LAST_SYNC = longPreferencesKey("last_sync")
 }
 
 val Context.dataStore by preferencesDataStore(name = "settings")
@@ -33,7 +36,8 @@ class SettingsDataStore(private val context: Context) {
             weightSteps = prefs[SettingsKeys.WEIGHT_STEPS]
                 ?.split(",")
                 ?.mapNotNull { it.toDoubleOrNull() }
-                ?: listOf(2.5, 5.0, 10.0, 15.0)
+                ?: listOf(2.5, 5.0, 10.0, 15.0),
+            lastSync = prefs[SettingsKeys.LAST_SYNC] ?: 0
         )
     }
 
@@ -45,12 +49,14 @@ class SettingsDataStore(private val context: Context) {
                 weightSteps = prefs[SettingsKeys.WEIGHT_STEPS]
                     ?.split(",")
                     ?.mapNotNull { it.toDoubleOrNull() }
-                    ?: listOf(2.5, 5.0, 10.0, 15.0)
+                    ?: listOf(2.5, 5.0, 10.0, 15.0),
+                lastSync = prefs[SettingsKeys.LAST_SYNC] ?: 0
             )
             val new = update(current)
             prefs[SettingsKeys.DYNAMIC_COLOR] = new.useDynamicColors
             prefs[SettingsKeys.HAPTIC_FEEDBACK] = new.useHapticFeedback
             prefs[SettingsKeys.WEIGHT_STEPS] = new.weightSteps.joinToString(",")
+            prefs[SettingsKeys.LAST_SYNC] = new.lastSync
         }
     }
 }

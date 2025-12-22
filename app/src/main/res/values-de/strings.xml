@@ -71,5 +71,6 @@
     <string name="local_device">Lokales Gerät</string>
     <string name="sync_with_smartphone">Workouts synchronisieren</string>
     <string name="statistics">Statistiken</string>
-    <string name="last_sync">Letzte Synchronisierung</string>
+    <string name="workouts">Workouts</string>
+    <string name="last_sync">Letzte Synchr.</string>
 </resources>

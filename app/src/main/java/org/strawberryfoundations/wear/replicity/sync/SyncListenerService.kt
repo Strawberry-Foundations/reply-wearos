@@ -17,6 +17,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import org.strawberryfoundations.wear.replicity.core.model.Exercise
 import org.strawberryfoundations.wear.replicity.database.AppDatabase
+import org.strawberryfoundations.wear.replicity.core.SettingsDataStore
 import java.io.InputStream
 
 
@@ -72,6 +73,12 @@ class SyncListenerService : WearableListenerService() {
                     } catch (_: Exception) {
                         list.forEach { t -> dao.insert(t) }
                     }
+                }
+                try {
+                    val settings = SettingsDataStore(applicationContext)
+                    settings.updateSettings { it.copy(lastSync = System.currentTimeMillis()) }
+                } catch (e: Exception) {
+                    Log.w("SyncListenerService", "Failed to update last sync setting", e)
                 }
                 Log.i("SyncListenerService", "Applied ${list.size} trainings from sync")
             } catch (e: Exception) {

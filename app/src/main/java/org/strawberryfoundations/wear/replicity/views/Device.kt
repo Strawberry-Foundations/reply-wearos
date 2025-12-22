@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.foundation.layout.Box
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
@@ -45,6 +46,11 @@ import org.strawberryfoundations.material.symbols.filled.DevicesWearables
 import org.strawberryfoundations.wear.replicity.R
 import org.strawberryfoundations.wear.replicity.core.AppSettings
 import org.strawberryfoundations.wear.replicity.database.ExerciseViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 
 
 @Composable
@@ -69,7 +75,6 @@ fun DeviceScreen(
     val workoutCount = viewModel.trainings.collectAsState().value.size
 
     val rotaryFocusRequester = remember { FocusRequester() }
-
     ScreenScaffold(
         scrollState = listState,
         edgeButton = {
@@ -169,7 +174,7 @@ fun DeviceScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = "Workouts",
+                            text = stringResource(R.string.workouts),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -188,10 +193,25 @@ fun DeviceScreen(
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
+
+                        val lastUpdated = settings.lastSync
+                        val lastSyncText = if (lastUpdated <= 0L) {
+                            stringResource(R.string.never)
+                        } else {
+                            try {
+                                SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault())
+                                    .format(Date(lastUpdated))
+                            } catch (_: Exception) {
+                                stringResource(R.string.never)
+                            }
+                        }
+
                         Text(
-                            text = stringResource(R.string.never),
+                            text = lastSyncText,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onSurface,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
