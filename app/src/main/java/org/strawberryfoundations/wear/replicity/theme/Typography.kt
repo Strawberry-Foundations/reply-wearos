@@ -93,7 +93,7 @@ val Typography = Typography(
     ),
     
     arcMedium = CurvedTextStyle(
-        fontFamily = googleSansFlex.headlineSmallFontFamily,
+        fontFamily = googleSansFlex.arcFontFamily,
         fontSize = 14.sp,
         lineHeight = 14.sp,
         letterSpacing = 0.sp,
