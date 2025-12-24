@@ -28,6 +28,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -136,13 +137,13 @@ fun TrainingScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = addTrainingText
+                        imageVector = Icons.Rounded.Add,
+                        contentDescription = addTrainingText,
                     )
                     Text(
                         text = addTrainingText,
-                        style = MaterialTheme.typography.displaySmall,
-                        modifier = Modifier.padding(start = 4.dp)
+                        style = MaterialTheme.typography.displayMedium,
+                        modifier = Modifier.padding(start = 4.dp),
                     )
                 }
             }

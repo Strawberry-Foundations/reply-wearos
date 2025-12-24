@@ -116,7 +116,7 @@ fun SettingsScreen(
                     Text(
                         text = stringResource(R.string.reset_settings),
                         modifier = Modifier.padding(bottom = 4.dp),
-                        style = MaterialTheme.typography.displaySmall,
+                        style = MaterialTheme.typography.displayMedium,
                     )
                     Icon(
                         imageVector = MaterialSymbols.Default.ResetSettings,

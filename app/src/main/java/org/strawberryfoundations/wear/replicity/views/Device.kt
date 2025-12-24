@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.foundation.layout.Box
+import androidx.compose.material.icons.rounded.Sync
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
@@ -51,6 +52,7 @@ import java.util.Date
 import java.util.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.sp
 
 
 @Composable
@@ -94,7 +96,7 @@ fun DeviceScreen(
                         style = MaterialTheme.typography.displaySmall,
                     )
                     Icon(
-                        imageVector = Icons.Default.Sync,
+                        imageVector = Icons.Rounded.Sync,
                         contentDescription = stringResource(R.string.sync_with_smartphone),
                     )
                 }
