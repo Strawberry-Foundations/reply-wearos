@@ -8,13 +8,13 @@ plugins {
 }
 
 android {
-    namespace = "org.strawberryfoundations.wear.replicity"
+    namespace = "org.strawberryfoundations.wear.reply"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "org.strawberryfoundations.replicity"
+        applicationId = "org.strawberryfoundations.reply"
         minSdk = 33
         targetSdk = 36
         versionCode = 1
