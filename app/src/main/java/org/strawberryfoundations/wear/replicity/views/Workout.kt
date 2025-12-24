@@ -25,9 +25,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Notes
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.automirrored.rounded.Notes
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -67,6 +66,7 @@ import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import kotlinx.coroutines.delay
 import org.strawberryfoundations.material.symbols.MaterialSymbols
+import org.strawberryfoundations.material.symbols.default.Check
 import org.strawberryfoundations.material.symbols.filled.Exercise
 import org.strawberryfoundations.wear.replicity.R
 import org.strawberryfoundations.wear.replicity.core.AppSettings
@@ -277,7 +277,7 @@ fun TrainingScreen(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Default.Check,
+                                        imageVector = MaterialSymbols.Default.Check,
                                         contentDescription = "selected",
                                     )
                                     Text(
@@ -435,7 +435,7 @@ fun TrainingScreen(
                                             modifier = Modifier.weight(1f),
                                         ) {
                                             Icon(
-                                                imageVector = Icons.AutoMirrored.Filled.Notes,
+                                                imageVector = Icons.AutoMirrored.Rounded.Notes,
                                                 contentDescription = noteText,
                                                 tint = fgColor,
                                                 modifier = Modifier

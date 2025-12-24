@@ -25,6 +25,8 @@ import androidx.compose.material.icons.filled.Scale
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.material.icons.filled.Vibration
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -318,7 +320,7 @@ fun SettingsScreen(
                                     style = MaterialTheme.typography.displaySmall
                                 )
                                 Icon(
-                                    imageVector = Icons.Default.Close,
+                                    imageVector = Icons.Rounded.Close,
                                     contentDescription = stringResource(R.string.delete),
                                     modifier = Modifier.size(14.dp)
                                 )
@@ -341,7 +343,7 @@ fun SettingsScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
-                                imageVector = Icons.Default.Add,
+                                imageVector = Icons.Rounded.Add,
                                 contentDescription = stringResource(R.string.add),
                                 modifier = Modifier.size(26.dp),
                             )
