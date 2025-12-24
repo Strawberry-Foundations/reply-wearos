@@ -17,11 +17,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Palette
-import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.material.icons.filled.Vibration
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.TouchApp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -215,7 +215,7 @@ fun SettingsScreen(
                     modifier = Modifier.padding(top = 12.dp, bottom = 6.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.TouchApp,
+                        imageVector = Icons.Rounded.TouchApp,
                         contentDescription = stringResource(R.string.settings_section_interaction),
                         modifier = Modifier.size(18.dp).padding(bottom = 2.dp),
                         tint = MaterialTheme.colorScheme.primary,
