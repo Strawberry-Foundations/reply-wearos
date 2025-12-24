@@ -383,22 +383,28 @@ fun SettingsScreen(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "Gymscribe",
+                        text = stringResource(R.string.app_name),
                         style = MaterialTheme.typography.displayLarge,
                         fontSize = 17.sp,
                         lineHeight = 18.sp,
                         textAlign = TextAlign.Center
                     )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = stringResource(R.string.app_motto),
+                        style = MaterialTheme.typography.displaySmall,
+                        textAlign = TextAlign.Center
+                    )
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = "Version $appVersion",
+                        text = stringResource(R.string.about_version, appVersion),
                         style = MaterialTheme.typography.displaySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "© 2025 Juliandev02",
+                        text = stringResource(R.string.about_copyright),
                         style = MaterialTheme.typography.displaySmall,
                         fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -430,6 +436,13 @@ fun SettingsScreen(
                             textAlign = TextAlign.Center
                         )
                     }
+
+                    Text(
+                        text = "Progress is the answer.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center
+                    )
                 }
             }
         }

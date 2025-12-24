@@ -22,6 +22,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Gymscribe Wear"
+rootProject.name = "Reply for Wear OS"
 include(":app")
  
