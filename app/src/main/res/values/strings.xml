@@ -5,7 +5,7 @@
     <!-- Navigation title strings -->
     <string name="workout">Workout</string>
     <string name="profile">Profile</string>
-    <string name="device">Device</string>
+    <string name="device">My Device</string>
     <string name="settings">Settings</string>
 
     <!-- Basic strings -->

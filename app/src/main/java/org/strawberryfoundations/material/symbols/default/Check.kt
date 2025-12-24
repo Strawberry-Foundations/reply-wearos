@@ -23,71 +23,71 @@ val MaterialSymbols.Default.Check: ImageVector
             path(
                 fill = SolidColor(Color(0xFFE3E3E3)),
             ) {
-                // M 382 586.02
-                moveTo(x = 382.0f, y = 586.02f)
-                // l 333.93 -333.93
-                lineToRelative(dx = 333.93f, dy = -333.93f)
-                // q 17.05 -16.96 40.18 -16.96
+                // M 382 597.87
+                moveTo(x = 382.0f, y = 597.87f)
+                // l 334.7 -334.7
+                lineToRelative(dx = 334.7f, dy = -334.7f)
+                // q 13.67 -13.67 32.06 -13.67
                 quadToRelative(
-                    dx1 = 17.05f,
-                    dy1 = -16.96f,
-                    dx2 = 40.18f,
-                    dy2 = -16.96f,
+                    dx1 = 13.67f,
+                    dy1 = -13.67f,
+                    dx2 = 32.06f,
+                    dy2 = -13.67f,
                 )
-                // t 40.09 16.75
+                // t 32.07 13.67
                 reflectiveQuadToRelative(
-                    dx1 = 40.09f,
-                    dy1 = 16.75f,
+                    dx1 = 32.07f,
+                    dy1 = 13.67f,
                 )
-                // t 16.95 40.13
-                reflectiveQuadToRelative(
-                    dx1 = 16.95f,
-                    dy1 = 40.13f,
-                )
-                // t -16.95 40.34
-                reflectiveQuadToRelative(
-                    dx1 = -16.95f,
-                    dy1 = 40.34f,
-                )
-                // L 421.63 706.67
-                lineTo(x = 421.63f, y = 706.67f)
-                // q -16.77 16.96 -39.54 16.96
+                // q 13.67 13.68 13.67 32.45
                 quadToRelative(
-                    dx1 = -16.77f,
-                    dy1 = 16.96f,
-                    dx2 = -39.54f,
-                    dy2 = 16.96f,
+                    dx1 = 13.67f,
+                    dy1 = 13.68f,
+                    dx2 = 13.67f,
+                    dy2 = 32.45f,
                 )
-                // t -39.72 -16.96
+                // t -13.67 32.45
                 reflectiveQuadToRelative(
-                    dx1 = -39.72f,
-                    dy1 = -16.96f,
+                    dx1 = -13.67f,
+                    dy1 = 32.45f,
                 )
-                // l -176.8 -176.56
-                lineToRelative(dx = -176.8f, dy = -176.56f)
-                // q -16.96 -16.93 -16.58 -40.12
+                // L 414.07 695.58997
+                lineTo(x = 414.07f, y = 695.58997f)
+                // q -13.68 13.67 -32.07 13.67
                 quadToRelative(
-                    dx1 = -16.96f,
-                    dy1 = -16.93f,
-                    dx2 = -16.58f,
-                    dy2 = -40.12f,
+                    dx1 = -13.68f,
+                    dy1 = 13.67f,
+                    dx2 = -32.07f,
+                    dy2 = 13.67f,
                 )
-                // t 17.13 -40.14
+                // t -32.07 -13.67
                 reflectiveQuadToRelative(
-                    dx1 = 17.13f,
-                    dy1 = -40.14f,
+                    dx1 = -32.07f,
+                    dy1 = -13.67f,
                 )
-                // q 16.98 -17.2 40.25 -17.2
+                // L 178.41 524.07
+                lineTo(x = 178.41f, y = 524.07f)
+                // q -13.67 -13.68 -13.29 -32.45
                 quadToRelative(
-                    dx1 = 16.98f,
-                    dy1 = -17.2f,
-                    dx2 = 40.25f,
-                    dy2 = -17.2f,
+                    dx1 = -13.67f,
+                    dy1 = -13.68f,
+                    dx2 = -13.29f,
+                    dy2 = -32.45f,
                 )
-                // t 40.22 17.2z
+                // t 14.05 -32.45
                 reflectiveQuadToRelative(
-                    dx1 = 40.22f,
-                    dy1 = 17.2f,
+                    dx1 = 14.05f,
+                    dy1 = -32.45f,
+                )
+                // t 32.45 -13.67
+                reflectiveQuadToRelative(
+                    dx1 = 32.45f,
+                    dy1 = -13.67f,
+                )
+                // t 32.45 13.67z
+                reflectiveQuadToRelative(
+                    dx1 = 32.45f,
+                    dy1 = 13.67f,
                 )
                 close()
             }

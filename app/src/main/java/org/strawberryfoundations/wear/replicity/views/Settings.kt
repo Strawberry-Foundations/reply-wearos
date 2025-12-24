@@ -13,16 +13,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Palette
-import androidx.compose.material.icons.filled.Scale
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.material.icons.filled.Vibration
 import androidx.compose.material.icons.rounded.Add
@@ -44,8 +38,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,7 +48,6 @@ import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults
 import androidx.wear.compose.foundation.rotary.rotaryScrollable
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
-import androidx.wear.compose.material3.Dialog
 import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.EdgeButtonSize
 import androidx.wear.compose.material3.FilledTonalButton
@@ -72,6 +63,7 @@ import org.strawberryfoundations.material.symbols.filled.Weight
 import org.strawberryfoundations.wear.replicity.R
 import org.strawberryfoundations.wear.replicity.core.AppSettings
 import org.strawberryfoundations.wear.replicity.core.getAppVersion
+import org.strawberryfoundations.wear.replicity.dialogs.WeightStepDialog
 
 
 @Composable
@@ -443,271 +435,3 @@ fun SettingsScreen(
         }
     }
 }
-
-@Composable
-fun WeightStepDialog(
-    currentSteps: List<Double>,
-    onDismiss: () -> Unit,
-    onAdd: (Double) -> Unit
-) {
-    val commonSteps = listOf(0.25, 0.5, 1.0, 2.5, 5.0, 10.0, 15.0)
-
-    var showCustomDialog by remember { mutableStateOf(false) }
-
-    Dialog(
-        visible = true,
-        onDismissRequest = onDismiss,
-    ) {
-        val listState = rememberScalingLazyListState()
-        val rotaryFocusRequester = remember { FocusRequester() }
-        
-        ScreenScaffold(
-            scrollState = listState,
-            edgeButton = {
-                EdgeButton(
-                    onClick = { showCustomDialog = true },
-                    buttonSize = EdgeButtonSize.Large,
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = stringResource(R.string.new_step)
-                        )
-                        Text(
-                            text = stringResource(R.string.new_step),
-                            modifier = Modifier.weight(1f, fill = false),
-                            style = MaterialTheme.typography.displaySmall
-                        )
-                    }
-                }
-            }
-        ) { paddingValues ->
-            ScalingLazyColumn(
-                state = listState,
-                contentPadding = paddingValues,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .focusRequester(rotaryFocusRequester)
-                    .requestFocusOnHierarchyActive()
-                    .rotaryScrollable(
-                        behavior = RotaryScrollableDefaults.behavior(listState),
-                        focusRequester = rotaryFocusRequester
-                    ),
-                autoCentering = null,
-            ) {
-                item {
-                    ListHeader {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Scale,
-                                contentDescription = stringResource(R.string.new_step),
-                                modifier = Modifier.size(20.dp)
-                            )
-
-                            Text(
-                                text = stringResource(R.string.edit_weight_steps),
-                                style = MaterialTheme.typography.displayMedium,
-                                color = Color(0xFFFFFFFF)
-                            )
-                        }
-                    }
-                }
-                
-                items(commonSteps.size) { index ->
-                    val step = commonSteps[index]
-                    val alreadyExists = step in currentSteps
-                    
-                    Button(
-                        onClick = { 
-                            if (!alreadyExists) {
-                                onAdd(step)
-                            }
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        enabled = !alreadyExists,
-                        colors = if (alreadyExists) {
-                            ButtonDefaults.filledTonalButtonColors()
-                        } else {
-                            ButtonDefaults.buttonColors()
-                        }
-                    ) {
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        )
-                        {
-                            Text(
-                                text = "$step kg",
-                                style = MaterialTheme.typography.displaySmall,
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    if (showCustomDialog) {
-        CustomWeightStepDialog(
-            currentSteps = currentSteps,
-            onDismiss = { showCustomDialog = false },
-            onAdd = { value ->
-                onAdd(value)
-                showCustomDialog = false
-            }
-        )
-    }
-}
-
-
-@Composable
-fun CustomWeightStepDialog(
-    currentSteps: List<Double>,
-    onDismiss: () -> Unit,
-    onAdd: (Double) -> Unit
-) {
-    var text by remember { mutableStateOf("") }
-    val listState = rememberScalingLazyListState()
-    val rotaryFocusRequester = remember { FocusRequester() }
-    val haptic = LocalHapticFeedback.current
-
-    Dialog(
-        visible = true,
-        onDismissRequest = onDismiss,
-    ) {
-        ScreenScaffold(
-            scrollState = listState,
-            edgeButton = {
-                EdgeButton(
-                    onClick = {
-                        val parsed = text.replace(',', '.').toDoubleOrNull()
-                        val rounded = parsed?.let { (kotlin.math.round(it * 1000) / 1000.0) }
-                        if (rounded != null && rounded > 0.0 && (rounded !in currentSteps.map { (kotlin.math.round(it * 1000) / 1000.0) })) {
-                            haptic.performHapticFeedback(HapticFeedbackType.Confirm)
-                            onAdd(rounded)
-                        }
-                    },
-                    buttonSize = EdgeButtonSize.Large,
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = stringResource(R.string.add)
-                        )
-                        Text(
-                            text = stringResource(R.string.add),
-                            modifier = Modifier.weight(1f, fill = false),
-                            style = MaterialTheme.typography.displaySmall
-                        )
-                    }
-                }
-            }
-        ) { paddingValues ->
-            ScalingLazyColumn(
-                state = listState,
-                contentPadding = paddingValues,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .focusRequester(rotaryFocusRequester)
-                    .requestFocusOnHierarchyActive()
-                    .rotaryScrollable(
-                        behavior = RotaryScrollableDefaults.behavior(listState),
-                        focusRequester = rotaryFocusRequester
-                    ),
-                autoCentering = null,
-            ) {
-                item {
-                    ListHeader {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Scale,
-                                contentDescription = stringResource(R.string.new_step),
-                                modifier = Modifier.size(20.dp)
-                            )
-                            Text(
-                                text = stringResource(R.string.new_step),
-                                style = MaterialTheme.typography.displayLarge,
-                                color = Color(0xFFFFFFFF)
-                            )
-                        }
-                    }
-                }
-
-                item {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 8.dp)
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            BasicTextField(
-                                value = text,
-                                onValueChange = { new ->
-                                    val filtered = new.filter { it.isDigit() || it == '.' || it == ',' }
-                                    val sepCount = filtered.count { it == '.' || it == ',' }
-
-                                    text = if (sepCount <= 1) {
-                                        filtered
-                                    } else {
-                                        val firstIdx = filtered.indexOfFirst { it == '.' || it == ',' }
-                                        val before = filtered.take(firstIdx + 1)
-                                        val after = filtered.substring(firstIdx + 1).replace(".", "").replace(",", "")
-                                        before + after
-                                    }
-                                },
-                                singleLine = true,
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Decimal,
-                                    imeAction = ImeAction.Done
-                                ),
-                                modifier = Modifier.weight(1f),
-                                textStyle = MaterialTheme.typography.displayMedium.copy(color = Color(0xFFFFFFFF)),
-                            ) { innerTextField ->
-                                Box(modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(4.dp)) {
-                                    if (text.isEmpty()) {
-                                        Text(
-                                            text = stringResource(R.string.weight),
-                                            style = MaterialTheme.typography.displaySmall,
-                                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
-                                    }
-                                    innerTextField()
-                                }
-                            }
-
-                            if (text.isNotEmpty()) {
-                                Text(
-                                    text = "kg",
-                                    style = MaterialTheme.typography.displaySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-
-
