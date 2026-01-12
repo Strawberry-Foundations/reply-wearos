@@ -82,6 +82,15 @@ dependencies {
     // JSON
     implementation(libs.kotlinx.serialization.json)
 
+    // Tiles
+    implementation(libs.tiles)
+    implementation(libs.tiles.material)
+    implementation(libs.tiles.tooling.preview)
+    implementation(libs.horologist.tiles)
+
+    implementation(libs.androidx.protolayout.material)
+    implementation(libs.androidx.protolayout.expression)
+
     // Preview Tooling
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.ui.tooling)
@@ -107,6 +116,7 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     debugImplementation(composeBom)
+    debugImplementation(libs.tiles.tooling)
 
     ksp(libs.androidx.room.compiler)
 }
