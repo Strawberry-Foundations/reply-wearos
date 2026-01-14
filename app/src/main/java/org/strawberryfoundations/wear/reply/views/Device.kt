@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ColorLens
+import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.Sync
 import androidx.compose.material.icons.rounded.Watch
 import androidx.compose.runtime.Composable
@@ -53,7 +55,7 @@ import java.util.Locale
 
 @Composable
 fun DeviceScreen(
-    settings: AppSettings,
+        settings: AppSettings,
     viewModel: ExerciseViewModel = viewModel(),
 ) {
     val listState = rememberScalingLazyListState()
@@ -161,12 +163,24 @@ fun DeviceScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 12.dp)
                 ) {
-                    Text(
-                        text = stringResource(R.string.statistics),
-                        style = MaterialTheme.typography.displaySmall,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(bottom = 4.dp)
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier.padding(bottom = 6.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.BarChart,
+                            contentDescription = stringResource(R.string.statistics),
+                            modifier = Modifier.size(16.dp),
+                            tint = MaterialTheme.colorScheme.primary,
+                        )
+                        Text(
+                            text = stringResource(R.string.statistics),
+                            style = MaterialTheme.typography.displayMedium,
+                            color = MaterialTheme.colorScheme.primary,
+                        )
+                    }
+
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
