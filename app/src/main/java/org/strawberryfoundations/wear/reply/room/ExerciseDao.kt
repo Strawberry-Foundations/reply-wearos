@@ -1,4 +1,4 @@
-package org.strawberryfoundations.wear.reply.database
+package org.strawberryfoundations.wear.reply.room
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import org.strawberryfoundations.wear.reply.core.model.Exercise
+import org.strawberryfoundations.wear.reply.room.entities.Exercise
 
 
 @Dao

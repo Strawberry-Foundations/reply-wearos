@@ -42,6 +42,11 @@
     <string name="decrease_weight_by">Gewicht um %s kg verringern</string>
     <string name="increase_weight_by">Gewicht um %s kg erhöhen</string>
 
+    <!-- Workout/Training -->
+    <string name="start_exercise">Übung starten</string>
+    <string name="last_performance">Zuletzt</string>
+    <string name="best_performance">Höchst</string>
+    <string name="alt_name">Alternativer Name</string>
 
     <!-- Settings Sections -->
     <string name="settings_section_appearance">Darstellung</string>
@@ -74,4 +79,6 @@
     <string name="statistics">Statistiken</string>
     <string name="workouts">Workouts</string>
     <string name="last_sync">Letzte Synchr.</string>
+
+
 </resources>

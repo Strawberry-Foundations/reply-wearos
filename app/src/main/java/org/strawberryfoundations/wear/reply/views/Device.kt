@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.Sync
 import androidx.compose.material.icons.rounded.Watch
@@ -47,15 +46,15 @@ import org.strawberryfoundations.material.symbols.MaterialSymbols
 import org.strawberryfoundations.material.symbols.filled.DevicesWearables
 import org.strawberryfoundations.wear.reply.R
 import org.strawberryfoundations.wear.reply.core.AppSettings
-import org.strawberryfoundations.wear.reply.database.ExerciseViewModel
+import org.strawberryfoundations.wear.reply.room.ExerciseViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 
 @Composable
-fun DeviceScreen(
-        settings: AppSettings,
+fun DeviceView(
+    settings: AppSettings,
     viewModel: ExerciseViewModel = viewModel(),
 ) {
     val listState = rememberScalingLazyListState()

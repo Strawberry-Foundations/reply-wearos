@@ -69,10 +69,10 @@ import org.strawberryfoundations.material.symbols.default.Check
 import org.strawberryfoundations.material.symbols.filled.Exercise
 import org.strawberryfoundations.wear.reply.R
 import org.strawberryfoundations.wear.reply.core.AppSettings
-import org.strawberryfoundations.wear.reply.core.model.ExerciseGroup
-import org.strawberryfoundations.wear.reply.core.model.getExerciseGroupEmoji
-import org.strawberryfoundations.wear.reply.core.model.getExerciseGroupStringResource
-import org.strawberryfoundations.wear.reply.database.ExerciseViewModel
+import org.strawberryfoundations.wear.reply.room.ExerciseViewModel
+import org.strawberryfoundations.wear.reply.room.entities.ExerciseGroup
+import org.strawberryfoundations.wear.reply.room.entities.getExerciseGroupEmoji
+import org.strawberryfoundations.wear.reply.room.entities.getExerciseGroupStringResource
 import org.strawberryfoundations.wear.reply.theme.contrastColor
 import org.strawberryfoundations.wear.reply.theme.darkenColor
 import org.strawberryfoundations.wear.reply.theme.hexToColor
@@ -80,9 +80,10 @@ import org.strawberryfoundations.wear.reply.theme.hexToColor
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun TrainingScreen(
+fun TrainingView(
     viewModel: ExerciseViewModel = viewModel(),
-    settings: AppSettings
+    settings: AppSettings,
+    onExerciseClick: (Long) -> Unit,
 ) {
     // Basic variable initialization
     val haptic = LocalHapticFeedback.current
@@ -330,13 +331,18 @@ fun TrainingScreen(
                         .animateContentSize()
                         .heightIn(min = 48.dp),
                     onClick = {
+                        onExerciseClick(exercise.id)
+                        if (settings.useHapticFeedback) {
+                            haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                        }
+                    },
+                    onLongClick = {
                         val willExpand = !isExpanded
                         expandedIndex = if (isExpanded) -1 else index
                         if (willExpand) bobIndex = index
                         if (settings.useHapticFeedback) {
                             haptic.performHapticFeedback(HapticFeedbackType.Confirm)
                         }
-
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = buttonColor

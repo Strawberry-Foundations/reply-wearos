@@ -18,7 +18,7 @@ android {
         minSdk = 33
         targetSdk = 36
         versionCode = 1
-        versionName = "2.0.0-beta3"
+        versionName = "2.0.0-alpha4"
     }
 
     buildTypes {
@@ -74,6 +74,8 @@ dependencies {
     implementation(libs.wear.compose.foundation)
     implementation(libs.wear.compose.navigation)
     implementation(libs.wear.gms.playservices)
+    implementation(libs.wear.input)
+    implementation(libs.androidx.material3)
 
     // Horologist for correct Compose layout
     implementation(libs.horologist.compose.layout)

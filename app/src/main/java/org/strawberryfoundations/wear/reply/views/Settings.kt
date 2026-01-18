@@ -63,11 +63,11 @@ import org.strawberryfoundations.material.symbols.filled.Weight
 import org.strawberryfoundations.wear.reply.R
 import org.strawberryfoundations.wear.reply.core.AppSettings
 import org.strawberryfoundations.wear.reply.core.getAppVersion
-import org.strawberryfoundations.wear.reply.dialogs.WeightStepDialog
+import org.strawberryfoundations.wear.reply.composable.WeightStepDialog
 
 
 @Composable
-fun SettingsScreen(
+fun SettingsView(
     settings: AppSettings,
     onSettingsChange: (AppSettings.() -> AppSettings) -> Unit
 ) {

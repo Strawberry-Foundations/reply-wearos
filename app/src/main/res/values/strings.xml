@@ -44,6 +44,12 @@
     <string name="decrease_weight_by">Decrease weight by %s kg</string>
     <string name="increase_weight_by">Increase weight by %s kg</string>
 
+    <!-- Workout/Training -->
+    <string name="start_exercise">Start exercise</string>
+    <string name="last_performance">Last</string>
+    <string name="best_performance">Best</string>
+    <string name="alt_name">Alternative name</string>
+
 
     <!-- Settings Sections -->
     <string name="settings_section_appearance">Appearance</string>
@@ -77,4 +83,5 @@
     <string name="statistics">Statistics</string>
     <string name="workouts">Workouts</string>
     <string name="last_sync">Last sync</string>
+
 </resources>

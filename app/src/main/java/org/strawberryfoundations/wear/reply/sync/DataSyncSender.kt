@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
-import org.strawberryfoundations.wear.reply.core.model.Exercise
+import org.strawberryfoundations.wear.reply.room.entities.Exercise
 import java.io.OutputStream
 
 

@@ -1,4 +1,4 @@
-package org.strawberryfoundations.wear.reply.database
+package org.strawberryfoundations.wear.reply.room
 
 import android.app.Application
 import androidx.compose.ui.graphics.Color
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.strawberryfoundations.wear.reply.core.model.Exercise
+import org.strawberryfoundations.wear.reply.room.entities.Exercise
 import org.strawberryfoundations.wear.reply.theme.contrastColor
 import org.strawberryfoundations.wear.reply.theme.darkenColor
 import org.strawberryfoundations.wear.reply.theme.hexToColor

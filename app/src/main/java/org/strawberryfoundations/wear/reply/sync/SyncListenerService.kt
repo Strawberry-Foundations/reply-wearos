@@ -15,8 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import org.strawberryfoundations.wear.reply.core.model.Exercise
-import org.strawberryfoundations.wear.reply.database.AppDatabase
+import org.strawberryfoundations.wear.reply.room.entities.Exercise
+import org.strawberryfoundations.wear.reply.room.AppDatabase
 import org.strawberryfoundations.wear.reply.core.SettingsDataStore
 import java.io.InputStream
 
