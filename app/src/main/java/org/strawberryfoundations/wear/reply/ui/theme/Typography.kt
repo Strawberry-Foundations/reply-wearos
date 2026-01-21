@@ -1,13 +1,13 @@
-package org.strawberryfoundations.wear.reply.theme
+package org.strawberryfoundations.wear.reply.ui.theme
 
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.foundation.CurvedTextStyle
 import androidx.wear.compose.material3.Typography
-import org.strawberryfoundations.wear.reply.theme.font.CustomFont
-import org.strawberryfoundations.wear.reply.theme.font.GoogleSansCode
-import org.strawberryfoundations.wear.reply.theme.font.GoogleSansFlex
+import org.strawberryfoundations.wear.reply.ui.theme.font.CustomFont
+import org.strawberryfoundations.wear.reply.ui.theme.font.GoogleSansCode
+import org.strawberryfoundations.wear.reply.ui.theme.font.GoogleSansFlex
 
 val googleSansFlex = GoogleSansFlex()
 val googleSansCode = GoogleSansCode()
@@ -61,6 +61,13 @@ val Typography = Typography(
         fontFamily = googleSansFlex.labelLargeFontFamily,
         fontSize = 12.sp,
         lineHeight = 12.sp,
+        letterSpacing = 0.sp,
+    ),
+
+    bodySmall = TextStyle(
+        fontFamily = googleSansFlex.labelLargeFontFamily,
+        fontSize = 11.sp,
+        lineHeight = 11.sp,
         letterSpacing = 0.sp,
     ),
 

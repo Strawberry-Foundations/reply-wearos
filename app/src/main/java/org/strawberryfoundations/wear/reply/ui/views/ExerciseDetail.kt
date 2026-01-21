@@ -1,4 +1,4 @@
-package org.strawberryfoundations.wear.reply.views
+package org.strawberryfoundations.wear.reply.ui.views
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -16,7 +16,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Label
+import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.Info
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material.icons.rounded.Layers
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -25,6 +27,7 @@ import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.Surface
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,6 +41,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -59,23 +63,30 @@ import org.strawberryfoundations.material.symbols.MaterialSymbols
 import org.strawberryfoundations.material.symbols.outlined.Delete
 import org.strawberryfoundations.material.symbols.outlined.Edit
 import org.strawberryfoundations.wear.reply.R
-import org.strawberryfoundations.wear.reply.composable.EditExerciseDialog
 import org.strawberryfoundations.wear.reply.core.AppSettings
-import org.strawberryfoundations.wear.reply.room.ExerciseViewModel
 import org.strawberryfoundations.wear.reply.room.entities.Exercise
+import org.strawberryfoundations.wear.reply.room.entities.SessionStatus
+import org.strawberryfoundations.wear.reply.room.entities.WorkoutSession
 import org.strawberryfoundations.wear.reply.room.entities.getExerciseGroupEmoji
 import org.strawberryfoundations.wear.reply.room.entities.getExerciseGroupStringResource
-import org.strawberryfoundations.wear.reply.theme.hexToColor
+import org.strawberryfoundations.wear.reply.room.viewmodels.ExerciseViewModel
+import org.strawberryfoundations.wear.reply.room.viewmodels.WorkoutSessionViewModel
+import org.strawberryfoundations.wear.reply.ui.composable.DeleteExerciseDialog
+import org.strawberryfoundations.wear.reply.ui.composable.EditExerciseDialog
+import org.strawberryfoundations.wear.reply.ui.composable.StatCard
+import org.strawberryfoundations.wear.reply.ui.theme.hexToColor
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ExerciseDetail(
     exercise: Exercise,
-    viewModel: ExerciseViewModel = viewModel(),
+    exerciseViewModel: ExerciseViewModel = viewModel(),
+    sessionViewModel: WorkoutSessionViewModel = viewModel(),
     onStartTraining: (Exercise) -> Unit,
-    onBack: () -> Unit,
+    onNavigateToStatistics: (Long) -> Unit,
     settings: AppSettings,
 ) {
+    val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
 
     val listState = rememberScalingLazyListState()
@@ -87,6 +98,14 @@ fun ExerciseDetail(
     }
 
     var showEditDialog by remember { mutableStateOf(false) }
+    var startTraining by remember { mutableStateOf(false) }
+    var showDeleteDialog by remember { mutableStateOf(false) }
+    var showHistoryDialog by remember { mutableStateOf(false) }
+    var trainingToDelete by remember { mutableStateOf<Exercise?>(null) }
+
+    val workoutSessions = sessionViewModel.allSessions.collectAsState(initial = emptyList())
+    val exerciseSessions = workoutSessions.value.filter { it.exerciseId == exercise.id }
+    val completedSessions = exerciseSessions.filter { it.status == SessionStatus.COMPLETED }
 
     ScreenScaffold(
         scrollState = listState,
@@ -96,6 +115,18 @@ fun ExerciseDetail(
                     if (settings.useHapticFeedback) {
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     }
+                    val newSession = WorkoutSession(
+                        exerciseId = exercise.id,
+                        currentWeight = exercise.weight as Double,
+                        status = SessionStatus.ACTIVE
+                    )
+                    sessionViewModel.insert(newSession) { sessionId ->
+                        org.strawberryfoundations.wear.reply.services.WorkoutService.startService(
+                            context,
+                            newSession.copy(id = sessionId)
+                        )
+                    }
+                    onStartTraining(exercise)
                 },
                 buttonSize = EdgeButtonSize.Large,
                 colors = ButtonDefaults.filledTonalButtonColors().copy(
@@ -173,8 +204,8 @@ fun ExerciseDetail(
             }
 
             // Alternative name
-            item {
-                if (!exercise.altName.isNullOrEmpty()) {
+            if (!exercise.altName.isNullOrEmpty()) {
+                item {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                         verticalAlignment = Alignment.CenterVertically,
@@ -191,7 +222,6 @@ fun ExerciseDetail(
                             color = MaterialTheme.colorScheme.secondary
                         )
                     }
-
                 }
             }
 
@@ -219,8 +249,8 @@ fun ExerciseDetail(
                 Spacer(modifier = Modifier.height(8.dp))
             }
 
-            item {
-                if (exercise.note.isNotBlank()) {
+            if (exercise.note.isNotBlank()) {
+                item {
                     Spacer(modifier = Modifier.height(16.dp))
                     Surface(
                         color = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.3f),
@@ -248,103 +278,162 @@ fun ExerciseDetail(
                 }
             }
 
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
+            if (exercise.note.isNotBlank()) {
+                item {
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
             }
 
             item {
-                Row(
+                Column(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Surface(
-                        modifier = Modifier.weight(1f),
-                        color = MaterialTheme.colorScheme.surfaceContainer,
-                        shape = RoundedCornerShape(24.dp)
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 12.dp, vertical = 8.dp)
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                                ) {
-                                    Surface(
-                                        shape = MaterialShapes.Cookie9Sided.toShape(),
-                                        color = Color(0xFF4CAF50),
-                                        modifier = Modifier.size(32.dp)
-                                    ) {
-                                        Box(contentAlignment = Alignment.Center) {
-                                            Text(text = "⏱️", fontSize = 18.sp)
-                                        }
-                                    }
-                                    Spacer(modifier = Modifier.height(12.dp))
-                                    Text(
-                                        text = stringResource(R.string.last_performance),
-                                        style = MaterialTheme.typography.labelMedium,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                }
+                    if (completedSessions.isNotEmpty()) {
+                        val bestWeight = completedSessions.maxOf { it.currentWeight }
 
-                                Text(
-                                    text = "${exercise.weight} kg",
-                                    style = MaterialTheme.typography.labelMedium,
-                                    fontSize = 14.sp
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = stringResource(R.string.weight),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.secondary,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Surface(
+                            modifier = Modifier.fillMaxWidth(),
+                            color = MaterialTheme.colorScheme.surfaceContainer,
+                            shape = RoundedCornerShape(24.dp)
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                            ) {
+                                StatCard(
+                                    label = stringResource(R.string.last_performance),
+                                    value = "${exercise.weight} kg",
+                                    icon = "⏱️",
+                                    iconColor = Color(0xFF4CAF50)
+                                )
+
+                                HorizontalDivider(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    color = MaterialTheme.colorScheme.background,
+                                    thickness = 2.dp
+                                )
+
+                                StatCard(
+                                    label = stringResource(R.string.best_performance),
+                                    value = "%.1f kg".format(bestWeight),
+                                    icon = "🏆",
+                                    iconColor = Color(0xFFD77F10)
                                 )
                             }
+                        }
 
-                            HorizontalDivider(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                color = MaterialTheme.colorScheme.background,
-                                thickness = 2.dp
-                            )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+                    else {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = stringResource(R.string.weight),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.secondary,
+                            fontWeight = FontWeight.Bold
+                        )
 
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 12.dp, vertical = 8.dp)
+                        Surface(
+                            modifier = Modifier.fillMaxWidth(),
+                            color = MaterialTheme.colorScheme.surfaceContainer,
+                            shape = RoundedCornerShape(24.dp)
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                                ) {
-                                    Surface(
-                                        shape = MaterialShapes.Cookie9Sided.toShape(),
-                                        color = Color(0xFFD77F10),
-                                        modifier = Modifier.size(32.dp)
-                                    ) {
-                                        Box(contentAlignment = Alignment.Center) {
-                                            Text(text = "🏆", fontSize = 18.sp)
-                                        }
-                                    }
-                                    Spacer(modifier = Modifier.height(12.dp))
-                                    Text(
-                                        text = stringResource(R.string.best_performance),
-                                        style = MaterialTheme.typography.labelMedium,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                }
+                                StatCard(
+                                    label = stringResource(R.string.last_performance),
+                                    value = "${exercise.weight} kg",
+                                    icon = "⏱️",
+                                    iconColor = Color(0xFF4CAF50)
+                                )
 
-                                Text(
-                                    text = "${exercise.weight} kg",
-                                    style = MaterialTheme.typography.labelMedium,
-                                    fontSize = 14.sp
+                                HorizontalDivider(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    color = MaterialTheme.colorScheme.background,
+                                    thickness = 2.dp
+                                )
+
+                                StatCard(
+                                    label = stringResource(R.string.best_performance),
+                                    value = "- kg",
+                                    icon = "🏆",
+                                    iconColor = Color(0xFFD77F10)
                                 )
                             }
                         }
                     }
                 }
+            }
 
+            if (!completedSessions.isNotEmpty()) {
+                item {
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
+
+            item {
+                if (completedSessions.isNotEmpty()) {
+                    Button(
+                        onClick = { onNavigateToStatistics(exercise.id) },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.filledTonalButtonColors()
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = Icons.Rounded.BarChart,
+                                contentDescription = null
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = stringResource(R.string.statistics))
+                        }
+                    }
+                }
+                else {
+                    Surface(
+                        color = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.3f),
+                        shape = RoundedCornerShape(16.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Info,
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp),
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.complete_two_trainings),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                                Text(
+                                    text = stringResource(R.string.to_see_progress),
+                                    style = MaterialTheme.typography.bodySmall,
+                                )
+                            }
+                        }
+                    }
+                }
             }
 
             item {
@@ -381,7 +470,10 @@ fun ExerciseDetail(
                     }
 
                     Button(
-                        onClick = { },
+                        onClick = {
+                            showDeleteDialog = true
+                            trainingToDelete = exercise
+                        },
                         modifier = Modifier
                             .weight(1f)
                             .height(48.dp)
@@ -410,11 +502,24 @@ fun ExerciseDetail(
         EditExerciseDialog(
             exercise = exercise,
             onSave = { updatedExercise ->
-                viewModel.update(updatedExercise)
+                exerciseViewModel.update(updatedExercise)
                 showEditDialog = false
             },
             onDismiss = { showEditDialog = false },
             settings = settings
+        )
+    }
+
+    if (showDeleteDialog) {
+        DeleteExerciseDialog(
+            exercise = trainingToDelete!!,
+            onConfirm = {
+                exerciseViewModel.delete(trainingToDelete!!)
+            },
+            onDismiss = {
+                showDeleteDialog = false
+                trainingToDelete = null
+            }
         )
     }
 }

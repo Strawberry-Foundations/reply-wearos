@@ -17,8 +17,8 @@ android {
         applicationId = "org.strawberryfoundations.reply"
         minSdk = 33
         targetSdk = 36
-        versionCode = 1
-        versionName = "2.0.0-alpha4"
+        versionCode = 2
+        versionName = "2.0.0-beta1"
     }
 
     buildTypes {
@@ -75,6 +75,7 @@ dependencies {
     implementation(libs.wear.compose.navigation)
     implementation(libs.wear.gms.playservices)
     implementation(libs.wear.input)
+    implementation(libs.wear.ongoing)
     implementation(libs.androidx.material3)
 
     // Horologist for correct Compose layout

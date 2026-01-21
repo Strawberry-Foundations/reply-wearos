@@ -1,11 +1,17 @@
-package org.strawberryfoundations.wear.reply.views
+package org.strawberryfoundations.wear.reply.ui.views
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -27,6 +33,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Notes
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialShapes
+import androidx.compose.material3.Surface
+import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -69,28 +81,33 @@ import org.strawberryfoundations.material.symbols.default.Check
 import org.strawberryfoundations.material.symbols.filled.Exercise
 import org.strawberryfoundations.wear.reply.R
 import org.strawberryfoundations.wear.reply.core.AppSettings
-import org.strawberryfoundations.wear.reply.room.ExerciseViewModel
+import org.strawberryfoundations.wear.reply.room.viewmodels.ExerciseViewModel
+import org.strawberryfoundations.wear.reply.room.viewmodels.WorkoutSessionViewModel
 import org.strawberryfoundations.wear.reply.room.entities.ExerciseGroup
+import org.strawberryfoundations.wear.reply.room.entities.SessionStatus
 import org.strawberryfoundations.wear.reply.room.entities.getExerciseGroupEmoji
 import org.strawberryfoundations.wear.reply.room.entities.getExerciseGroupStringResource
-import org.strawberryfoundations.wear.reply.theme.contrastColor
-import org.strawberryfoundations.wear.reply.theme.darkenColor
-import org.strawberryfoundations.wear.reply.theme.hexToColor
+import org.strawberryfoundations.wear.reply.ui.theme.contrastColor
+import org.strawberryfoundations.wear.reply.ui.theme.darkenColor
+import org.strawberryfoundations.wear.reply.ui.theme.hexToColor
 
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun TrainingView(
     viewModel: ExerciseViewModel = viewModel(),
+    sessionViewModel: WorkoutSessionViewModel = viewModel(),
     settings: AppSettings,
     onExerciseClick: (Long) -> Unit,
+    onActiveWorkoutClick: (Long) -> Unit = {},
 ) {
     // Basic variable initialization
     val haptic = LocalHapticFeedback.current
     val exercises by viewModel.trainings.collectAsState()
+    val activeSession by sessionViewModel.activeSession.collectAsState()
     val exercisesUi by viewModel.trainingsUi.collectAsState(initial = emptyList())
     val addTrainingText = stringResource(R.string.add_training)
-    val workoutText = stringResource(R.string.workout)
     val noteText = stringResource(R.string.note)
     val noNoteText = stringResource(R.string.no_note)
     val allText = stringResource(R.string.all)
@@ -165,65 +182,138 @@ fun TrainingView(
             // Title
             item {
                 ListHeader {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = MaterialSymbols.Filled.Exercise,
+                            contentDescription = stringResource(R.string.workout),
+                            modifier = Modifier
+                                .padding(end = 8.dp)
+                                .size(20.dp),
+                            tint = Color(0xFFFFFFFF)
+                        )
+                        Text(
+                            text = stringResource(R.string.workout),
+                            style = MaterialTheme.typography.displayLarge,
+                            color = Color(0xFFFFFFFF),
+                        )
+                    }
+                }
+            }
+
+            // Active workout banner
+            if (activeSession != null && activeSession?.status == SessionStatus.ACTIVE) {
+                item {
+                    val session = activeSession!!
+                    val activeExercise = exercises.firstOrNull { it.id == session.exerciseId }
+
+                    Button(
+                        onClick = {
+                            if (settings.useHapticFeedback) {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            }
+                            onActiveWorkoutClick(session.exerciseId)
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp),
+                        colors = ButtonDefaults.filledTonalButtonColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer
+                        )
                     ) {
                         Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Icon(
-                                imageVector = MaterialSymbols.Filled.Exercise,
-                                contentDescription = workoutText,
-                                modifier = Modifier
-                                    .padding(end = 8.dp)
-                                    .size(20.dp),
-                                tint = Color(0xFFFFFFFF)
-                            )
-                            Text(
-                                text = workoutText,
-                                style = MaterialTheme.typography.displayLarge,
-                                color = Color(0xFFFFFFFF),
-                            )
-                        }
-                        Spacer(modifier = Modifier.padding(4.dp))
-                        
-                        // Category name
-                        Row(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.End
-                        )
-                        {
-                            val selectedGroup = exerciseGroups[selectedGroupIndex]
-                            val categoryText = if (selectedGroup == null) {
-                                "🏋 $allText"
-                            } else {
-                                "${getExerciseGroupEmoji(selectedGroup)} ${getExerciseGroupStringResource(selectedGroup)}"
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Column(
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.active_workout),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                                )
+                                Text(
+                                    text = activeExercise?.name ?: "...",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
                             }
-                            
-                            Text(
-                                text = categoryText,
-                                style = MaterialTheme.typography.displaySmall,
-                                fontSize = 13.sp,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                textAlign = TextAlign.Center
+
+                            val infiniteTransition = rememberInfiniteTransition(label = "infinite rotation")
+                            val rotation by infiniteTransition.animateFloat(
+                                initialValue = 0f,
+                                targetValue = 360f,
+                                animationSpec = infiniteRepeatable(
+                                    animation = tween(3000, easing = LinearEasing),
+                                    repeatMode = RepeatMode.Restart
+                                ),
+                                label = "rotation"
                             )
+
+                            Box(
+                                modifier = Modifier.size(26.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Surface(
+                                    shape = MaterialShapes.Cookie9Sided.toShape(),
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .graphicsLayer {
+                                            rotationZ = rotation
+                                        }
+                                ) {}
+                                Icon(
+                                    imageVector = Icons.Rounded.PlayArrow,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onPrimary,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
+
                         }
                     }
                 }
             }
 
+            item {
+                // Category name
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    val selectedGroup = exerciseGroups[selectedGroupIndex]
+                    val categoryText = if (selectedGroup == null) {
+                        "🏋 $allText"
+                    } else {
+                        "${getExerciseGroupEmoji(selectedGroup)} ${getExerciseGroupStringResource(selectedGroup)}"
+                    }
 
-            item { }
+                    Text(
+                        text = categoryText,
+                        style = MaterialTheme.typography.displaySmall,
+                        fontSize = 13.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+
+            item {
+                Spacer(modifier = Modifier.padding(4.dp))
+            }
 
             // Category filter buttons
             item {
                 FlowRow(
                     modifier = Modifier
                         .fillMaxWidth(0.7f)
-                        .padding(bottom = 12.dp),
+                        .padding(bottom = 12.dp, top = 4.dp),
                     horizontalArrangement = Arrangement.spacedBy(
                         space = 6.dp,
                         alignment = Alignment.CenterHorizontally

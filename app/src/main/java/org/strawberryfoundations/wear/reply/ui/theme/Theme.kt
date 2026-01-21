@@ -1,4 +1,4 @@
-package org.strawberryfoundations.wear.reply.theme
+package org.strawberryfoundations.wear.reply.ui.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext

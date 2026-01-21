@@ -1,4 +1,4 @@
-package org.strawberryfoundations.wear.reply.views
+package org.strawberryfoundations.wear.reply.ui.views
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -63,7 +63,7 @@ import org.strawberryfoundations.material.symbols.filled.Weight
 import org.strawberryfoundations.wear.reply.R
 import org.strawberryfoundations.wear.reply.core.AppSettings
 import org.strawberryfoundations.wear.reply.core.getAppVersion
-import org.strawberryfoundations.wear.reply.composable.WeightStepDialog
+import org.strawberryfoundations.wear.reply.ui.composable.WeightStepDialog
 
 
 @Composable

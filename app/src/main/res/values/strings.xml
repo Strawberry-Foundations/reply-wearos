@@ -50,6 +50,43 @@
     <string name="best_performance">Best</string>
     <string name="alt_name">Alternative name</string>
 
+    <!-- Exercise Statistics -->
+    <string name="last_session">Last Session</string>
+    <string name="average">AVG (Ø)</string>
+    <string name="average_text">Average</string>
+    <string name="trend">Trend</string>
+    <string name="trend_rising">Rising</string>
+    <string name="trend_falling">Falling</string>
+    <string name="trend_stable">Stable</string>
+    <string name="trend_insufficient_data">Insufficient data</string>
+    <string name="total_sessions">Sessions</string>
+    <string name="total">Total</string>
+    <string name="avg_volume">Ø per Session</string>
+    <string name="weight_progress">Weight Progress</string>
+    <string name="volume_progress">Volume Progress</string>
+    <string name="complete_two_trainings">Complete at least 2 trainings</string>
+    <string name="to_see_progress">to see your progress</string>
+    <string name="set">Set</string>
+
+    <!-- Active Exercise Screen -->
+    <string name="s_continue">Continue</string>
+    <string name="pause">Pause</string>
+    <string name="time">Time</string>
+    <string name="sets">Sets</string>
+    <string name="training_time">Training time</string>
+    <string name="current_weight">Current weight</string>
+    <string name="stop_training">Stop training</string>
+    <string name="stop_training_question">Stop training?</string>
+    <string name="stop_training_confirm">Do you really want to stop the training?</string>
+    <string name="stop">Stop</string>
+    <string name="rest">Rest</string>
+    <string name="completed_sets">Completed Sets (%1$d)</string>
+    <string name="no_sets_completed">No sets completed yet</string>
+    <string name="enter_reps">Enter repetitions</string>
+    <string name="how_many_reps">How many repetitions did you do?</string>
+    <string name="confirm">Confirm</string>
+    <string name="reps_unit">reps</string>
+
 
     <!-- Settings Sections -->
     <string name="settings_section_appearance">Appearance</string>
@@ -83,5 +120,16 @@
     <string name="statistics">Statistics</string>
     <string name="workouts">Workouts</string>
     <string name="last_sync">Last sync</string>
+    <string name="workout_in_progress">Training in progress</string>
+    <string name="workout_notifications">Ongoing training</string>
+    <string name="workout_service_desc">Manages your active training session, counts sets, and keeps the timer active in the background.</string>
+    <string name="elapsed_time">Elapsed time</string>
+    <string name="complete_set">Complete set</string>
+    <string name="active_workout">Active workout</string>
+    <string name="sync_confirm_title">Sync?</string>
+    <string name="sync_confirm_data">%1$d exercises\n%2$d sessions</string>
+    <string name="sync_button">Sync</string>
+    <string name="exercises">Exercises</string>
+    <string name="sessions">Sessions</string>
 
 </resources>

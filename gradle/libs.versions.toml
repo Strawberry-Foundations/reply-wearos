@@ -24,6 +24,8 @@ tilesTooling = "1.5.0"
 tilesToolingPreview = "1.5.0"
 horologistTiles = "0.7.15"
 wearInput = "1.2.0"
+wearOngoing = "1.1.0"
+material3 = "1.5.0-alpha12"
 
 
 [libraries]
@@ -61,7 +63,8 @@ wear-compose-material = { module = "androidx.wear.compose:compose-material", ver
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "androidx-wear-compose" }
 wear-compose-navigation = { module = "androidx.wear.compose:compose-navigation", version.ref = "androidx-wear-compose" }
 wear-input = { group = "androidx.wear", name = "wear-input", version.ref = "wearInput" }
-androidx-material3 = { group = "androidx.compose.material3", name = "material3", version = "1.5.0-alpha12" }
+wear-ongoing = { group = "androidx.wear", name = "wear-ongoing", version.ref = "wearOngoing" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3"  }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 wear-gms-playservices = { module = "com.google.android.gms:play-services-wearable", version.ref = "playServicesWearable"}
 tiles = { group = "androidx.wear.tiles", name = "tiles", version.ref = "tiles" }
@@ -75,3 +78,4 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+

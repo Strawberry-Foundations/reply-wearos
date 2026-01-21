@@ -8,14 +8,19 @@ import com.google.android.gms.wearable.Wearable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
+import org.strawberryfoundations.wear.reply.core.model.DbSnapshot
 import org.strawberryfoundations.wear.reply.room.entities.Exercise
+import org.strawberryfoundations.wear.reply.room.entities.WorkoutSession
 import java.io.OutputStream
 
 
 object DataSyncSender {
-    fun sendDbSnapshot(context: Context, trainings: List<Exercise>) {
+    fun sendDbSnapshot(
+        context: Context,
+        exercises: List<Exercise>,
+        workoutSessions: List<WorkoutSession>
+    ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 // Log connected nodes for debugging
@@ -36,7 +41,8 @@ object DataSyncSender {
                         }
                     }
 
-                val json = Json.encodeToString(ListSerializer(Exercise.serializer()), trainings)
+                val snapshot = DbSnapshot(exercises = exercises, workoutSessions = workoutSessions)
+                val json = Json.encodeToString(DbSnapshot.serializer(), snapshot)
                 val bytes = json.toByteArray(Charsets.UTF_8)
                 val asset = Asset.createFromBytes(bytes)
 
@@ -47,7 +53,7 @@ object DataSyncSender {
 
                 Wearable.getDataClient(context).putDataItem(request)
                     .addOnSuccessListener { dataItem ->
-                        Log.i("DataSyncSender", "Successfully sent DB snapshot: $dataItem")
+                        Log.i("DataSyncSender", "Successfully sent DB snapshot: ${exercises.size} exercises, ${workoutSessions.size} sessions")
                     }
                     .addOnFailureListener { e ->
                         Log.w("DataSyncSender", "putDataItem failed, attempting channel fallback", e)
@@ -58,6 +64,12 @@ object DataSyncSender {
                 Log.e("DataSyncSender", "Failed to serialize/send snapshot", e)
             }
         }
+    }
+
+    // Legacy overload for backward compatibility
+    @Deprecated("Use sendDbSnapshot with workoutSessions parameter")
+    fun sendDbSnapshot(context: Context, trainings: List<Exercise>) {
+        sendDbSnapshot(context, trainings, emptyList())
     }
 
     private fun sendViaChannelFallback(context: Context, bytes: ByteArray) {

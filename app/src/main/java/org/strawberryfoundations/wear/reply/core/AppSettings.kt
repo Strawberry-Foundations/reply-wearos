@@ -1,6 +1,7 @@
 package org.strawberryfoundations.wear.reply.core
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
@@ -30,14 +31,18 @@ val Context.dataStore by preferencesDataStore(name = "settings")
 
 class SettingsDataStore(private val context: Context) {
     val settingsFlow: Flow<AppSettings> = context.dataStore.data.map { prefs ->
+        val dynamicColor = prefs[SettingsKeys.DYNAMIC_COLOR]
+        val hapticFeedback = prefs[SettingsKeys.HAPTIC_FEEDBACK]
+        val lastSync = prefs[SettingsKeys.LAST_SYNC]
+        
         AppSettings(
-            useDynamicColors = prefs[SettingsKeys.DYNAMIC_COLOR] != false,
-            useHapticFeedback = prefs[SettingsKeys.HAPTIC_FEEDBACK] == true,
+            useDynamicColors = dynamicColor ?: true,
+            useHapticFeedback = hapticFeedback ?: false,
             weightSteps = prefs[SettingsKeys.WEIGHT_STEPS]
                 ?.split(",")
                 ?.mapNotNull { it.toDoubleOrNull() }
                 ?: listOf(2.5, 5.0, 10.0, 15.0),
-            lastSync = prefs[SettingsKeys.LAST_SYNC] ?: 0
+            lastSync = lastSync ?: 0
         )
     }
 

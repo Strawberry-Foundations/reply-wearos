@@ -13,12 +13,10 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -28,6 +26,7 @@ import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.HorizontalPageIndicator
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.TimeText
+import androidx.wear.compose.material3.dynamicColorScheme
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
@@ -36,14 +35,14 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import kotlinx.coroutines.launch
 import org.strawberryfoundations.wear.reply.core.AppSettings
 import org.strawberryfoundations.wear.reply.core.SettingsDataStore
-import org.strawberryfoundations.wear.reply.room.ExerciseViewModel
-import org.strawberryfoundations.wear.reply.theme.AppTheme
-import org.strawberryfoundations.wear.reply.theme.darkenColor
-import org.strawberryfoundations.wear.reply.theme.hexToColor
-import org.strawberryfoundations.wear.reply.views.DeviceView
-import org.strawberryfoundations.wear.reply.views.ExerciseDetail
-import org.strawberryfoundations.wear.reply.views.SettingsView
-import org.strawberryfoundations.wear.reply.views.TrainingView
+import org.strawberryfoundations.wear.reply.room.viewmodels.ExerciseViewModel
+import org.strawberryfoundations.wear.reply.ui.theme.AppTheme
+import org.strawberryfoundations.wear.reply.ui.views.DeviceView
+import org.strawberryfoundations.wear.reply.ui.views.ExerciseDetail
+import org.strawberryfoundations.wear.reply.ui.views.ExerciseStatistics
+import org.strawberryfoundations.wear.reply.ui.views.SettingsView
+import org.strawberryfoundations.wear.reply.ui.views.TrainingView
+import org.strawberryfoundations.wear.reply.ui.views.WearActiveExerciseScreen
 
 
 // Class: MainActivity
@@ -62,14 +61,26 @@ class MainActivity : ComponentActivity() {
 }
 
 // Composable: MainViewWithPersistence
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MainViewWithPersistence(appSettings: SettingsDataStore) {
-    val settings by appSettings.settingsFlow.collectAsState(initial = AppSettings())
+    val settingsState = appSettings.settingsFlow.collectAsState(initial = null)
     val scope = rememberCoroutineScope()
 
-    AppTheme(dynamicColor = settings.useDynamicColors) {
+    // Wait for settings to load from DataStore before rendering
+    if (settingsState.value == null) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            ContainedLoadingIndicator(
+                containerColor = dynamicColorScheme(LocalContext.current)?.onPrimaryContainer ?: MaterialTheme.colorScheme.onPrimaryContainer,
+                indicatorColor = dynamicColorScheme(LocalContext.current)?.onPrimary ?: MaterialTheme.colorScheme.onPrimary,
+            )
+        }
+        return
+    }
+
+    AppTheme(dynamicColor = settingsState.value!!.useDynamicColors) {
         MainView(
-            settings = settings,
+            settingsState = settingsState,
             onSettingsChange = { update ->
                 scope.launch {
                     appSettings.updateSettings(update)
@@ -83,7 +94,7 @@ fun MainViewWithPersistence(appSettings: SettingsDataStore) {
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MainView(
-    settings: AppSettings,
+    settingsState: androidx.compose.runtime.State<AppSettings?>,
     onSettingsChange: (AppSettings.() -> AppSettings) -> Unit,
     viewModel: ExerciseViewModel = viewModel(),
 ) {
@@ -109,6 +120,7 @@ fun MainView(
                             .fillMaxSize()
                     ) {
                         // Main pages
+                        val settings = settingsState.value!!
                         when (page) {
                             0 -> DeviceView(
                                 settings = settings
@@ -117,6 +129,9 @@ fun MainView(
                                 settings = settings,
                                 onExerciseClick = { exerciseId ->
                                     navController.navigate("exerciseDetail/$exerciseId")
+                                },
+                                onActiveWorkoutClick = { exerciseId ->
+                                    navController.navigate("activeExercise/$exerciseId")
                                 }
                             )
                             2 -> SettingsView(
@@ -143,11 +158,6 @@ fun MainView(
                 val trainings by viewModel.trainings.collectAsState()
                 val exercise = trainings.firstOrNull { it.id == exerciseId }
 
-                val cardColor = darkenColor(hexToColor(exercise?.color ?: ""), 0.55f)
-                val textColor = remember(cardColor) {
-                    if (cardColor.luminance() > 0.55f) Color.Black else Color.White
-                }
-
                 if (exercise == null) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         ContainedLoadingIndicator(
@@ -158,17 +168,44 @@ fun MainView(
                     return@composable
                 }
 
+                val settings = settingsState.value!!
+
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
                     ExerciseDetail(
                         exercise = exercise,
-                        onStartTraining = {},
-                        onBack = {},
+                        onStartTraining = { exerciseToStart ->
+                            navController.navigate("activeExercise/${exerciseToStart.id}")
+                        },
+                        onNavigateToStatistics = { statsExerciseId ->
+                            navController.navigate("exerciseStatistics/$statsExerciseId")
+                        },
                         settings = settings,
                     )
                 }
+            }
+
+            composable(
+                route = "exerciseStatistics/{exerciseId}",
+                arguments = listOf(navArgument("exerciseId") { type = NavType.LongType })
+            ) { backStackEntry ->
+                val exerciseId = backStackEntry.arguments?.getLong("exerciseId") ?: return@composable
+                ExerciseStatistics(exerciseId = exerciseId)
+            }
+
+            composable(
+                route = "activeExercise/{exerciseId}",
+                arguments = listOf(navArgument("exerciseId") { type = NavType.LongType })
+            ) { backStackEntry ->
+                val exerciseId = backStackEntry.arguments?.getLong("exerciseId") ?: return@composable
+                val settings = settingsState.value!!
+                WearActiveExerciseScreen(
+                    exerciseId = exerciseId,
+                    settings = settings,
+                    onComplete = { navController.popBackStack() }
+                )
             }
         }
     }

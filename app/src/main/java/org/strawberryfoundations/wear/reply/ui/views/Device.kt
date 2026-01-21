@@ -1,7 +1,8 @@
-package org.strawberryfoundations.wear.reply.views
+package org.strawberryfoundations.wear.reply.ui.views
 
 import android.os.Build
 import android.provider.Settings
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,7 +18,10 @@ import androidx.compose.material.icons.rounded.Sync
 import androidx.compose.material.icons.rounded.Watch
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -46,7 +50,10 @@ import org.strawberryfoundations.material.symbols.MaterialSymbols
 import org.strawberryfoundations.material.symbols.filled.DevicesWearables
 import org.strawberryfoundations.wear.reply.R
 import org.strawberryfoundations.wear.reply.core.AppSettings
-import org.strawberryfoundations.wear.reply.room.ExerciseViewModel
+import org.strawberryfoundations.wear.reply.room.viewmodels.ExerciseViewModel
+import org.strawberryfoundations.wear.reply.room.viewmodels.WorkoutSessionViewModel
+import org.strawberryfoundations.wear.reply.sync.DataSyncSender
+import org.strawberryfoundations.wear.reply.ui.composable.SyncConfirmDialog
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -56,6 +63,7 @@ import java.util.Locale
 fun DeviceView(
     settings: AppSettings,
     viewModel: ExerciseViewModel = viewModel(),
+    sessionViewModel: WorkoutSessionViewModel = viewModel(),
 ) {
     val listState = rememberScalingLazyListState()
     remember { FocusRequester() }
@@ -72,6 +80,8 @@ fun DeviceView(
     }
 
     val workoutCount = viewModel.trainings.collectAsState().value.size
+    val allSessions by sessionViewModel.allSessions.collectAsState()
+    var showSyncConfirmDialog by remember { mutableStateOf(false) }
 
     val rotaryFocusRequester = remember { FocusRequester() }
     ScreenScaffold(
@@ -79,7 +89,8 @@ fun DeviceView(
         edgeButton = {
             EdgeButton(
                 onClick = {
-                    if (settings.useHapticFeedback) haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    if (settings.useHapticFeedback) haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                    showSyncConfirmDialog = true
                 },
                 buttonSize = EdgeButtonSize.Large,
             ) {
@@ -228,5 +239,27 @@ fun DeviceView(
                 }
             }
         }
+    }
+
+    if (showSyncConfirmDialog) {
+        SyncConfirmDialog(
+            exerciseCount = viewModel.trainings.collectAsState().value.size,
+            sessionCount = allSessions.size,
+            onConfirm = {
+                val exercises = viewModel.trainings.value
+                if (exercises.isNotEmpty() || allSessions.isNotEmpty()) {
+                    DataSyncSender.sendDbSnapshot(context, exercises, allSessions)
+                    Toast.makeText(
+                        context,
+                        "${exercises.size} Übungen, ${allSessions.size} Sessions synchronisiert",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(context, "Keine Daten zum Synchronisieren", Toast.LENGTH_SHORT).show()
+                }
+                showSyncConfirmDialog = false
+            },
+            onDismiss = { showSyncConfirmDialog = false }
+        )
     }
 }

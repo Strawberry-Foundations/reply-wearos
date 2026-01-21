@@ -12,13 +12,16 @@ import com.google.android.gms.wearable.Wearable
 import com.google.android.gms.wearable.WearableListenerService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import org.strawberryfoundations.wear.reply.room.entities.Exercise
 import org.strawberryfoundations.wear.reply.room.AppDatabase
 import org.strawberryfoundations.wear.reply.core.SettingsDataStore
+import org.strawberryfoundations.wear.reply.core.model.DbSnapshot
 import java.io.InputStream
+import androidx.core.net.toUri
 
 
 class SyncListenerService : WearableListenerService() {
@@ -64,15 +67,25 @@ class SyncListenerService : WearableListenerService() {
     private suspend fun processJsonAndStore(json: String) {
         withContext(Dispatchers.IO) {
             try {
-                val list: List<Exercise> = Json.decodeFromString(json)
+                val snapshot: DbSnapshot = try {
+                    Json.decodeFromString(json)
+                } catch (e: Exception) {
+                    // Fallback for legacy format (List<Exercise>)
+                    val list: List<Exercise> = Json.decodeFromString(json)
+                    DbSnapshot(exercises = list, workoutSessions = emptyList())
+                }
+
                 val db = AppDatabase.getInstance(applicationContext)
                 db.withTransaction {
                     val dao = db.trainingDao()
                     try {
-                        dao.insertAll(list)
+                        dao.insertAll(snapshot.exercises)
                     } catch (_: Exception) {
-                        list.forEach { t -> dao.insert(t) }
+                        snapshot.exercises.forEach { t -> dao.insert(t) }
                     }
+
+                    val sessionDao = db.workoutSessionDao()
+                    snapshot.workoutSessions.forEach { s -> sessionDao.insert(s) }
                 }
                 try {
                     val settings = SettingsDataStore(applicationContext)
@@ -80,7 +93,7 @@ class SyncListenerService : WearableListenerService() {
                 } catch (e: Exception) {
                     Log.w("SyncListenerService", "Failed to update last sync setting", e)
                 }
-                Log.i("SyncListenerService", "Applied ${list.size} trainings from sync")
+                Log.i("SyncListenerService", "Applied ${snapshot.exercises.size} exercises and ${snapshot.workoutSessions.size} sessions from sync")
             } catch (e: Exception) {
                 Log.e("SyncListenerService", "Failed to parse/store snapshot", e)
             }
@@ -119,9 +132,25 @@ class SyncListenerService : WearableListenerService() {
     override fun onMessageReceived(messageEvent: MessageEvent) {
         try {
             Log.i("SyncListenerService", "onMessageReceived: ${messageEvent.path}")
+
+            if (messageEvent.path == "/request-sync") {
+                Log.i("SyncListenerService", "Received sync request from phone, sending data...")
+                scope.launch {
+                    try {
+                        val db = AppDatabase.getInstance(applicationContext)
+                        val exercises = db.trainingDao().getAll().first()
+                        val sessions = db.workoutSessionDao().getAll().first()
+
+                        DataSyncSenderFromWearable.sendDbSnapshot(applicationContext, exercises, sessions)
+                        Log.i("SyncListenerService", "Sent ${exercises.size} exercises and ${sessions.size} sessions to phone")
+                    } catch (e: Exception) {
+                        Log.e("SyncListenerService", "Failed to send data to phone", e)
+                    }
+                }
+            }
+
             if (messageEvent.path == "/sync/notify") {
-                // Try to explicitly fetch the DataItem (in case notification is used to wake the app)
-                val uri = Uri.parse("wear://*/db-sync")
+                val uri = "wear://*/db-sync".toUri()
                 Wearable.getDataClient(this).getDataItems(uri).addOnSuccessListener { dataItems ->
                     for (item in dataItems) {
                         val path = item.uri.path

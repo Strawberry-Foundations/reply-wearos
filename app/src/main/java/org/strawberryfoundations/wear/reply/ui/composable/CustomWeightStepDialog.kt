@@ -1,4 +1,4 @@
-package org.strawberryfoundations.wear.reply.composable
+package org.strawberryfoundations.wear.reply.ui.composable
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

@@ -1,4 +1,4 @@
-package org.strawberryfoundations.wear.reply.theme
+package org.strawberryfoundations.wear.reply.ui.theme
 
 import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt

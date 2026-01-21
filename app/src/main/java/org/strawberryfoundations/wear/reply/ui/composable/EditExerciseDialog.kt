@@ -1,4 +1,4 @@
-package org.strawberryfoundations.wear.reply.composable
+package org.strawberryfoundations.wear.reply.ui.composable
 
 import android.app.RemoteInput
 import android.content.Intent
@@ -25,6 +25,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.icons.rounded.Save
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -52,23 +54,21 @@ import androidx.wear.compose.foundation.rotary.rotaryScrollable
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.Card
-import androidx.wear.compose.material3.CompactButton
 import androidx.wear.compose.material3.Dialog
 import androidx.wear.compose.material3.EdgeButton
+import androidx.wear.compose.material3.EdgeButtonSize
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButton
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import androidx.wear.input.RemoteInputIntentHelper
-import org.strawberryfoundations.material.symbols.MaterialSymbols
-import org.strawberryfoundations.material.symbols.default.Check
 import org.strawberryfoundations.wear.reply.R
 import org.strawberryfoundations.wear.reply.core.AppSettings
 import org.strawberryfoundations.wear.reply.room.entities.Exercise
 import org.strawberryfoundations.wear.reply.room.entities.ExerciseGroup
 import org.strawberryfoundations.wear.reply.room.entities.getExerciseGroupEmoji
-import org.strawberryfoundations.wear.reply.theme.hexToColor
+import org.strawberryfoundations.wear.reply.ui.theme.hexToColor
 
 private const val KEY_NAME_INPUT = "name_input"
 private const val KEY_ALT_NAME_INPUT = "alt_name_input"
@@ -144,9 +144,23 @@ fun EditExerciseDialog(
                             note = note, weight = weight, group = selectedGroup
                         ))
                         isVisible = false
-                    }
+                    },
+                    buttonSize = EdgeButtonSize.Large,
                 ) {
-                    Icon(MaterialSymbols.Default.Check, contentDescription = stringResource(R.string.save))
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = stringResource(R.string.save),
+                            style = MaterialTheme.typography.displayMedium,
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Icon(
+                            imageVector = Icons.Rounded.Save,
+                            contentDescription = stringResource(R.string.save)
+                        )
+                    }
                 }
             }
         ) { paddingValues ->
@@ -157,7 +171,10 @@ fun EditExerciseDialog(
                     .fillMaxSize()
                     .focusRequester(rotaryFocusRequester)
                     .requestFocusOnHierarchyActive()
-                    .rotaryScrollable(RotaryScrollableDefaults.behavior(listState), rotaryFocusRequester),
+                    .rotaryScrollable(
+                        RotaryScrollableDefaults.behavior(listState),
+                        rotaryFocusRequester
+                    ),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(6.dp),
                 autoCentering = null,
@@ -165,12 +182,27 @@ fun EditExerciseDialog(
                 item { Spacer(Modifier.height(8.dp)) }
 
                 item {
-                    Text(
-                        text = stringResource(R.string.edit),
-                        style = MaterialTheme.typography.displayMedium,
-                        fontSize = 17.sp,
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Edit,
+                            contentDescription = stringResource(R.string.edit),
+                            modifier = Modifier.size(18.dp)
+                        )
+
+                        Spacer(modifier = Modifier.width(8.dp))
+
+                        Text(
+                            text = stringResource(R.string.edit),
+                            style = MaterialTheme.typography.displayLarge,
+                        )
+                    }
                 }
+
+                item { Spacer(Modifier.height(4.dp)) }
 
                 // Weight
                 item {
@@ -191,7 +223,7 @@ fun EditExerciseDialog(
                             Text(
                                 text = "%.1f ${exercise.weightUnit}".format(weight ?: 0.0),
                                 style = MaterialTheme.typography.displayMedium,
-                                fontSize = 18.sp
+                                fontSize = 20.sp
                             )
                         }
                     }
@@ -472,7 +504,7 @@ fun EditExerciseDialog(
                     }
                 }
 
-                // Cancel
+                /* Cancel
                 item {
                     CompactButton(
                         onClick = {
@@ -488,7 +520,7 @@ fun EditExerciseDialog(
                     }
                 }
 
-                item { Spacer(Modifier.height(24.dp)) }
+                item { Spacer(Modifier.height(24.dp)) }*/
             }
         }
     }

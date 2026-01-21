@@ -1,4 +1,4 @@
-package org.strawberryfoundations.wear.reply.theme.font
+package org.strawberryfoundations.wear.reply.ui.theme.font
 
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
@@ -60,7 +60,7 @@ class GoogleSansFlex {
                 variationSettings = FontVariation.Settings(
                     settings = arrayOf(
                         FontVariation.weight(1000),
-                        FontVariation.width(110f),
+                        FontVariation.width(105f),
                         FontVariation.grade(0),
                         FontVariation.Setting("ROND", 100f)
                     )

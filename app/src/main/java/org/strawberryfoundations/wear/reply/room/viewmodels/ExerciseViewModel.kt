@@ -1,4 +1,4 @@
-package org.strawberryfoundations.wear.reply.room
+package org.strawberryfoundations.wear.reply.room.viewmodels
 
 import android.app.Application
 import androidx.compose.ui.graphics.Color
@@ -9,10 +9,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.strawberryfoundations.wear.reply.room.AppDatabase
 import org.strawberryfoundations.wear.reply.room.entities.Exercise
-import org.strawberryfoundations.wear.reply.theme.contrastColor
-import org.strawberryfoundations.wear.reply.theme.darkenColor
-import org.strawberryfoundations.wear.reply.theme.hexToColor
+import org.strawberryfoundations.wear.reply.ui.theme.contrastColor
+import org.strawberryfoundations.wear.reply.ui.theme.darkenColor
+import org.strawberryfoundations.wear.reply.ui.theme.hexToColor
 
 
 data class ExerciseUi(
@@ -25,7 +26,7 @@ data class ExerciseUi(
 
 
 class ExerciseViewModel(application: Application): AndroidViewModel(application) {
-    private val dao = AppDatabase.getInstance(application).trainingDao()
+    private val dao = AppDatabase.Companion.getInstance(application).trainingDao()
 
     val trainings: StateFlow<List<Exercise>> = dao.getAll()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
