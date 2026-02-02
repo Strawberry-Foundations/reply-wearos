@@ -26,14 +26,13 @@ object DataSyncSenderFromWearable {
                 val bytes = json.toByteArray(Charsets.UTF_8)
                 val asset = Asset.createFromBytes(bytes)
 
-                // WICHTIG: Verwende /db-sync-from-wearable statt /db-sync
                 val putDataMapReq = PutDataMapRequest.create("/db-sync-from-wearable")
                 putDataMapReq.dataMap.putLong("syncTime", System.currentTimeMillis())
                 putDataMapReq.dataMap.putAsset("dbAsset", asset)
                 val request = putDataMapReq.asPutDataRequest().setUrgent()
 
                 Wearable.getDataClient(context).putDataItem(request)
-                    .addOnSuccessListener { dataItem ->
+                    .addOnSuccessListener { _ ->
                         Log.i("DataSyncSenderFromWearable", "Successfully sent DB snapshot to phone: ${exercises.size} exercises, ${workoutSessions.size} sessions")
                     }
                     .addOnFailureListener { e ->

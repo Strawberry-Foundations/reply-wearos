@@ -1,7 +1,7 @@
 package org.strawberryfoundations.wear.reply.sync
 
-import android.net.Uri
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.room.withTransaction
 import com.google.android.gms.wearable.ChannelClient
 import com.google.android.gms.wearable.DataEvent
@@ -16,12 +16,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import org.strawberryfoundations.wear.reply.room.entities.Exercise
-import org.strawberryfoundations.wear.reply.room.AppDatabase
 import org.strawberryfoundations.wear.reply.core.SettingsDataStore
 import org.strawberryfoundations.wear.reply.core.model.DbSnapshot
+import org.strawberryfoundations.wear.reply.room.AppDatabase
+import org.strawberryfoundations.wear.reply.room.entities.Exercise
 import java.io.InputStream
-import androidx.core.net.toUri
 
 
 class SyncListenerService : WearableListenerService() {
@@ -69,7 +68,7 @@ class SyncListenerService : WearableListenerService() {
             try {
                 val snapshot: DbSnapshot = try {
                     Json.decodeFromString(json)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     // Fallback for legacy format (List<Exercise>)
                     val list: List<Exercise> = Json.decodeFromString(json)
                     DbSnapshot(exercises = list, workoutSessions = emptyList())

@@ -30,8 +30,6 @@ import androidx.wear.compose.material3.Dialog
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
-import org.strawberryfoundations.material.symbols.MaterialSymbols
-import org.strawberryfoundations.material.symbols.outlined.Delete
 import org.strawberryfoundations.wear.reply.R
 
 @Composable

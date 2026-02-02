@@ -52,7 +52,7 @@ object DataSyncSender {
                 val request = putDataMapReq.asPutDataRequest().setUrgent()
 
                 Wearable.getDataClient(context).putDataItem(request)
-                    .addOnSuccessListener { dataItem ->
+                    .addOnSuccessListener { _ ->
                         Log.i("DataSyncSender", "Successfully sent DB snapshot: ${exercises.size} exercises, ${workoutSessions.size} sessions")
                     }
                     .addOnFailureListener { e ->

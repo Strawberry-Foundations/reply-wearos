@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Vibration
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Newspaper
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.TouchApp
 import androidx.compose.runtime.Composable
@@ -69,7 +70,8 @@ import org.strawberryfoundations.wear.reply.ui.composable.WeightStepDialog
 @Composable
 fun SettingsView(
     settings: AppSettings,
-    onSettingsChange: (AppSettings.() -> AppSettings) -> Unit
+    onSettingsChange: (AppSettings.() -> AppSettings) -> Unit,
+    onNavigateToChangelog: () -> Unit,
 ) {
     val listState = rememberScalingLazyListState()
     val rotaryFocusRequester = remember { FocusRequester() }
@@ -443,6 +445,33 @@ fun SettingsView(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
                     )
+                }
+            }
+
+            item {
+                Button(
+                    onClick = {
+                        if (settings.useHapticFeedback) {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        }
+                        onNavigateToChangelog()
+
+                              },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.filledTonalButtonColors()
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Newspaper,
+                            contentDescription = null
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = stringResource(R.string.whats_new))
+                    }
                 }
             }
         }

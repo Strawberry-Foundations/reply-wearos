@@ -1,17 +1,15 @@
 package org.strawberryfoundations.wear.reply.ui.theme
 
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.foundation.CurvedTextStyle
 import androidx.wear.compose.material3.Typography
-import org.strawberryfoundations.wear.reply.ui.theme.font.CustomFont
 import org.strawberryfoundations.wear.reply.ui.theme.font.GoogleSansCode
 import org.strawberryfoundations.wear.reply.ui.theme.font.GoogleSansFlex
 
 val googleSansFlex = GoogleSansFlex()
 val googleSansCode = GoogleSansCode()
-val customFont = CustomFont()
+//val customFont = CustomFont()
 
 
 val Typography = Typography(
@@ -106,13 +104,3 @@ val Typography = Typography(
         letterSpacing = 0.sp,
     )
 )
-
-fun ascenderHeight(ascenderHeight: Float): FontVariation.Setting {
-    require(ascenderHeight in 649f..854f) { "'Ascender Height' must be in 649f..854f" }
-    return FontVariation.Setting("YTAS", ascenderHeight)
-}
-
-fun counterWidth(counterWidth: Int): FontVariation.Setting {
-    require(counterWidth in 323..603) { "'Counter width' must be in 323..603" }
-    return FontVariation.Setting("XTRA", counterWidth.toFloat())
-}

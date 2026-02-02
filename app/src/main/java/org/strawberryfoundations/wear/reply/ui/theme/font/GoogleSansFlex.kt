@@ -11,16 +11,12 @@ class GoogleSansFlex {
         const val WEIGHT = 950
         const val WIDTH = 120f
         const val SLANT = 0f
-        const val ASCENDER_HEIGHT = 800f
-        const val COUNTER_WIDTH = 500
     }
 
     object HeadlineSmallVFConfig {
         const val WEIGHT = 1000
         const val WIDTH = 120f
         const val SLANT = 0f
-        const val ASCENDER_HEIGHT = 800f
-        const val COUNTER_WIDTH = 515
     }
 
     @OptIn(ExperimentalTextApi::class)

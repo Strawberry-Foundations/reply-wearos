@@ -37,6 +37,7 @@ import org.strawberryfoundations.wear.reply.core.AppSettings
 import org.strawberryfoundations.wear.reply.core.SettingsDataStore
 import org.strawberryfoundations.wear.reply.room.viewmodels.ExerciseViewModel
 import org.strawberryfoundations.wear.reply.ui.theme.AppTheme
+import org.strawberryfoundations.wear.reply.ui.views.ChangelogView
 import org.strawberryfoundations.wear.reply.ui.views.DeviceView
 import org.strawberryfoundations.wear.reply.ui.views.ExerciseDetail
 import org.strawberryfoundations.wear.reply.ui.views.ExerciseStatistics
@@ -136,7 +137,10 @@ fun MainView(
                             )
                             2 -> SettingsView(
                                 settings = settings,
-                                onSettingsChange = onSettingsChange
+                                onSettingsChange = onSettingsChange,
+                                onNavigateToChangelog = {
+                                    navController.navigate("changelog")
+                                }
                             )
                         }
                     }
@@ -187,6 +191,7 @@ fun MainView(
                 }
             }
 
+            // Navigation Route: exerciseStatistics/{exerciseId}
             composable(
                 route = "exerciseStatistics/{exerciseId}",
                 arguments = listOf(navArgument("exerciseId") { type = NavType.LongType })
@@ -195,6 +200,7 @@ fun MainView(
                 ExerciseStatistics(exerciseId = exerciseId)
             }
 
+            // Navigation Route: activeExercise/{exerciseId}
             composable(
                 route = "activeExercise/{exerciseId}",
                 arguments = listOf(navArgument("exerciseId") { type = NavType.LongType })
@@ -206,6 +212,11 @@ fun MainView(
                     settings = settings,
                     onComplete = { navController.popBackStack() }
                 )
+            }
+
+            // Navigation Route: changelog
+            composable(route = "changelog") {
+                ChangelogView()
             }
         }
     }
@@ -248,7 +259,8 @@ fun SettingsViewPreview() {
     AppTheme {
         SettingsView(
             settings = previewSettings,
-            onSettingsChange = {}
+            onSettingsChange = {},
+            onNavigateToChangelog = {}
         )
     }
 }

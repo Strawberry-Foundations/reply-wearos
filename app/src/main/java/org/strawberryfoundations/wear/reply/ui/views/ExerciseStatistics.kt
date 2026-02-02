@@ -1,6 +1,5 @@
 package org.strawberryfoundations.wear.reply.ui.views
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,7 +26,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
@@ -39,13 +37,11 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import kotlinx.serialization.json.Json
-import org.strawberryfoundations.material.symbols.MaterialSymbols
-import org.strawberryfoundations.material.symbols.filled.Exercise
-import org.strawberryfoundations.wear.reply.ui.composable.ExerciseProgressGraph
 import org.strawberryfoundations.wear.reply.R
 import org.strawberryfoundations.wear.reply.room.entities.SessionStatus
 import org.strawberryfoundations.wear.reply.room.entities.WorkoutSet
 import org.strawberryfoundations.wear.reply.room.viewmodels.WorkoutSessionViewModel
+import org.strawberryfoundations.wear.reply.ui.composable.ExerciseProgressGraph
 import org.strawberryfoundations.wear.reply.ui.composable.ExerciseVolumeGraph
 import org.strawberryfoundations.wear.reply.ui.composable.StatCard
 
@@ -69,7 +65,7 @@ fun ExerciseStatistics(
     val totalVolume = completedSessions.sumOf { session ->
         val sets = try {
             Json.decodeFromString<List<WorkoutSet>>(session.setsHistory)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             emptyList()
         }
         sets.sumOf { workoutSet ->

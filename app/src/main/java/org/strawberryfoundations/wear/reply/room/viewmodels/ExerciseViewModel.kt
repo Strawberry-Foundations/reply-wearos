@@ -26,7 +26,7 @@ data class ExerciseUi(
 
 
 class ExerciseViewModel(application: Application): AndroidViewModel(application) {
-    private val dao = AppDatabase.Companion.getInstance(application).trainingDao()
+    private val dao = AppDatabase.getInstance(application).trainingDao()
 
     val trainings: StateFlow<List<Exercise>> = dao.getAll()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())

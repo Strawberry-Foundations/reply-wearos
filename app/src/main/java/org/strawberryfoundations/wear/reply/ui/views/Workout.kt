@@ -34,7 +34,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Notes
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.PlayArrow
-import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.Surface
@@ -81,12 +80,12 @@ import org.strawberryfoundations.material.symbols.default.Check
 import org.strawberryfoundations.material.symbols.filled.Exercise
 import org.strawberryfoundations.wear.reply.R
 import org.strawberryfoundations.wear.reply.core.AppSettings
-import org.strawberryfoundations.wear.reply.room.viewmodels.ExerciseViewModel
-import org.strawberryfoundations.wear.reply.room.viewmodels.WorkoutSessionViewModel
 import org.strawberryfoundations.wear.reply.room.entities.ExerciseGroup
 import org.strawberryfoundations.wear.reply.room.entities.SessionStatus
 import org.strawberryfoundations.wear.reply.room.entities.getExerciseGroupEmoji
 import org.strawberryfoundations.wear.reply.room.entities.getExerciseGroupStringResource
+import org.strawberryfoundations.wear.reply.room.viewmodels.ExerciseViewModel
+import org.strawberryfoundations.wear.reply.room.viewmodels.WorkoutSessionViewModel
 import org.strawberryfoundations.wear.reply.ui.theme.contrastColor
 import org.strawberryfoundations.wear.reply.ui.theme.darkenColor
 import org.strawberryfoundations.wear.reply.ui.theme.hexToColor

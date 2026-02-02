@@ -15,10 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Stop
@@ -57,7 +55,6 @@ import androidx.wear.compose.foundation.rotary.rotaryScrollable
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ButtonGroup
-import androidx.wear.compose.material3.FilledTonalButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButton
 import androidx.wear.compose.material3.MaterialTheme
@@ -67,10 +64,7 @@ import kotlinx.coroutines.delay
 import kotlinx.serialization.json.Json
 import org.strawberryfoundations.material.symbols.MaterialSymbols
 import org.strawberryfoundations.material.symbols.default.Check
-import org.strawberryfoundations.material.symbols.outlined.Delete
-import org.strawberryfoundations.material.symbols.outlined.Edit
 import org.strawberryfoundations.wear.reply.R
-import org.strawberryfoundations.wear.reply.ui.composable.RepsInputDialog
 import org.strawberryfoundations.wear.reply.core.AppSettings
 import org.strawberryfoundations.wear.reply.room.entities.SessionStatus
 import org.strawberryfoundations.wear.reply.room.entities.WorkoutSet
@@ -78,6 +72,7 @@ import org.strawberryfoundations.wear.reply.room.entities.getExerciseGroupEmoji
 import org.strawberryfoundations.wear.reply.room.viewmodels.ExerciseViewModel
 import org.strawberryfoundations.wear.reply.room.viewmodels.WorkoutSessionViewModel
 import org.strawberryfoundations.wear.reply.services.WorkoutService
+import org.strawberryfoundations.wear.reply.ui.composable.RepsInputDialog
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable

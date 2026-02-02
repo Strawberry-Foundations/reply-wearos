@@ -23,15 +23,12 @@ import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.primaryLayout
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.material3.textEdgeButton
-import androidx.wear.protolayout.modifiers.clickable
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders
-import androidx.wear.tiles.tooling.preview.TilePreviewData
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.tiles.SuspendingTileService
 import org.strawberryfoundations.wear.reply.R
-import java.util.Locale
 
 private const val RESOURCES_VERSION = "1"
 private const val ICON_ID = "ic_workout"
@@ -134,13 +131,13 @@ object ReplyTileRenderer {
     fun resources(context: Context): ResourceBuilders.Resources {
         return ResourceBuilders.Resources.Builder()
             .setVersion(RESOURCES_VERSION)
-            // Hier verknüpfst du die ID mit deinem Hantel-Icon
+
             .addIdToImageMapping(
                 ICON_ID,
                 ResourceBuilders.ImageResource.Builder()
                     .setAndroidResourceByResId(
                         ResourceBuilders.AndroidImageResourceByResId.Builder()
-                            .setResourceId(R.drawable.ic_launcher) // Prüfe diesen Namen!
+                            .setResourceId(R.drawable.ic_launcher)
                             .build()
                     ).build()
             ).build()
