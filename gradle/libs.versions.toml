@@ -3,7 +3,6 @@
 agp = "9.0.0"
 kotlin = "2.3.0"
 ksp = "2.3.2"
-kapt = "2.3.0"
 
 # Compose
 composeBom = "2026.01.01"
@@ -115,5 +114,5 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kapt" }
+kapt = { id = "org.jetbrains.kotlin.kapt" }
 
