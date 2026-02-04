@@ -13,6 +13,7 @@ object Changelog {
             date = "Feb 4, 2026",
             changes = listOf(
                 "Replaced static translations on device sync page",
+                "Fixed text alignment in exercise statistics when having insufficient data"
             )
         ),
         ChangelogEntry(
