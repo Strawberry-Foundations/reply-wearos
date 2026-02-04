@@ -431,7 +431,7 @@ fun WearActiveExerciseScreen(
                 val session = activeSession ?: return@RepsInputDialog
                 val sets = try {
                     Json.decodeFromString<List<WorkoutSet>>(session.setsHistory)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     emptyList()
                 }
                 val newSet = WorkoutSet(

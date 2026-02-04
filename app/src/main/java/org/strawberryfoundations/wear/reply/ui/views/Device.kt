@@ -242,20 +242,23 @@ fun DeviceView(
     }
 
     if (showSyncConfirmDialog) {
+        val exercises = viewModel.trainings.collectAsState().value
+        val toastTextSuccess = stringResource(R.string.toast_sync_success, exercises.size, allSessions.size)
+        val toastTextFailed = stringResource(R.string.toast_sync_failed)
+
         SyncConfirmDialog(
             exerciseCount = viewModel.trainings.collectAsState().value.size,
             sessionCount = allSessions.size,
             onConfirm = {
-                val exercises = viewModel.trainings.value
                 if (exercises.isNotEmpty() || allSessions.isNotEmpty()) {
                     DataSyncSender.sendDbSnapshot(context, exercises, allSessions)
                     Toast.makeText(
                         context,
-                        "${exercises.size} Übungen, ${allSessions.size} Sessions synchronisiert",
+                        toastTextSuccess,
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    Toast.makeText(context, "Keine Daten zum Synchronisieren", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, toastTextFailed, Toast.LENGTH_SHORT).show()
                 }
                 showSyncConfirmDialog = false
             },

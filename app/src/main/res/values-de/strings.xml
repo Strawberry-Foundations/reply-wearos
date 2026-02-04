@@ -16,6 +16,8 @@
     <string name="edit">Bearbeiten</string>
     <string name="invalid">Ungültig</string>
     <string name="never">Nie</string>
+    <string name="exercises">Übungen</string>
+    <string name="sessions">Sessions</string>
 
     <string name="name">Name</string>
     <string name="color">Farbe</string>
@@ -108,7 +110,7 @@
     <string name="about_all_rights_reserved">Alle Rechte vorbehalten. Ein Projekt von Strawberry Foundations</string>
 
     <string name="reset_settings">Einstellungen zurücksetzen</string>
-
+    <string name="whats_new">Was ist neu?</string>
 
     <!-- Profile Page -->
     <string name="local_device">Lokales Gerät</string>
@@ -125,7 +127,6 @@
     <string name="sync_confirm_title">Synchronisieren?</string>
     <string name="sync_confirm_data">%1$d Übungen\n%2$d Sessions</string>
     <string name="sync_button">Sync</string>
-    <string name="exercises">Übungen</string>
-    <string name="sessions">Sessions</string>
-    <string name="whats_new">Was ist neu?</string>
+    <string name="toast_sync_success">%1$d Übungen, %2$d Sessions synchronisiert</string>
+    <string name="toast_sync_failed">Keine Daten zum Synchronisieren</string>
 </resources>

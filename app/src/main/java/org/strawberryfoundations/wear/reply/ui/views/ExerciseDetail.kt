@@ -92,15 +92,13 @@ fun ExerciseDetail(
     val listState = rememberScalingLazyListState()
     val rotaryFocusRequester = remember { FocusRequester() }
 
-    val cardColor =hexToColor(exercise.color)
+    val cardColor = hexToColor(exercise.color)
     val textColor = remember(cardColor) {
         if (cardColor.luminance() > 0.55f) Color.Black else Color.White
     }
 
     var showEditDialog by remember { mutableStateOf(false) }
-    var startTraining by remember { mutableStateOf(false) }
     var showDeleteDialog by remember { mutableStateOf(false) }
-    var showHistoryDialog by remember { mutableStateOf(false) }
     var trainingToDelete by remember { mutableStateOf<Exercise?>(null) }
 
     val workoutSessions = sessionViewModel.allSessions.collectAsState(initial = emptyList())

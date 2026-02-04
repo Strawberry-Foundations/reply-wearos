@@ -19,6 +19,8 @@
     <string name="edit">Edit</string>
     <string name="invalid">Invalid</string>
     <string name="never">Never</string>
+    <string name="exercises">Exercises</string>
+    <string name="sessions">Sessions</string>
 
     <string name="name">Name</string>
     <string name="color">Color</string>
@@ -112,6 +114,7 @@
     <string name="about_copyright" translatable="false">© 2025-2026 Juliandev02</string>
 
     <string name="reset_settings">Reset settings</string>
+    <string name="whats_new">What\'s new?</string>
 
 
     <!-- Profile Page -->
@@ -129,8 +132,6 @@
     <string name="sync_confirm_title">Sync?</string>
     <string name="sync_confirm_data">%1$d exercises\n%2$d sessions</string>
     <string name="sync_button">Sync</string>
-    <string name="exercises">Exercises</string>
-    <string name="sessions">Sessions</string>
-    <string name="whats_new">What\'s new?</string>
-
+    <string name="toast_sync_success">%1$d exercises, %2$d sessions synced</string>
+    <string name="toast_sync_failed">No data to synchronize</string>
 </resources>
