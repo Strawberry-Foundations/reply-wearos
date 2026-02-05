@@ -17,7 +17,7 @@ android {
         applicationId = "org.strawberryfoundations.reply"
         minSdk = 33
         targetSdk = 36
-        versionCode = 4
+        versionCode = 5
         versionName = "2.0.1"
     }
 
