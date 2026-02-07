@@ -20,6 +20,7 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Stop
+import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.Surface
@@ -49,12 +50,17 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
+import androidx.wear.compose.foundation.pager.HorizontalPager
+import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.foundation.requestFocusOnHierarchyActive
 import androidx.wear.compose.foundation.rotary.RotaryScrollableDefaults
 import androidx.wear.compose.foundation.rotary.rotaryScrollable
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ButtonGroup
+import androidx.wear.compose.material3.EdgeButton
+import androidx.wear.compose.material3.EdgeButtonSize
+import androidx.wear.compose.material3.HorizontalPageIndicator
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconButton
 import androidx.wear.compose.material3.MaterialTheme
@@ -73,10 +79,11 @@ import org.strawberryfoundations.wear.reply.room.viewmodels.ExerciseViewModel
 import org.strawberryfoundations.wear.reply.room.viewmodels.WorkoutSessionViewModel
 import org.strawberryfoundations.wear.reply.services.WorkoutService
 import org.strawberryfoundations.wear.reply.ui.composable.RepsInputDialog
+import org.strawberryfoundations.wear.reply.ui.composable.StopActiveExercise
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun WearActiveExerciseScreen(
+fun ActiveExerciseScreen(
     exerciseId: Long,
     sessionViewModel: WorkoutSessionViewModel = viewModel(),
     exerciseViewModel: ExerciseViewModel = viewModel(),
@@ -85,8 +92,10 @@ fun WearActiveExerciseScreen(
 ) {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
-    val listState = rememberScalingLazyListState()
-    val rotaryFocusRequester = remember { FocusRequester() }
+    val page0ListState = rememberScalingLazyListState()
+    val page1ListState = rememberScalingLazyListState()
+    val page0FocusRequester = remember { FocusRequester() }
+    val page1FocusRequester = remember { FocusRequester() }
 
     val exercises by exerciseViewModel.trainings.collectAsState()
     val exercise = exercises.firstOrNull { it.id == exerciseId }
@@ -94,7 +103,9 @@ fun WearActiveExerciseScreen(
     val activeSession by sessionViewModel.activeSession.collectAsState()
     var currentWeight by remember { mutableDoubleStateOf(0.0) }
     var elapsedSeconds by remember { mutableLongStateOf(0L) }
+
     var showRepsDialog by remember { mutableStateOf(false) }
+    var showStopDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(activeSession, exercise) {
         currentWeight = activeSession?.currentWeight ?: exercise?.weight ?: 0.0
@@ -115,169 +126,347 @@ fun WearActiveExerciseScreen(
         return
     }
 
-    ScreenScaffold(scrollState = listState) { paddingValues ->
-        ScalingLazyColumn(
-            state = listState,
-            contentPadding = paddingValues,
-            modifier = Modifier
-                .fillMaxSize()
-                .focusRequester(rotaryFocusRequester)
-                .requestFocusOnHierarchyActive()
-                .rotaryScrollable(
-                    behavior = RotaryScrollableDefaults.behavior(listState),
-                    focusRequester = rotaryFocusRequester
-                ),
-            autoCentering = null
-        ) {
-            item {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(43.dp)
-                            .border(
-                                width = 1.5.dp,
-                                color = MaterialTheme.colorScheme.outline,
-                                shape = MaterialShapes.Cookie9Sided.toShape()
-                            ),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Surface(
-                            shape = MaterialShapes.Cookie9Sided.toShape(),
-                            color = MaterialTheme.colorScheme.secondaryContainer,
-                            modifier = Modifier.size(36.dp)
+    val pagerState = rememberPagerState(initialPage = 0) { 2 }
+    val activeListState = if (pagerState.currentPage == 0) page0ListState else page1ListState
+
+    ScreenScaffold(scrollState = activeListState) { paddingValues ->
+        Box(modifier = Modifier.fillMaxSize()) {
+            HorizontalPager(
+                state = pagerState,
+                key = { it },
+                modifier = Modifier.fillMaxSize()
+            ) { page ->
+                when (page) {
+                    0 -> {
+                        ScalingLazyColumn(
+                            state = page0ListState,
+                            contentPadding = paddingValues,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .focusRequester(page0FocusRequester)
+                                .requestFocusOnHierarchyActive()
+                                .rotaryScrollable(
+                                    behavior = RotaryScrollableDefaults.behavior(page0ListState),
+                                    focusRequester = page0FocusRequester
+                                ),
+                            autoCentering = null
                         ) {
-                            Box(contentAlignment = Alignment.Center) {
-                                Text(
-                                    text = getExerciseGroupEmoji(exercise.group),
-                                    fontSize = 18.sp
-                                )
+                            item {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(43.dp)
+                                            .border(
+                                                width = 1.5.dp,
+                                                color = MaterialTheme.colorScheme.outline,
+                                                shape = MaterialShapes.Cookie9Sided.toShape()
+                                            ),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Surface(
+                                            shape = MaterialShapes.Cookie9Sided.toShape(),
+                                            color = MaterialTheme.colorScheme.secondaryContainer,
+                                            modifier = Modifier.size(36.dp)
+                                        ) {
+                                            Box(contentAlignment = Alignment.Center) {
+                                                Text(
+                                                    text = getExerciseGroupEmoji(exercise.group),
+                                                    fontSize = 18.sp
+                                                )
+                                            }
+                                        }
+                                    }
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = exercise.name,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.Bold,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
+
+                            item {
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+
+                            item {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            MaterialTheme.colorScheme.surfaceContainer,
+                                            shape = androidx.compose.foundation.shape.RoundedCornerShape(
+                                                24.dp
+                                            )
+                                        )
+                                        .padding(12.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                        Text(
+                                            text = formatTime(elapsedSeconds),
+                                            style = MaterialTheme.typography.displayLarge,
+                                            fontSize = 48.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
+
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Timer,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(16.dp),
+                                                tint = MaterialTheme.colorScheme.primary
+                                            )
+                                            Text(
+                                                text = stringResource(R.string.training_time),
+                                                style = MaterialTheme.typography.labelSmall,
+                                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                                fontSize = 12.sp,
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+
+                            item {
+                                Spacer(modifier = Modifier.height(16.dp))
+                            }
+
+                            item {
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Text(
+                                        text = "${activeSession?.setsCompleted ?: 0}",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Text(
+                                        text = stringResource(R.string.sets),
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            }
+
+                            item {
+                                Spacer(modifier = Modifier.height(16.dp))
+                            }
+
+                            item {
+                                val interactionSource1 = remember { MutableInteractionSource() }
+                                val interactionSource2 = remember { MutableInteractionSource() }
+
+                                ButtonGroup(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 4.dp)
+                                ) {
+                                    Button(
+                                        onClick = {
+                                            val session = activeSession ?: return@Button
+                                            val isPaused = session.status == SessionStatus.PAUSED
+                                            val newStatus =
+                                                if (isPaused) SessionStatus.ACTIVE else SessionStatus.PAUSED
+
+                                            val updatedSession = session.copy(
+                                                status = newStatus,
+                                                updatedAt = System.currentTimeMillis()
+                                            )
+                                            sessionViewModel.update(updatedSession)
+                                            WorkoutService.updateSession(context, updatedSession)
+                                        },
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .height(48.dp)
+                                            .animateWidth(interactionSource1),
+                                        colors = ButtonDefaults.filledTonalButtonColors(),
+                                        interactionSource = interactionSource1,
+                                    ) {
+                                        Box(
+                                            modifier = Modifier.fillMaxSize(),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            val isPaused =
+                                                activeSession?.status == SessionStatus.PAUSED
+                                            Icon(
+                                                imageVector = if (isPaused) Icons.Rounded.PlayArrow else Icons.Rounded.Pause,
+                                                contentDescription = stringResource(if (isPaused) R.string.s_continue else R.string.pause)
+                                            )
+                                        }
+                                    }
+
+                                    Button(
+                                        onClick = {
+                                            if (settings.useHapticFeedback) {
+                                                haptic.performHapticFeedback(HapticFeedbackType.Reject)
+                                            }
+
+                                            showStopDialog = true
+                                        },
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .height(48.dp)
+                                            .animateWidth(interactionSource2),
+                                        colors = ButtonDefaults.filledTonalButtonColors().copy(
+                                            containerColor = MaterialTheme.colorScheme.errorContainer
+                                        ),
+                                        interactionSource = interactionSource2,
+                                    ) {
+                                        Box(
+                                            modifier = Modifier.fillMaxSize(),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Stop,
+                                                contentDescription = stringResource(R.string.stop)
+                                            )
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = exercise.name,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
 
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            item {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            MaterialTheme.colorScheme.surfaceContainer,
-                            shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp)
-                        )
-                        .padding(24.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = formatTime(elapsedSeconds),
-                            style = MaterialTheme.typography.displayLarge,
-                            fontSize = 48.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        Text(
-                            text = stringResource(R.string.elapsed_time),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            }
-
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            item {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "%.1f kg".format(currentWeight),
-                        style = MaterialTheme.typography.displayMedium,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 17.sp,
-                    )
-                    Text(
-                        text = stringResource(R.string.weight),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
-            item {
-                val steps = remember { settings.weightSteps.sorted() }
-
-                Column(
-                    modifier = Modifier.fillMaxWidth(0.92f),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    steps.chunked(2).forEach { rowSteps ->
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            rowSteps.forEach { step ->
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center
+                    1 -> {
+                        ScreenScaffold(
+                            scrollState = activeListState,
+                            edgeButton = {
+                                EdgeButton(
+                                    onClick = {
+                                        if (settings.useHapticFeedback) {
+                                            haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+                                        }
+                                        showRepsDialog = true
+                                    },
+                                    buttonSize = EdgeButtonSize.Large
                                 ) {
-                                    IconButton(
-                                        onClick = {
-                                            currentWeight = maxOf(0.0, currentWeight - step)
-                                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                                        },
-                                        modifier = Modifier.size(28.dp)
+                                    Column(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
+                                        Text(
+                                            text = stringResource(R.string.complete_set),
+                                            style = MaterialTheme.typography.labelMedium
+                                        )
                                         Icon(
-                                            Icons.Filled.Remove,
+                                            imageVector = MaterialSymbols.Default.Check,
                                             contentDescription = null,
-                                            tint = Color(0xFFFF5252),
-                                            modifier = Modifier.size(16.dp)
+                                            modifier = Modifier.size(24.dp)
+                                        )
+
+                                    }
+                                }
+                            }
+                        ) { paddingValues ->
+                            ScalingLazyColumn(
+                                state = page1ListState,
+                                contentPadding = paddingValues,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .focusRequester(page1FocusRequester)
+                                    .requestFocusOnHierarchyActive()
+                                    .rotaryScrollable(
+                                        behavior = RotaryScrollableDefaults.behavior(page1ListState),
+                                        focusRequester = page1FocusRequester
+                                    ),
+                                autoCentering = null,
+                            ) {
+                                item {
+                                    Column(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        Text(
+                                            text = "%.1f kg".format(currentWeight),
+                                            style = MaterialTheme.typography.displayMedium,
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 17.sp,
+                                        )
+                                        Text(
+                                            text = stringResource(R.string.weight),
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
                                     }
-                                    Text(
-                                        text = if (step % 1.0 == 0.0) step.toInt().toString() else "%.1f".format(step),
-                                        fontSize = 12.sp,
-                                        fontWeight = FontWeight.Medium,
-                                        modifier = Modifier.width(28.dp),
-                                        textAlign = TextAlign.Center
-                                    )
-                                    IconButton(
-                                        onClick = {
-                                            currentWeight = maxOf(0.0, currentWeight + step)
-                                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                                        },
-                                        modifier = Modifier.size(28.dp)
+                                }
+
+                                item { Spacer(modifier = Modifier.height(8.dp)) }
+
+                                item {
+                                    val steps = remember { settings.weightSteps.sorted() }
+
+                                    Column(
+                                        modifier = Modifier.fillMaxWidth(0.92f),
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(4.dp)
                                     ) {
-                                        Icon(
-                                            Icons.Rounded.Add,
-                                            contentDescription = null,
-                                            tint = Color(0xFF66BB6A),
-                                            modifier = Modifier.size(16.dp)
-                                        )
+                                        steps.chunked(2).forEach { rowSteps ->
+                                            Row(
+                                                horizontalArrangement = Arrangement.spacedBy(
+                                                    4.dp,
+                                                    Alignment.CenterHorizontally
+                                                ),
+                                                modifier = Modifier.fillMaxWidth()
+                                            ) {
+                                                rowSteps.forEach { step ->
+                                                    Row(
+                                                        verticalAlignment = Alignment.CenterVertically,
+                                                        horizontalArrangement = Arrangement.Center
+                                                    ) {
+                                                        IconButton(
+                                                            onClick = {
+                                                                currentWeight =
+                                                                    maxOf(0.0, currentWeight - step)
+                                                                haptic.performHapticFeedback(
+                                                                    HapticFeedbackType.TextHandleMove
+                                                                )
+                                                            },
+                                                            modifier = Modifier.size(28.dp)
+                                                        ) {
+                                                            Icon(
+                                                                Icons.Filled.Remove,
+                                                                contentDescription = null,
+                                                                tint = Color(0xFFFF5252),
+                                                                modifier = Modifier.size(16.dp)
+                                                            )
+                                                        }
+                                                        Text(
+                                                            text = if (step % 1.0 == 0.0) step.toInt()
+                                                                .toString() else "%.1f".format(step),
+                                                            fontSize = 12.sp,
+                                                            fontWeight = FontWeight.Medium,
+                                                            modifier = Modifier.width(28.dp),
+                                                            textAlign = TextAlign.Center
+                                                        )
+                                                        IconButton(
+                                                            onClick = {
+                                                                currentWeight =
+                                                                    maxOf(0.0, currentWeight + step)
+                                                                haptic.performHapticFeedback(
+                                                                    HapticFeedbackType.TextHandleMove
+                                                                )
+                                                            },
+                                                            modifier = Modifier.size(28.dp)
+                                                        ) {
+                                                            Icon(
+                                                                Icons.Rounded.Add,
+                                                                contentDescription = null,
+                                                                tint = Color(0xFF66BB6A),
+                                                                modifier = Modifier.size(16.dp)
+                                                            )
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -286,171 +475,62 @@ fun WearActiveExerciseScreen(
                 }
             }
 
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
-            item {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "${activeSession?.setsCompleted ?: 0}",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontSize = 17.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = stringResource(R.string.sets),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            item {
-                Button(
-                    onClick = {
-                        if (settings.useHapticFeedback) {
-                            haptic.performHapticFeedback(HapticFeedbackType.Confirm)
-                        }
-                        showRepsDialog = true
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
-                    colors = ButtonDefaults.filledTonalButtonColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer
-                    )
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Icon(
-                            imageVector = MaterialSymbols.Default.Check,
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Text(
-                            text = stringResource(R.string.complete_set),
-                            style = MaterialTheme.typography.labelMedium
-                        )
-                    }
-                }
-            }
-
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
-            item {
-                val interactionSource1 = remember { MutableInteractionSource() }
-                val interactionSource2 = remember { MutableInteractionSource() }
-
-                ButtonGroup(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 4.dp)
-                ) {
-                    Button(
-                        onClick = {
-                            val session = activeSession ?: return@Button
-                            val isPaused = session.status == SessionStatus.PAUSED
-                            val newStatus = if (isPaused) SessionStatus.ACTIVE else SessionStatus.PAUSED
-
-                            val updatedSession = session.copy(
-                                status = newStatus,
-                                updatedAt = System.currentTimeMillis()
-                            )
-                            sessionViewModel.update(updatedSession)
-                            WorkoutService.updateSession(context, updatedSession)
-                        },
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(48.dp)
-                            .animateWidth(interactionSource1),
-                        colors = ButtonDefaults.filledTonalButtonColors(),
-                        interactionSource = interactionSource1,
-                    ) {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            val isPaused = activeSession?.status == SessionStatus.PAUSED
-                            Icon(
-                                imageVector = if (isPaused) Icons.Rounded.PlayArrow else Icons.Rounded.Pause,
-                                contentDescription = stringResource(if (isPaused) R.string.s_continue else R.string.pause)
-                            )
-                        }
-                    }
-
-                    Button(
-                        onClick = {
-                            val session = activeSession ?: return@Button
-                            val completedSession = session.copy(
-                                status = SessionStatus.COMPLETED,
-                                endedAt = System.currentTimeMillis(),
-                                updatedAt = System.currentTimeMillis()
-                            )
-                            sessionViewModel.update(completedSession)
-                            WorkoutService.stopService(context)
-                            onComplete()
-                        },
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(48.dp)
-                            .animateWidth(interactionSource2),
-                        colors = ButtonDefaults.filledTonalButtonColors().copy(
-                            containerColor = MaterialTheme.colorScheme.errorContainer
-                        ),
-                        interactionSource = interactionSource2,
-                    ) {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.Stop,
-                                contentDescription = stringResource(R.string.stop)
-                            )
-                        }
-                    }
-                }
-            }
+            HorizontalPageIndicator(
+                pagerState = pagerState,
+                modifier = Modifier.align(Alignment.BottomCenter),
+                selectedColor = MaterialTheme.colorScheme.onSurface,
+            )
         }
-    }
 
-    if (showRepsDialog) {
-        RepsInputDialog(
-            initialReps = 10,
-            onDismiss = { showRepsDialog = false },
-            onConfirm = { reps ->
-                val session = activeSession ?: return@RepsInputDialog
-                val sets = try {
-                    Json.decodeFromString<List<WorkoutSet>>(session.setsHistory)
-                } catch (_: Exception) {
-                    emptyList()
+        if (showRepsDialog) {
+            RepsInputDialog(
+                initialReps = 10,
+                onDismiss = { showRepsDialog = false },
+                onConfirm = { reps ->
+                    val session = activeSession ?: return@RepsInputDialog
+                    val sets = try {
+                        Json.decodeFromString<List<WorkoutSet>>(session.setsHistory)
+                    } catch (_: Exception) {
+                        emptyList()
+                    }
+                    val newSet = WorkoutSet(
+                        setNumber = sets.size + 1,
+                        weight = currentWeight,
+                        reps = reps
+                    )
+                    val updatedSets = sets + newSet
+                    val updatedSession = session.copy(
+                        setsCompleted = session.setsCompleted + 1,
+                        setsHistory = Json.encodeToString(updatedSets),
+                        currentWeight = currentWeight,
+                        updatedAt = System.currentTimeMillis()
+                    )
+                    sessionViewModel.update(updatedSession)
+                    WorkoutService.updateSession(context, updatedSession)
+                    showRepsDialog = false
                 }
-                val newSet = WorkoutSet(
-                    setNumber = sets.size + 1,
-                    weight = currentWeight,
-                    reps = reps
-                )
-                val updatedSets = sets + newSet
-                val updatedSession = session.copy(
-                    setsCompleted = session.setsCompleted + 1,
-                    setsHistory = Json.encodeToString(updatedSets),
-                    currentWeight = currentWeight,
-                    updatedAt = System.currentTimeMillis()
-                )
-                sessionViewModel.update(updatedSession)
-                WorkoutService.updateSession(context, updatedSession)
-                showRepsDialog = false
-            }
-        )
+            )
+        }
+        if (showStopDialog) {
+            StopActiveExercise(
+                onDismiss = { showStopDialog = false },
+                onConfirm = {
+                    val session = activeSession
+
+                    if (session != null) {
+                        val completedSession = session.copy(
+                            status = SessionStatus.COMPLETED,
+                            endedAt = System.currentTimeMillis(),
+                            updatedAt = System.currentTimeMillis()
+                        )
+                        sessionViewModel.update(completedSession)
+                        WorkoutService.stopService(context)
+                        onComplete()
+                    }
+                    showStopDialog = false
+                }
+            )
+        }
     }
 }
 
