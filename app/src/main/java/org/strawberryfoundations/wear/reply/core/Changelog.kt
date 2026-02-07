@@ -9,6 +9,13 @@ data class ChangelogEntry(
 object Changelog {
     val entries = listOf(
         ChangelogEntry(
+            version = "2.0.2",
+            date = "Feb 7, 2026",
+            changes = listOf(
+                "Added session count to device sync page",
+            )
+        ),
+        ChangelogEntry(
             version = "2.0.1",
             date = "Feb 4, 2026",
             changes = listOf(
