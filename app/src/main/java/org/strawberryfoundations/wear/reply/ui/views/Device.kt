@@ -79,8 +79,10 @@ fun DeviceView(
         }
     }
 
-    val workoutCount = viewModel.trainings.collectAsState().value.size
     val allSessions by sessionViewModel.allSessions.collectAsState()
+    val workoutCount = viewModel.trainings.collectAsState().value.size
+    val sessionCount = allSessions.size
+
     var showSyncConfirmDialog by remember { mutableStateOf(false) }
 
     val rotaryFocusRequester = remember { FocusRequester() }
@@ -202,6 +204,21 @@ fun DeviceView(
                         )
                         Text(
                             text = workoutCount.toString(),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = stringResource(R.string.sessions),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = sessionCount.toString(),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface
                         )
