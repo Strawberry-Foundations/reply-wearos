@@ -13,7 +13,8 @@ object Changelog {
             date = "Feb 7, 2026",
             changes = listOf(
                 "Added session count to device sync page",
-                "Added confirmation dialog when stopping an active exercise"
+                "Added confirmation dialog when stopping an active exercise",
+                "Updated Active Exercise Screen with better user experience"
             )
         ),
         ChangelogEntry(
