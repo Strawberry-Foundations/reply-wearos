@@ -43,7 +43,7 @@ import org.strawberryfoundations.wear.reply.ui.views.ExerciseDetail
 import org.strawberryfoundations.wear.reply.ui.views.ExerciseStatistics
 import org.strawberryfoundations.wear.reply.ui.views.SettingsView
 import org.strawberryfoundations.wear.reply.ui.views.TrainingView
-import org.strawberryfoundations.wear.reply.ui.views.WearActiveExerciseScreen
+import org.strawberryfoundations.wear.reply.ui.views.ActiveExerciseScreen
 
 
 // Class: MainActivity
@@ -207,7 +207,7 @@ fun MainView(
             ) { backStackEntry ->
                 val exerciseId = backStackEntry.arguments?.getLong("exerciseId") ?: return@composable
                 val settings = settingsState.value!!
-                WearActiveExerciseScreen(
+                ActiveExerciseScreen(
                     exerciseId = exerciseId,
                     settings = settings,
                     onComplete = { navController.popBackStack() }
