@@ -17,8 +17,8 @@ android {
         applicationId = "org.strawberryfoundations.reply"
         minSdk = 33
         targetSdk = 36
-        versionCode = 7
-        versionName = "2.0.3"
+        versionCode = 8
+        versionName = "2.1.0"
     }
 
     buildTypes {
