@@ -69,6 +69,7 @@ private fun relativeLuminance(c: Color): Double {
     val r = channel(c.red.toDouble())
     val g = channel(c.green.toDouble())
     val b = channel(c.blue.toDouble())
+
     return 0.2126 * r + 0.7152 * g + 0.0722 * b
 }
 
@@ -77,6 +78,7 @@ private fun contrastRatio(a: Color, b: Color): Double {
     val l2 = relativeLuminance(b)
     val max = l1.coerceAtLeast(l2)
     val min = l1.coerceAtMost(l2)
+
     return (max + 0.05) / (min + 0.05)
 }
 
@@ -93,6 +95,7 @@ private fun smoothBlend(base: Color, other: Color, blendToBase: Float = 0.6f): C
     val r = (other.red * (1f - blendToBase) + base.red * blendToBase).coerceIn(0f, 1f)
     val g = (other.green * (1f - blendToBase) + base.green * blendToBase).coerceIn(0f, 1f)
     val b = (other.blue * (1f - blendToBase) + base.blue * blendToBase).coerceIn(0f, 1f)
+
     return Color(r, g, b, base.alpha)
 }
 
@@ -111,7 +114,9 @@ fun bestTextColorFor(bg: Color, minContrast: Double = 3.0): Color {
 
     val best = candidates.maxByOrNull { contrastRatio(it, bg) } ?: Color.White
 
-    if (contrastRatio(best, bg) >= minContrast) return best
+    if (contrastRatio(a = best, b = bg) >= minContrast) {
+        return best
+    }
 
-    return if (contrastRatio(Color.White, bg) >= contrastRatio(Color.Black, bg)) Color.White else Color.Black
+    return if (contrastRatio(a = Color.White, b = bg) >= contrastRatio(a = Color.Black, b = bg)) Color.White else Color.Black
 }

@@ -72,8 +72,12 @@ fun MainViewWithPersistence(appSettings: SettingsDataStore) {
     if (settingsState.value == null) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             ContainedLoadingIndicator(
-                containerColor = dynamicColorScheme(LocalContext.current)?.onPrimaryContainer ?: MaterialTheme.colorScheme.onPrimaryContainer,
-                indicatorColor = dynamicColorScheme(LocalContext.current)?.onPrimary ?: MaterialTheme.colorScheme.onPrimary,
+                containerColor = dynamicColorScheme(
+                    context = LocalContext.current
+                )?.onPrimaryContainer ?: MaterialTheme.colorScheme.onPrimaryContainer,
+                indicatorColor = dynamicColorScheme(
+                    context = LocalContext.current
+                )?.onPrimary ?: MaterialTheme.colorScheme.onPrimary,
             )
         }
         return
@@ -117,8 +121,7 @@ fun MainView(
                     beyondViewportPageCount = 1
                 ) { page ->
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
+                        modifier = Modifier.fillMaxSize()
                     ) {
                         // Main pages
                         val settings = settingsState.value!!
@@ -175,8 +178,7 @@ fun MainView(
                 val settings = settingsState.value!!
 
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     ExerciseDetail(
                         exercise = exercise,
@@ -197,7 +199,10 @@ fun MainView(
                 arguments = listOf(navArgument("exerciseId") { type = NavType.LongType })
             ) { backStackEntry ->
                 val exerciseId = backStackEntry.arguments?.getLong("exerciseId") ?: return@composable
-                ExerciseStatistics(exerciseId = exerciseId)
+
+                ExerciseStatistics(
+                    exerciseId = exerciseId
+                )
             }
 
             // Navigation Route: activeExercise/{exerciseId}
@@ -207,6 +212,7 @@ fun MainView(
             ) { backStackEntry ->
                 val exerciseId = backStackEntry.arguments?.getLong("exerciseId") ?: return@composable
                 val settings = settingsState.value!!
+
                 ActiveExerciseScreen(
                     exerciseId = exerciseId,
                     settings = settings,

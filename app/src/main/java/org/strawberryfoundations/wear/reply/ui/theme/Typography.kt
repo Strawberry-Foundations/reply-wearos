@@ -9,8 +9,6 @@ import org.strawberryfoundations.wear.reply.ui.theme.font.GoogleSansFlex
 
 val googleSansFlex = GoogleSansFlex()
 val googleSansCode = GoogleSansCode()
-//val customFont = CustomFont()
-
 
 val Typography = Typography(
     displayLarge = TextStyle(
