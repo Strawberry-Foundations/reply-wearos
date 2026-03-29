@@ -1,24 +1,23 @@
 [versions]
 # Plugins
-agp = "9.0.1"
-kotlin = "2.3.10"
+agp = "9.1.0"
+kotlin = "2.3.20"
 ksp = "2.3.2"
 
 # Compose
-composeBom = "2026.03.00"
-uiTestJunit4 = "1.10.5"
-uiTestManifest = "1.10.5"
-uiTooling = "1.10.5"
-material3 = "1.5.0-alpha15"
+composeBom = "2026.03.01"
+uiTestJunit4 = "1.10.6"
+uiTestManifest = "1.10.6"
+uiTooling = "1.10.6"
+material3 = "1.5.0-alpha16"
 activityCompose = "1.13.0"
 materialIcons = "1.7.8"
 
 # Wear Compose
-wearCompose = "1.5.6"
+wearCompose = "1.6.0"
 wearInput = "1.2.0"
 wearOngoing = "1.1.0"
-wearComposeUiTooling = "1.5.6"
-
+wearComposeUiTooling = "1.6.0"
 # Datastore & Room
 datastore = "1.2.1"
 room = "2.8.4"
@@ -28,14 +27,14 @@ horologist = "0.7.15"
 horologistTiles = "0.7.15"
 
 # Tiles
-tiles = "1.5.0"
-tilesMaterial = "1.5.0"
-tilesTooling = "1.5.0"
-tilesToolingPreview = "1.5.0"
+tiles = "1.6.0"
+tilesMaterial = "1.6.0"
+tilesTooling = "1.6.0"
+tilesToolingPreview = "1.6.0"
 
 # Protolayout
-protolayoutExpression = "1.3.0"
-protolayoutMaterial = "1.3.0"
+protolayoutExpression = "1.4.0"
+protolayoutMaterial = "1.4.0"
 
 # Etc
 junit = "4.13.2"
