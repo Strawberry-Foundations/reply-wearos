@@ -13,12 +13,6 @@ class GoogleSansFlex {
         const val SLANT = 0f
     }
 
-    object HeadlineSmallVFConfig {
-        const val WEIGHT = 1000
-        const val WIDTH = 120f
-        const val SLANT = 0f
-    }
-
     @OptIn(ExperimentalTextApi::class)
     val displayLargeFontFamily =
         FontFamily(
@@ -60,21 +54,6 @@ class GoogleSansFlex {
                         FontVariation.grade(0),
                         FontVariation.Setting("ROND", 100f)
                     )
-                )
-            )
-        )
-
-
-    @OptIn(ExperimentalTextApi::class)
-    val headlineSmallFontFamily =
-        FontFamily(
-            Font(
-                R.font.google_sans_flex,
-                variationSettings = FontVariation.Settings(
-                    FontVariation.weight(HeadlineSmallVFConfig.WEIGHT),
-                    FontVariation.width(HeadlineSmallVFConfig.WIDTH),
-                    FontVariation.slant(HeadlineSmallVFConfig.SLANT),
-                    FontVariation.Setting("ROND", 100f)
                 )
             )
         )
