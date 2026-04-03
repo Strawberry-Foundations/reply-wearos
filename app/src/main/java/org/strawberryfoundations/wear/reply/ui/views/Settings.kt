@@ -14,15 +14,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Vibration
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.ColorLens
 import androidx.compose.material.icons.rounded.Newspaper
+import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.TouchApp
+import androidx.compose.material.icons.rounded.Vibration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -66,6 +69,66 @@ import org.strawberryfoundations.wear.reply.core.AppSettings
 import org.strawberryfoundations.wear.reply.core.getAppVersion
 import org.strawberryfoundations.wear.reply.ui.composable.WeightStepDialog
 
+
+@Composable
+fun SettingsSectionTitle(title: String, icon: ImageVector, useTopPadding: Boolean = true) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = Modifier.padding(bottom = 6.dp, top = if (useTopPadding) 12.dp else 0.dp)
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = title,
+            modifier = Modifier.size(16.dp),
+            tint = MaterialTheme.colorScheme.primary,
+        )
+        Text(
+            text = title,
+            style = MaterialTheme.typography.displayMedium,
+            color = MaterialTheme.colorScheme.primary,
+        )
+    }
+}
+
+@Composable
+fun SettingsSwitchButton(
+    title: String,
+    description: String,
+    icon: ImageVector,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit
+) {
+    SwitchButton(
+        checked = checked,
+        onCheckedChange = onCheckedChange,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = title,
+                modifier = Modifier.size(18.dp),
+                tint = MaterialTheme.colorScheme.primary
+            )
+            Column {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.displaySmall
+                )
+                Text(
+                    text = description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+    }
+
+}
 
 @Composable
 fun SettingsView(
@@ -157,134 +220,52 @@ fun SettingsView(
 
             // Appearance Section
             item {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier.padding(bottom = 6.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ColorLens,
-                        contentDescription = stringResource(R.string.settings_section_appearance),
-                        modifier = Modifier.size(16.dp),
-                        tint = MaterialTheme.colorScheme.primary,
-                    )
-                    Text(
-                        text = stringResource(R.string.settings_section_appearance),
-                        style = MaterialTheme.typography.displayMedium,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                }
+                SettingsSectionTitle(
+                    title = stringResource(R.string.settings_section_appearance),
+                    icon = Icons.Rounded.ColorLens,
+                    useTopPadding = false
+                )
             }
 
             item {
-                SwitchButton(
+                SettingsSwitchButton(
+                    title = stringResource(R.string.dynamic_colors_title),
+                    description = stringResource(R.string.dynamic_colors_description),
+                    icon = Icons.Rounded.Palette,
                     checked = settings.useDynamicColors,
                     onCheckedChange = { checked -> onSettingsChange {
-                            copy(useDynamicColors = checked)
-                        } },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Palette,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp),
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                        Column {
-                            Text(
-                                text = stringResource(R.string.dynamic_colors_title),
-                                style = MaterialTheme.typography.displaySmall
-                            )
-                            Text(
-                                text = stringResource(R.string.dynamic_colors_description),
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                }
+                        copy(useDynamicColors = checked)
+                    } }
+                )
             }
 
             // Interaction Section
             item {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier.padding(top = 12.dp, bottom = 6.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.TouchApp,
-                        contentDescription = stringResource(R.string.settings_section_interaction),
-                        modifier = Modifier.size(18.dp).padding(bottom = 2.dp),
-                        tint = MaterialTheme.colorScheme.primary,
-                    )
-                    Text(
-                        text = stringResource(R.string.settings_section_interaction),
-                        style = MaterialTheme.typography.displayMedium,
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                }
+                SettingsSectionTitle(
+                    title = stringResource(R.string.settings_section_interaction),
+                    icon = Icons.Rounded.TouchApp
+                )
             }
 
             item {
-                SwitchButton(
+                SettingsSwitchButton(
+                    title = stringResource(R.string.haptic_feedback_title),
+                    description = stringResource(R.string.haptic_feedback_description),
+                    icon = Icons.Rounded.Vibration,
                     checked = settings.useHapticFeedback,
                     onCheckedChange = { checked -> onSettingsChange {
                         if (checked) haptic.performHapticFeedback(HapticFeedbackType.Confirm)
                         copy(useHapticFeedback = checked)
                     } },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Vibration,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp),
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                        Column {
-                            Text(
-                                text = stringResource(R.string.haptic_feedback_title),
-                                style = MaterialTheme.typography.displaySmall
-                            )
-                            Text(
-                                text = stringResource(R.string.haptic_feedback_description),
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                }
+                )
             }
 
             // Weight Steps Section
             item {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier.padding(top = 12.dp, bottom = 6.dp)
-                ) {
-                    Icon(
-                        imageVector = MaterialSymbols.Filled.Weight,
-                        contentDescription = stringResource(R.string.settings_section_weight_steps),
-                        modifier = Modifier.size(16.dp),
-                        tint = MaterialTheme.colorScheme.primary,
-                    )
-                    Text(
-                        text = stringResource(R.string.settings_section_weight_steps),
-                        style = MaterialTheme.typography.displayMedium,
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                }
+                SettingsSectionTitle(
+                    title = stringResource(R.string.settings_section_weight_steps),
+                    icon = MaterialSymbols.Filled.Weight
+                )
             }
 
             item {
@@ -348,24 +329,10 @@ fun SettingsView(
 
             // About Section
             item {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier.padding(top = 12.dp, bottom = 4.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Info,
-                        contentDescription = stringResource(R.string.settings_section_about),
-                        modifier = Modifier.size(17.dp),
-                        tint = MaterialTheme.colorScheme.primary,
-                    )
-                    Text(
-                        text = stringResource(R.string.settings_section_about),
-                        style = MaterialTheme.typography.displayMedium,
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                }
+                SettingsSectionTitle(
+                    title = stringResource(R.string.settings_section_about),
+                    icon = Icons.Default.Info
+                )
             }
 
             item {
