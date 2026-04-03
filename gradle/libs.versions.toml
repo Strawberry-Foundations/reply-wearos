@@ -18,6 +18,7 @@ wearCompose = "1.6.0"
 wearInput = "1.2.0"
 wearOngoing = "1.1.0"
 wearComposeUiTooling = "1.6.0"
+
 # Datastore & Room
 datastore = "1.2.1"
 room = "2.8.4"
