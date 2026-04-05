@@ -131,4 +131,20 @@
     <string name="toast_sync_failed">Keine Daten zum Synchronisieren</string>
     <string name="history">Verlauf</string>
     <string name="no_data">Keine Daten</string>
+
+    <string name="close">Schließen</string>
+    <string name="back">Zurück</string>
+    <string name="session_details">Session Details</string>
+    <string name="summary">Zusammenfassung</string>
+    <string name="sets_details">Sets Details</string>
+    <string name="notes">Notizen</string>
+    <string name="duration">Dauer</string>
+    <string name="completed">Abgeschlossen</string>
+    <string name="cancelled">Abgebrochen</string>
+    <string name="status_active">Aktiv</string>
+    <string name="total_volume">Total Volumen</string>
+    <string name="tap_for_details">Tippe für Details</string>
+    <string name="date">Datum</string>
+    <string name="status">Status</string>
+    <string name="sync_confirm_data_decription">Smartphone-Daten werden durch die Daten des Wearables ersetzt</string>
 </resources>

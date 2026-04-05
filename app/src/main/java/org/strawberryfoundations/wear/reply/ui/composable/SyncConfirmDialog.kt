@@ -54,13 +54,13 @@ fun SyncConfirmDialog(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             Icon(
                 imageVector = Icons.Rounded.Sync,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(26.dp)
             )
 
             Text(
@@ -72,11 +72,20 @@ fun SyncConfirmDialog(
             )
 
             Text(
-                text = stringResource(R.string.sync_confirm_data, exerciseCount, sessionCount),
+                text = stringResource(R.string.sync_confirm_data_decription),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
                 fontSize = 12.sp
+            )
+
+            Text(
+                text = stringResource(R.string.sync_confirm_data, exerciseCount, sessionCount),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                fontSize = 12.sp,
+                lineHeight = 13.sp
             )
 
             Spacer(modifier = Modifier.height(8.dp))

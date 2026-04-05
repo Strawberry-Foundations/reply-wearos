@@ -14,7 +14,8 @@ object Changelog {
             changes = listOf(
                 "Updated AGP to v9.1.0",
                 "Dependency updates",
-                "Added history lookup for workout sessions"
+                "Added history lookup for workout sessions",
+                "Added info description for synchronization dialog"
             )
         ),
         ChangelogEntry(

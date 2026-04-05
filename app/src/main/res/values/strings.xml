@@ -152,4 +152,5 @@
     <string name="tap_for_details">Tap for details</string>
     <string name="date">Date</string>
     <string name="status">Status</string>
+    <string name="sync_confirm_data_decription">Wearable data will replace existing data on your smartphone</string>
 </resources>
