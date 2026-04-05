@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Label
 import androidx.compose.material.icons.rounded.BarChart
+import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.material.icons.rounded.Layers
@@ -84,6 +85,7 @@ fun ExerciseDetail(
     sessionViewModel: WorkoutSessionViewModel = viewModel(),
     onStartTraining: (Exercise) -> Unit,
     onNavigateToStatistics: (Long) -> Unit,
+    onNavigateToHistory: (Long) -> Unit,
     settings: AppSettings,
 ) {
     val context = LocalContext.current
@@ -430,6 +432,32 @@ fun ExerciseDetail(
                                 )
                             }
                         }
+                    }
+                }
+            }
+
+            item {
+                if (completedSessions.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(2.dp))
+                }
+                else {
+                    Spacer(modifier = Modifier.height(4.dp))
+                }
+            }
+
+            item {
+                Button(
+                    onClick = { onNavigateToHistory(exercise.id) },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.filledTonalButtonColors()
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Rounded.History,
+                            contentDescription = null
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = stringResource(R.string.history))
                     }
                 }
             }

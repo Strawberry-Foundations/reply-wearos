@@ -10,10 +10,11 @@ object Changelog {
     val entries = listOf(
         ChangelogEntry(
             version = "2.1.1",
-            date = "Mar 29, 2026",
+            date = "Apr 5, 2026",
             changes = listOf(
                 "Updated AGP to v9.1.0",
-                "Dependency updates"
+                "Dependency updates",
+                "Added history lookup for workout sessions"
             )
         ),
         ChangelogEntry(

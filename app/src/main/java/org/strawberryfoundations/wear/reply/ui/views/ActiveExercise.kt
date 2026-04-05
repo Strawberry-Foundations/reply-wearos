@@ -518,10 +518,13 @@ fun ActiveExerciseScreen(
                     val session = activeSession
 
                     if (session != null) {
+                        val now = System.currentTimeMillis()
+                        val elapsed = ((now - session.startedAt) / 1000).coerceAtLeast(0)
                         val completedSession = session.copy(
                             status = SessionStatus.COMPLETED,
-                            endedAt = System.currentTimeMillis(),
-                            updatedAt = System.currentTimeMillis()
+                            endedAt = now,
+                            elapsedSeconds = elapsed,
+                            updatedAt = now
                         )
                         sessionViewModel.update(completedSession)
                         WorkoutService.stopService(context)

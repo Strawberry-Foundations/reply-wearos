@@ -44,6 +44,7 @@ import org.strawberryfoundations.wear.reply.ui.views.ExerciseStatistics
 import org.strawberryfoundations.wear.reply.ui.views.SettingsView
 import org.strawberryfoundations.wear.reply.ui.views.TrainingView
 import org.strawberryfoundations.wear.reply.ui.views.ActiveExerciseScreen
+import org.strawberryfoundations.wear.reply.ui.views.ExerciseHistory
 
 
 // Class: MainActivity
@@ -185,8 +186,11 @@ fun MainView(
                         onStartTraining = { exerciseToStart ->
                             navController.navigate("activeExercise/${exerciseToStart.id}")
                         },
-                        onNavigateToStatistics = { statsExerciseId ->
-                            navController.navigate("exerciseStatistics/$statsExerciseId")
+                        onNavigateToStatistics = { exerciseId ->
+                            navController.navigate("exerciseStatistics/$exerciseId")
+                        },
+                        onNavigateToHistory = { exerciseId ->
+                            navController.navigate("exerciseHistory/$exerciseId")
                         },
                         settings = settings,
                     )
@@ -201,6 +205,18 @@ fun MainView(
                 val exerciseId = backStackEntry.arguments?.getLong("exerciseId") ?: return@composable
 
                 ExerciseStatistics(
+                    exerciseId = exerciseId
+                )
+            }
+
+            // Navigation Route: exerciseHistory/{exerciseId}
+            composable(
+                route = "exerciseHistory/{exerciseId}",
+                arguments = listOf(navArgument("exerciseId") { type = NavType.LongType })
+            ) { backStackEntry ->
+                val exerciseId = backStackEntry.arguments?.getLong("exerciseId") ?: return@composable
+
+                ExerciseHistory(
                     exerciseId = exerciseId
                 )
             }

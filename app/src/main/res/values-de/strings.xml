@@ -129,4 +129,6 @@
     <string name="sync_button">Sync</string>
     <string name="toast_sync_success">%1$d Übungen, %2$d Sessions synchronisiert</string>
     <string name="toast_sync_failed">Keine Daten zum Synchronisieren</string>
+    <string name="history">Verlauf</string>
+    <string name="no_data">Keine Daten</string>
 </resources>
