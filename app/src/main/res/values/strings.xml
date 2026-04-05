@@ -1,156 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App -->
     <string name="app_name" translatable="false">Reply</string>
     <string name="app_motto" translatable="false">Train. Track. Reply.</string>
 
-    <!-- Navigation title strings -->
-    <string name="workout">Workout</string>
-    <string name="profile">Profile</string>
+    <!-- Navigation -->
     <string name="device">My Device</string>
+    <string name="history">History</string>
     <string name="settings">Settings</string>
+    <string name="workout">Workout</string>
 
-    <!-- Basic strings -->
-    <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
-    <string name="reset">Reset</string>
+    <!-- Common actions -->
     <string name="add">Add</string>
-    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="confirm">Confirm</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
-    <string name="invalid">Invalid</string>
-    <string name="never">Never</string>
-    <string name="exercises">Exercises</string>
-    <string name="sessions">Sessions</string>
-
-    <string name="name">Name</string>
-    <string name="color">Color</string>
-    <string name="group">Group</string>
-    <string name="weight">Weight</string>
-    <string name="select_color">Select color</string>
-    <string name="note">Note</string>
-    <string name="no_note">No note</string>
-    <string name="edit_note">Edit note</string>
+    <string name="new_step">New step</string>
+    <string name="pause">Pause</string>
+    <string name="reset">Reset</string>
     <string name="save">Save</string>
+    <string name="stop">Stop</string>
+
+    <!-- Exercise metadata -->
+    <string name="active_workout">Active workout</string>
     <string name="add_training">Add workout</string>
-
-    <!-- Groups -->
     <string name="all">All</string>
-    <string name="upper_body">Upper body</string>
-    <string name="legs">Legs</string>
-    <string name="cardio">Cardio</string>
-    <string name="other">Other</string>
-
+    <string name="alt_name">Alternative name</string>
+    <string name="best_performance">Best</string>
+    <string name="color">Color</string>
     <string name="delete_training">Delete training</string>
     <string name="delete_training_confirm">Do you really want to delete the training "%1$s"?</string>
-
-    <string name="decrease_weight_by">Decrease weight by %s kg</string>
-    <string name="increase_weight_by">Increase weight by %s kg</string>
-
-    <!-- Workout/Training -->
-    <string name="start_exercise">Start exercise</string>
+    <string name="group">Group</string>
     <string name="last_performance">Last</string>
-    <string name="best_performance">Best</string>
-    <string name="alt_name">Alternative name</string>
+    <string name="name">Name</string>
+    <string name="no_note">No note</string>
+    <string name="note">Note</string>
+    <string name="start_exercise">Start exercise</string>
+    <string name="weight">Weight</string>
 
-    <!-- Exercise Statistics -->
-    <string name="last_session">Last Session</string>
-    <string name="average">AVG (Ø)</string>
-    <string name="average_text">Average</string>
-    <string name="trend">Trend</string>
-    <string name="trend_rising">Rising</string>
-    <string name="trend_falling">Falling</string>
-    <string name="trend_stable">Stable</string>
-    <string name="trend_insufficient_data">Insufficient data</string>
-    <string name="total_sessions">Sessions</string>
-    <string name="total">Total</string>
-    <string name="avg_volume">Ø per Session</string>
-    <string name="weight_progress">Weight Progress</string>
-    <string name="volume_progress">Volume Progress</string>
-    <string name="complete_two_trainings">Complete at least 2 trainings</string>
-    <string name="to_see_progress">to see your progress</string>
-    <string name="set">Set</string>
+    <!-- Exercise groups -->
+    <string name="cardio">Cardio</string>
+    <string name="legs">Legs</string>
+    <string name="other">Other</string>
+    <string name="upper_body">Upper body</string>
 
-    <!-- Active Exercise Screen -->
-    <string name="s_continue">Continue</string>
-    <string name="pause">Pause</string>
-    <string name="time">Time</string>
-    <string name="sets">Sets</string>
-    <string name="training_time">Training time</string>
-    <string name="current_weight">Current weight</string>
-    <string name="stop_training">Stop training</string>
-    <string name="stop_training_question">Stop training?</string>
-    <string name="stop_training_confirm">Do you really want to stop the training?</string>
-    <string name="stop">Stop</string>
-    <string name="rest">Rest</string>
-    <string name="completed_sets">Completed Sets (%1$d)</string>
-    <string name="no_sets_completed">No sets completed yet</string>
+    <!-- Workout session -->
+    <string name="complete_set">Complete set</string>
+    <string name="completed">Completed</string>
+    <string name="duration">Duration</string>
     <string name="enter_reps">Enter repetitions</string>
     <string name="how_many_reps">How many repetitions did you do?</string>
-    <string name="confirm">Confirm</string>
     <string name="reps_unit">reps</string>
+    <string name="s_continue">Continue</string>
+    <string name="set">Set</string>
+    <string name="sets">Sets</string>
+    <string name="stop_training_confirm">Do you really want to stop the training?</string>
+    <string name="stop_training_question">Stop training?</string>
+    <string name="total">Total</string>
+    <string name="training_time">Training time</string>
 
+    <!-- Exercise statistics and history -->
+    <string name="average">AVG (Ø)</string>
+    <string name="average_text">Average</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="complete_two_trainings">Complete at least 2 trainings</string>
+    <string name="no_data">No data</string>
+    <string name="session_details">Session Details</string>
+    <string name="sets_details">Sets Details</string>
+    <string name="statistics">Statistics</string>
+    <string name="status">Status</string>
+    <string name="to_see_progress">to see your progress</string>
+    <string name="total_sessions">Sessions</string>
+    <string name="total_volume">Total Volume</string>
+    <string name="trend">Trend</string>
+    <string name="trend_falling">Falling</string>
+    <string name="trend_insufficient_data">Insufficient data</string>
+    <string name="trend_rising">Rising</string>
+    <string name="trend_stable">Stable</string>
+    <string name="volume_progress">Volume Progress</string>
+    <string name="weight_progress">Weight Progress</string>
 
-    <!-- Settings Sections -->
+    <!-- Settings -->
+    <string name="dynamic_colors_description">Dynamic colors</string>
+    <string name="dynamic_colors_title">Material You</string>
+    <string name="edit_weight_steps">Edit weight steps</string>
+    <string name="haptic_feedback_description">Vibrations on actions</string>
+    <string name="haptic_feedback_title">Haptic Feedback</string>
+    <string name="reset_settings">Reset settings</string>
+    <string name="settings_section_about">About</string>
     <string name="settings_section_appearance">Appearance</string>
     <string name="settings_section_interaction">Interaction</string>
     <string name="settings_section_weight_steps">Weight steps</string>
-    <string name="settings_section_about">About</string>
-
-    <!-- Settings Section: Material You -->
-    <string name="dynamic_colors_title">Material You</string>
-    <string name="dynamic_colors_description">Dynamic colors</string>
-
-    <!-- Settings Section: Haptic Feedback -->
-    <string name="haptic_feedback_title">Haptic Feedback</string>
-    <string name="haptic_feedback_description">Vibrations on actions</string>
-
-    <!-- Settings Section: Weight Steps -->
-    <string name="edit_weight_steps">Edit weight steps</string>
-    <string name="new_step">New step</string>
-
-    <!-- Settings Section: About -->
-    <string name="about_version">Version %1$s</string>
-    <string name="about_all_rights_reserved">All rights reserved. A project by Strawberry Foundations</string>
-    <string name="about_copyright" translatable="false">© 2025-2026 Juliandev02</string>
-
-    <string name="reset_settings">Reset settings</string>
     <string name="whats_new">What\'s new?</string>
 
+    <!-- About -->
+    <string name="about_all_rights_reserved">All rights reserved. A project by Strawberry Foundations</string>
+    <string name="about_copyright" translatable="false">© 2025-2026 Juliandev02</string>
+    <string name="about_version">Version %1$s</string>
 
-    <!-- Profile Page -->
-    <string name="local_device">Local device</string>
-    <string name="sync_with_smartphone">Sync workouts</string>
-    <string name="statistics">Statistics</string>
-    <string name="workouts">Workouts</string>
+    <!-- Device and sync -->
     <string name="last_sync">Last sync</string>
+    <string name="never">Never</string>
+    <string name="sessions">Sessions</string>
+    <string name="sync_button">Sync</string>
+    <string name="sync_confirm_data">%1$d exercises\n%2$d sessions</string>
+    <string name="sync_confirm_data_description">Wearable data will replace existing data on your smartphone</string>
+    <string name="sync_confirm_title">Sync?</string>
+    <string name="sync_with_smartphone">Sync workouts</string>
     <string name="workout_in_progress">Training in progress</string>
     <string name="workout_notifications">Ongoing training</string>
     <string name="workout_service_desc">Manages your active training session, counts sets, and keeps the timer active in the background.</string>
-    <string name="elapsed_time">Elapsed time</string>
-    <string name="complete_set">Complete set</string>
-    <string name="active_workout">Active workout</string>
-    <string name="sync_confirm_title">Sync?</string>
-    <string name="sync_confirm_data">%1$d exercises\n%2$d sessions</string>
-    <string name="sync_button">Sync</string>
-    <string name="toast_sync_success">%1$d exercises, %2$d sessions synced</string>
-    <string name="toast_sync_failed">No data to synchronize</string>
-    <string name="history">History</string>
-    <string name="no_data">No data</string>
+    <string name="workouts">Workouts</string>
 
-    <!-- Session History Strings -->
-    <string name="close">Close</string>
-    <string name="back">Back</string>
-    <string name="session_details">Session Details</string>
-    <string name="summary">Summary</string>
-    <string name="sets_details">Sets Details</string>
-    <string name="notes">Notes</string>
-    <string name="duration">Duration</string>
-    <string name="completed">Completed</string>
-    <string name="cancelled">Cancelled</string>
-    <string name="status_active">Active</string>
-    <string name="total_volume">Total Volume</string>
-    <string name="tap_for_details">Tap for details</string>
-    <string name="date">Date</string>
-    <string name="status">Status</string>
-    <string name="sync_confirm_data_decription">Wearable data will replace existing data on your smartphone</string>
+    <!-- Toasts -->
+    <string name="toast_sync_failed">No data to synchronize</string>
+    <string name="toast_sync_success">%1$d exercises, %2$d sessions synced</string>
 </resources>

@@ -72,7 +72,7 @@ fun SyncConfirmDialog(
             )
 
             Text(
-                text = stringResource(R.string.sync_confirm_data_decription),
+                text = stringResource(R.string.sync_confirm_data_description),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
