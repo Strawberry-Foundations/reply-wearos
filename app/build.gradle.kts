@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
-    // alias(libs.plugins.kapt)
     kotlin("plugin.serialization") version "1.9.10"
 }
 
@@ -20,7 +19,7 @@ configure<ApplicationExtension> {
         applicationId = "org.strawberryfoundations.reply"
         minSdk = 33
         targetSdk = 36
-        versionCode = 2_211_001
+        versionCode = 2_211_002
         versionName = "2.1.1"
     }
 
