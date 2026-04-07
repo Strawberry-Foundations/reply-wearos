@@ -1,17 +1,20 @@
+import com.android.build.api.dsl.ApplicationExtension
+
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.kapt)
+    // alias(libs.plugins.kapt)
     kotlin("plugin.serialization") version "1.9.10"
 }
 
-android {
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
+configure<ApplicationExtension> {
     namespace = "org.strawberryfoundations.wear.reply"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "org.strawberryfoundations.reply"
@@ -32,8 +35,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     useLibrary("wear-sdk")
     buildFeatures {
@@ -45,7 +48,7 @@ android {
 }
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(17)
 }
 
 dependencies {
