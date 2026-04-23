@@ -19,8 +19,8 @@ configure<ApplicationExtension> {
         applicationId = "org.strawberryfoundations.reply"
         minSdk = 33
         targetSdk = 36
-        versionCode = 2_211_002
-        versionName = "2.1.1"
+        versionCode = 2_212_001
+        versionName = "2.1.2"
     }
 
     buildTypes {
