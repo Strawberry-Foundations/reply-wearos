@@ -24,6 +24,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -77,7 +78,7 @@ fun RepsInputDialog(
                         onConfirm(reps)
                         isVisible = false
                     },
-                    buttonSize = EdgeButtonSize.Large,
+                    buttonSize = EdgeButtonSize.Medium,
                 ) {
                     Icon(
                         MaterialSymbols.Default.Check,
@@ -101,8 +102,6 @@ fun RepsInputDialog(
                 verticalArrangement = Arrangement.spacedBy(6.dp),
                 autoCentering = null,
             ) {
-                item { Spacer(Modifier.height(8.dp)) }
-
                 item {
                     Text(
                         text = stringResource(R.string.enter_reps),
@@ -114,18 +113,7 @@ fun RepsInputDialog(
                 }
 
                 item {
-                    Text(
-                        text = stringResource(R.string.how_many_reps),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        textAlign = TextAlign.Center,
-                        fontSize = 11.sp,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-
-                item {
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
                 }
 
                 // Reps picker
@@ -184,16 +172,7 @@ fun RepsInputDialog(
                 }
 
                 item {
-                    Text(
-                        text = stringResource(R.string.reps_unit),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontSize = 10.sp
-                    )
-                }
-
-                item {
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
                 }
 
                 // Quick select buttons
@@ -215,17 +194,23 @@ fun RepsInputDialog(
                                     ButtonDefaults.filledTonalButtonColors()
                                 }
                             ) {
-                                Text(
-                                    text = quickRep.toString(),
-                                    fontSize = 12.sp
-                                )
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = quickRep.toString(),
+                                        fontSize = 12.sp
+                                    )
+                                }
                             }
                         }
                     }
                 }
 
                 item {
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(2.dp))
                 }
             }
         }
