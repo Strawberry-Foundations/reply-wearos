@@ -57,6 +57,7 @@ import org.strawberryfoundations.wear.reply.ui.composable.SyncConfirmDialog
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.compose.ui.platform.LocalLocale
 
 
 @Composable
@@ -237,8 +238,10 @@ fun DeviceView(
                         val lastSyncText = if (lastUpdated <= 0L) {
                             stringResource(R.string.never)
                         } else {
+                            val locale = LocalLocale.current.platformLocale
+
                             try {
-                                SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault())
+                                SimpleDateFormat("dd.MM.yy HH:mm", locale)
                                     .format(Date(lastUpdated))
                             } catch (_: Exception) {
                                 stringResource(R.string.never)
