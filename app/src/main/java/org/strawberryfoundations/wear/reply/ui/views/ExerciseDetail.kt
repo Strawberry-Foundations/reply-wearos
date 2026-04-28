@@ -84,6 +84,7 @@ fun ExerciseDetail(
     exerciseViewModel: ExerciseViewModel = viewModel(),
     sessionViewModel: WorkoutSessionViewModel = viewModel(),
     onStartTraining: (Exercise) -> Unit,
+    onTrainingDelete: () -> Unit,
     onNavigateToStatistics: (Long) -> Unit,
     onNavigateToHistory: (Long) -> Unit,
     settings: AppSettings,
@@ -541,6 +542,7 @@ fun ExerciseDetail(
             exercise = trainingToDelete!!,
             onConfirm = {
                 exerciseViewModel.delete(trainingToDelete!!)
+                onTrainingDelete()
             },
             onDismiss = {
                 showDeleteDialog = false

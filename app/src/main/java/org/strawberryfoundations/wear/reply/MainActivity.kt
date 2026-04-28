@@ -186,6 +186,9 @@ fun MainView(
                         onStartTraining = { exerciseToStart ->
                             navController.navigate("activeExercise/${exerciseToStart.id}")
                         },
+                        onTrainingDelete = {
+                            navController.navigate("main")
+                        },
                         onNavigateToStatistics = { exerciseId ->
                             navController.navigate("exerciseStatistics/$exerciseId")
                         },

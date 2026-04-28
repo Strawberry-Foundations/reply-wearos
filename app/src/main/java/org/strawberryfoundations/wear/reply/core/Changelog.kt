@@ -13,7 +13,9 @@ object Changelog {
             date = "Apr 28, 2026",
             changes = listOf(
                 "[BUG] Fix pause button in ActiveExerciseView not pausing the timer",
+                "[BUG] Fix not returning to main page on training delete",
                 "[UI] Adjusted EdgeButton size in ActiveExerciseView",
+                "[UI] Improved UI for RepInputDialog",
                 "[PRJ] Updated AGP to v9.2.0",
                 "[PRJ] Dependency updates",
             )
