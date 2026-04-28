@@ -112,9 +112,20 @@ fun ActiveExerciseScreen(
     }
 
     LaunchedEffect(activeSession) {
-        while (activeSession != null && activeSession?.status == SessionStatus.ACTIVE) {
-            val session = activeSession!!
-            elapsedSeconds = (System.currentTimeMillis() - session.startedAt) / 1000
+        val session = activeSession
+        if (session == null) {
+            elapsedSeconds = 0L
+            return@LaunchedEffect
+        }
+
+        elapsedSeconds = when (session.status) {
+            SessionStatus.ACTIVE -> ((System.currentTimeMillis() - session.startedAt) / 1000).coerceAtLeast(0)
+            SessionStatus.PAUSED -> session.elapsedSeconds
+            else -> session.elapsedSeconds
+        }
+
+        while (activeSession?.status == SessionStatus.ACTIVE) {
+            elapsedSeconds = ((System.currentTimeMillis() - session.startedAt) / 1000).coerceAtLeast(0)
             delay(1000)
         }
     }
@@ -273,13 +284,28 @@ fun ActiveExerciseScreen(
                                         onClick = {
                                             val session = activeSession ?: return@Button
                                             val isPaused = session.status == SessionStatus.PAUSED
+                                            val now = System.currentTimeMillis()
+                                            val currentElapsed = when (session.status) {
+                                                SessionStatus.ACTIVE -> ((now - session.startedAt) / 1000).coerceAtLeast(0)
+                                                SessionStatus.PAUSED -> session.elapsedSeconds
+                                                else -> session.elapsedSeconds
+                                            }
                                             val newStatus =
                                                 if (isPaused) SessionStatus.ACTIVE else SessionStatus.PAUSED
 
-                                            val updatedSession = session.copy(
-                                                status = newStatus,
-                                                updatedAt = System.currentTimeMillis()
-                                            )
+                                            val updatedSession = if (isPaused) {
+                                                session.copy(
+                                                    status = newStatus,
+                                                    startedAt = now - (currentElapsed * 1000),
+                                                    updatedAt = now
+                                                )
+                                            } else {
+                                                session.copy(
+                                                    status = newStatus,
+                                                    elapsedSeconds = currentElapsed,
+                                                    updatedAt = now
+                                                )
+                                            }
                                             sessionViewModel.update(updatedSession)
                                             WorkoutService.updateSession(context, updatedSession)
                                         },
@@ -346,7 +372,7 @@ fun ActiveExerciseScreen(
                                         }
                                         showRepsDialog = true
                                     },
-                                    buttonSize = EdgeButtonSize.Large
+                                    buttonSize = EdgeButtonSize.Medium
                                 ) {
                                     Column(
                                         modifier = Modifier.fillMaxWidth(),
@@ -519,7 +545,10 @@ fun ActiveExerciseScreen(
 
                     if (session != null) {
                         val now = System.currentTimeMillis()
-                        val elapsed = ((now - session.startedAt) / 1000).coerceAtLeast(0)
+                        val elapsed = when (session.status) {
+                            SessionStatus.PAUSED -> session.elapsedSeconds
+                            else -> ((now - session.startedAt) / 1000).coerceAtLeast(0)
+                        }
                         val completedSession = session.copy(
                             status = SessionStatus.COMPLETED,
                             endedAt = now,
