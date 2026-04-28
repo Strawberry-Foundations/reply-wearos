@@ -37,6 +37,20 @@ import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import org.strawberryfoundations.wear.reply.R
 import org.strawberryfoundations.wear.reply.core.Changelog
+import org.strawberryfoundations.wear.reply.core.ChangelogEntry
+
+@Composable
+private fun getTagColor(tag: String?): Color {
+    return when (tag?.uppercase()) {
+        "BUG" -> Color(0xFFEF5350)
+        "FIX" -> Color(0xFFFFA726)
+        "UI" -> Color(0xFF42A5F5)
+        "NEW" -> Color(0xFF66BB6A)
+        "PRJ" -> Color(0xFF9E9E9E)
+        "UX" -> Color(0xFFAB47BC)
+        else -> MaterialTheme.colorScheme.onSurface
+    }
+}
 
 @Composable
 fun ChangelogView() {
@@ -93,7 +107,7 @@ fun ChangelogView() {
 }
 
 @Composable
-fun ChangelogCard(entry: org.strawberryfoundations.wear.reply.core.ChangelogEntry) {
+fun ChangelogCard(entry: ChangelogEntry) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -126,8 +140,13 @@ fun ChangelogCard(entry: org.strawberryfoundations.wear.reply.core.ChangelogEntr
         
         Spacer(modifier = Modifier.height(8.dp))
         
-        // Changes list
+        // Changes list with colored tags
         entry.changes.forEach { change ->
+            val tagRegex = Regex("^\\[(.+?)\\]\\s*")
+            val match = tagRegex.find(change)
+            val tag = match?.groupValues?.get(1)
+            val rest = if (match != null) change.removeRange(match.range) else change
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -140,9 +159,19 @@ fun ChangelogCard(entry: org.strawberryfoundations.wear.reply.core.ChangelogEntr
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(end = 6.dp)
                 )
-                
+
+                if (tag != null) {
+                    Text(
+                        text = "[${tag}]",
+                        style = MaterialTheme.typography.bodySmall,
+                        fontWeight = FontWeight.Bold,
+                        color = getTagColor(tag),
+                        modifier = Modifier.padding(end = 6.dp)
+                    )
+                }
+
                 Text(
-                    text = change,
+                    text = rest,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     lineHeight = 16.sp

@@ -15,6 +15,7 @@ object Changelog {
                 "[BUG] Fix pause button in ActiveExerciseView not pausing the timer",
                 "[BUG] Fix not returning to main page on training delete",
                 "[UI] Adjusted EdgeButton size in ActiveExerciseView",
+                "[UI] Adjusted spacing and line height in about section",
                 "[UI] Improved UI for RepInputDialog",
                 "[PRJ] Updated AGP to v9.2.0",
                 "[PRJ] Dependency updates",
