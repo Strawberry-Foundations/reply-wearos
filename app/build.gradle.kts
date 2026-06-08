@@ -13,14 +13,14 @@ ksp {
 
 configure<ApplicationExtension> {
     namespace = "org.strawberryfoundations.wear.reply"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "org.strawberryfoundations.reply"
         minSdk = 33
         targetSdk = 36
-        versionCode = 2_212_001
-        versionName = "2.1.2"
+        versionCode = 2_213_001
+        versionName = "2.1.3"
     }
 
     buildTypes {
