@@ -9,6 +9,13 @@ data class ChangelogEntry(
 object Changelog {
     val entries = listOf(
         ChangelogEntry(
+            version = "2.1.4",
+            date = "Jun 8, 2026",
+            changes = listOf(
+                "[NEW] Added QR Code to GitHub repo",
+            )
+        ),
+        ChangelogEntry(
             version = "2.1.3",
             date = "Jun 7, 2026",
             changes = listOf(
