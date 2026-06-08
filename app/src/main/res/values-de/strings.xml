@@ -91,6 +91,7 @@
     <string name="settings_section_weight_steps">Gewichtsschritte</string>
     <string name="ping_test">Ping-Test</string>
     <string name="whats_new">Was ist neu?</string>
+    <string name="github_repository">GitHub Repository</string>
 
     <!-- About -->
     <string name="about_all_rights_reserved">Alle Rechte vorbehalten. Ein Projekt von Strawberry Foundations</string>

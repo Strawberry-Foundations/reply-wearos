@@ -17,7 +17,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.ColorLens
+import androidx.compose.material.icons.rounded.NetworkPing
 import androidx.compose.material.icons.rounded.Newspaper
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Settings
@@ -134,6 +136,7 @@ fun SettingsView(
     settings: AppSettings,
     onSettingsChange: (AppSettings.() -> AppSettings) -> Unit,
     onNavigateToChangelog: () -> Unit,
+    onNavigateToUrlQrCode: (Int) -> Unit,
 ) {
     val context = LocalContext.current
     val listState = rememberScalingLazyListState()
@@ -458,11 +461,32 @@ fun SettingsView(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.Vibration,
+                            imageVector = Icons.Rounded.NetworkPing,
                             contentDescription = null
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(text = stringResource(R.string.ping_test))
+                    }
+                }
+            }
+
+            item {
+                Button(
+                    onClick = { onNavigateToUrlQrCode(R.drawable.github_qrcode) },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.filledTonalButtonColors()
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Code,
+                            contentDescription = null,
+                        )
+                        Spacer(modifier = Modifier.size(8.dp))
+                        Text(text = stringResource(R.string.github_repository))
                     }
                 }
             }
