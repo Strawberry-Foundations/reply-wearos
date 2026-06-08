@@ -63,6 +63,7 @@ import org.strawberryfoundations.material.symbols.MaterialSymbols
 import org.strawberryfoundations.material.symbols.default.ResetSettings
 import org.strawberryfoundations.material.symbols.filled.Weight
 import org.strawberryfoundations.wear.reply.R
+import org.strawberryfoundations.wear.reply.sync.DataSyncSenderFromWearable
 import org.strawberryfoundations.wear.reply.core.AppSettings
 import org.strawberryfoundations.wear.reply.core.getAppVersion
 import org.strawberryfoundations.wear.reply.ui.composable.WeightStepDialog
@@ -134,6 +135,7 @@ fun SettingsView(
     onSettingsChange: (AppSettings.() -> AppSettings) -> Unit,
     onNavigateToChangelog: () -> Unit,
 ) {
+    val context = LocalContext.current
     val listState = rememberScalingLazyListState()
     val rotaryFocusRequester = remember { FocusRequester() }
     val haptic = LocalHapticFeedback.current
@@ -334,7 +336,6 @@ fun SettingsView(
             }
 
             item {
-                val context = LocalContext.current
                 val appVersion = remember { getAppVersion(context) }
 
                 Column(
@@ -421,8 +422,7 @@ fun SettingsView(
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         }
                         onNavigateToChangelog()
-
-                              },
+                    },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.filledTonalButtonColors()
                 ) {
@@ -437,6 +437,32 @@ fun SettingsView(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(text = stringResource(R.string.whats_new))
+                    }
+                }
+            }
+
+            item {
+                Button(
+                    onClick = {
+                        if (settings.useHapticFeedback) {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        }
+                        DataSyncSenderFromWearable.sendPing(context)
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.filledTonalButtonColors()
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Vibration,
+                            contentDescription = null
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = stringResource(R.string.ping_test))
                     }
                 }
             }

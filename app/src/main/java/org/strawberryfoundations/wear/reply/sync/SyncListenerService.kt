@@ -1,6 +1,9 @@
 package org.strawberryfoundations.wear.reply.sync
 
 import android.util.Log
+import android.widget.Toast
+import android.os.Handler
+import android.os.Looper
 import androidx.core.net.toUri
 import androidx.room.withTransaction
 import com.google.android.gms.wearable.ChannelClient
@@ -131,6 +134,18 @@ class SyncListenerService : WearableListenerService() {
     override fun onMessageReceived(messageEvent: MessageEvent) {
         try {
             Log.i("SyncListenerService", "onMessageReceived: ${messageEvent.path}")
+
+            if (messageEvent.path == "/ping") {
+                Log.i("SyncListenerService", "Received ping from ${messageEvent.sourceNodeId}, sending pong...")
+                Wearable.getMessageClient(this).sendMessage(messageEvent.sourceNodeId, "/pong", null)
+            }
+
+            if (messageEvent.path == "/pong") {
+                Log.i("SyncListenerService", "Received pong from ${messageEvent.sourceNodeId}")
+                Handler(Looper.getMainLooper()).post {
+                    Toast.makeText(this, "Pong received from phone!", Toast.LENGTH_SHORT).show()
+                }
+            }
 
             if (messageEvent.path == "/request-sync") {
                 Log.i("SyncListenerService", "Received sync request from phone, sending data...")

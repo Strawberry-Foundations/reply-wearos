@@ -93,6 +93,7 @@
     <string name="settings_section_appearance">Appearance</string>
     <string name="settings_section_interaction">Interaction</string>
     <string name="settings_section_weight_steps">Weight steps</string>
+    <string name="ping_test">Ping Test</string>
     <string name="whats_new">What\'s new?</string>
 
     <!-- About -->

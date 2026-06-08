@@ -89,6 +89,7 @@
     <string name="settings_section_appearance">Darstellung</string>
     <string name="settings_section_interaction">Interaktion</string>
     <string name="settings_section_weight_steps">Gewichtsschritte</string>
+    <string name="ping_test">Ping-Test</string>
     <string name="whats_new">Was ist neu?</string>
 
     <!-- About -->

@@ -43,4 +43,23 @@ object DataSyncSenderFromWearable {
             }
         }
     }
+
+    fun sendPing(context: Context) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val nodeClient = Wearable.getNodeClient(context)
+                val messageClient = Wearable.getMessageClient(context)
+                nodeClient.connectedNodes.addOnSuccessListener { nodes ->
+                    for (node in nodes) {
+                        messageClient.sendMessage(node.id, "/ping", null)
+                            .addOnSuccessListener {
+                                Log.i("DataSyncSenderFromWearable", "Ping sent to ${node.displayName}")
+                            }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("DataSyncSenderFromWearable", "Failed to send ping", e)
+            }
+        }
+    }
 }
